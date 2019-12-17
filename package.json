@@ -1,0 +1,23 @@
+{
+  "name": "controlealtdelete-3",
+  "version": "1.0.0",
+  "description": "Project with Emma Thirza and Shekila",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emmaoudmaijer/controlealtdelete-3.git"
+  },
+  "author": "Emma Oudmaijer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/emmaoudmaijer/controlealtdelete-3/issues"
+  },
+  "homepage": "https://github.com/emmaoudmaijer/controlealtdelete-3#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
