@@ -37,20 +37,20 @@ var svg = d3.select(".chart")
 
 
 const defs = svg.append("defs");
-
+	let imgPattern = defs.selectAll("pattern")
 	//.data(data)
 	//.enter()
-	// .append("pattern")
-	// 	.attr('id','flag-NL-pattern')
-	// 	.attr("width",1)
-	// 	.attr("height",1)
-	// 	.attr('patternUnits',"userSpaceOnUse")
-	// .append("svg:image")
-	// 		.attr("xlink:href",flag)
-	// 		.attr("width",40)
-	// 		.attr("height",40)
-	// 		.attr("x",0)
-	// 		.attr("y",0);
+	.append("pattern")
+		.attr('id','flag-NL-pattern')
+		.attr("width",1)
+		.attr("height",1)
+		.attr('patternUnits',"userSpaceOnUse")
+	.append("svg:image")
+			.attr("xlink:href",flag)
+			.attr("width",40)
+			.attr("height",40)
+			.attr("x",0)
+			.attr("y",0);
 	
 var div = d3.select("body").append("div")
 		.attr("class", "tooltip")
@@ -117,32 +117,24 @@ node.append("title")
 		//.attr("fill", "url(#flag-NL-pattern)");
 		//.attr("fill", "#ff0000")
 		//let imgPattern = defs.selectAll("pattern")
-	let imgPattern = defs.selectAll("pattern")
-		.append("pattern")
-		.attr("id", "id1")
-		.attr("width", 1)
-		.attr("height", 1)
-		.attr("patternUnits", "objectBoundingBox")
-		.append("image")
-			.attr("xlink:href", flag)
-			.attr("x", 0)
-			.attr("y", 0)
-			.attr("width", 40)
-			.attr("height", 40)
+	
 
-let circles = svg.selectAll(".flag")
-		.data(bubble(nodes).descendants())
-		.enter()
-		.append("circle")
-		.attr("class", "flag")
+//let circles = svg.selectAll(".flag")
+	//	.data(bubble(nodes).descendants())
+	//	.enter()
+		node.append("circle")
+		//.attr("class", "flag")
 		.attr("r", function(d) {
  			return d.r;
 		 })
-		.attr("cx", 100)
-		.attr("cy", 180)
+		// .attr("cx", 100)
+		// .attr("cy", 180)
+		.style("fill", function(d) {
+			return color(Math.random());
+		});
 		//.style("fill", "#FFF33D")
 		//.attr("class", "flag")
-		.style("fill", "url(#flag-NL-pattern)");
+		// .style("fill", "url(#flag-NL-pattern)");
 		
 		
 // node.enter().append("image")
