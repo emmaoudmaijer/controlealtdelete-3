@@ -4,19 +4,426 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+	  <!-- OG Meta Tags to improve the way the post looks when you share the page on LinkedIn, Facebook, Google+ -->
+	  <meta property="og:site_name" content="" /> <!-- website name -->
+	  <meta property="og:site" content="" /> <!-- website link -->
+	  <meta property="og:title" content=""/> <!-- title shown in the actual shared post -->
+	  <meta property="og:description" content="" /> <!-- description shown in the actual shared post -->
+	  <meta property="og:image" content="" /> <!-- image link, make sure it's jpg -->
+	  <meta property="og:url" content="" /> <!-- where do you want your post to link to -->
+	  <meta property="og:type" content="article" />
+
 	<link rel="stylesheet" href="styles/style.css">
+	<link href="styles/bootstrap.css" rel="stylesheet">
+    <link href="styles/fontawesome-all.css" rel="stylesheet">
+    <link href="styles/swiper.css" rel="stylesheet">
+	<link href="styles/magnific-popup.css" rel="stylesheet">
+	<link href="styles/styles.css" rel="stylesheet">
 	<title>Project Controle-alt-delete</title>
 	<script src="https://d3js.org/d3.v5.min.js"></script>
 	<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
 	<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+
+	<link rel="icon" href="images/favicon.png">
 </head>
-<body>
-	<header>
-<img src="images/Controle Alt Delete logo horizontal full.png">
-	</header>
-	<h1>Culturele afkomst en aantal aanhoudingen</h1>
-	<div id="chart" class="chart">
-	</div>
-	<script src="scripts/index.js"></script>
-</body>
+
+<body data-spy="scroll" data-target=".fixed-top">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-md navbar-dark navbar-custom fixed-top">
+        <!-- Image Logo -->
+        <a class="navbar-brand logo-image" href="index.html"><img src="images/logo_controle_alt_delete.png" alt="alternative"></a> 
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link page-scroll" href="#header">VISUALISATIE1<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link page-scroll" href="#features">UITLEG</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link page-scroll" href="#preview">VISUALISATIE2</a>
+                </li>
+                
+            </ul>
+           
+        </div>
+    </nav> 
+    <!-- end of navigation -->
+
+<pattern id="flag-NL" patternUnits="userSpaceOnUse" width="6" height="6"> 
+<image xlink:href="images/NL.svg" x="0" y="0" width="6" height="6"></image>
+</pattern>
+
+    <!-- Header -->
+    <header id="header" class="header">
+        <div class="header-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+						<h1>Culturele afkomst en aantal aanhoudingen</h1> <!-- end of col -->
+                    <div class="col-lg-6">
+                        <div class="image-container">
+                        </div> <!-- end of image-container -->
+                    </div> 
+				</div> 
+				<div id="chart" class="chart">
+				</div>
+            </div> 
+        </div> 
+    </header> 
+    <!-- end of header -->
+
+    <div class="slider-1">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                        </div> 
+                    </div> 
+                </div> 
+            </div> 
+        </div> 
+    </div> 
+    
+ <!-- INFORMATIE -->
+    <div id="features" class="tabs">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>INFORMATIE</h2>
+                    <div class="p-heading p-large">Info over controle alt delete...</div>
+                </div>
+            </div> 
+            <div class="row">
+
+                <!-- Tabs Content-->
+                <div class="tab-content" id="lenoTabsContent">
+                    
+                    <!-- Tab -->
+                    <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="tab-1">
+                        <div class="container">
+                            <div class="row">
+                                
+                                <!-- Icon Cards Pane -->
+                                <div class="col-lg-4">
+                                    <div class="card left-pane first">
+                                        <div class="card-body">
+                                            <div class="text-wrapper">
+                                                <h4 class="card-title">Goal Setting</h4>
+                                                <p>Like any self improving process, everything starts with setting your goals and committing to them</p>
+                                            </div>
+                                            <div class="card-icon">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card left-pane">
+                                        <div class="card-body">
+                                            <div class="text-wrapper">
+                                                <h4 class="card-title">Visual Editor</h4>
+                                                <p>Leno provides a well designed and ergonomic visual editor for you to edit your notes and input data</p>
+                                            </div>
+                                            <div class="card-icon">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card left-pane">
+                                        <div class="card-body">
+                                            <div class="text-wrapper">
+                                                <h4 class="card-title">Refined Options</h4>
+                                                <p>Each option packaged in the app's menus is provided in order to improve your personal development status</p>
+                                            </div>
+                                            <div class="card-icon">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end of icon cards pane -->
+
+                                <!-- Image Pane -->
+                                <div class="col-lg-4">
+                                    <img class="img-fluid" src="images/logo_controle_alt_delete.png" alt="alternative">
+                                </div>
+                                <!-- end of image pane -->
+                                
+                                <!-- Icon Cards Pane -->
+                                <div class="col-lg-4">
+                                    <div class="card right-pane first">
+                                        <div class="card-body">
+                                            <div class="card-icon">
+                                            </div>
+                                            <div class="text-wrapper">
+                                                <h4 class="card-title">Calendar Input</h4>
+                                                <p>Schedule your appointments, meetings and periodical evaluations using the provided in-app calendar option</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card right-pane">
+                                        <div class="card-body">
+                                            <div class="card-icon">
+                                            </div>
+                                            <div class="text-wrapper">
+                                                <h4 class="card-title">Easy Reading</h4>
+                                                <p>Reading focus mode for long form articles, ebooks and other materials which involve large text areas</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card right-pane">
+                                        <div class="card-body">
+                                            <div class="card-icon">
+                                            </div>
+                                            <div class="text-wrapper">
+                                                <h4 class="card-title">Good Foundation</h4>
+                                                <p>Get a solid foundation for your self development efforts. Try Leno mobile app for any mobile platform</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end of icon cards pane -->
+                            </div>
+                        </div> 
+                    </div> 
+
+                    <!-- Tab -->
+                    <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="tab-2">
+                        <div class="container">
+                            <div class="row">
+
+                                <!-- Image Pane -->
+                                <div class="col-md-4">
+                                    <img class="img-fluid" src="images/logo_controle_alt_delete.png" alt="alternative">
+                                </div>
+                                <!-- end of image pane -->
+                                
+                                <!-- Text And Icon Cards Area -->
+                                <div class="col-md-8">
+                                    
+                                    <div class="icon-cards-area">
+                                            <div class="card">
+                                                <div class="card-icon">
+                                                </div>
+                                                <div class="card-body">
+                                                    <h4 class="card-title">Good Foundation</h4>
+                                                    <p>Get a solid foundation for your self development efforts. Try Leno mobile app for any mobile platform</p>
+                                                </div>
+                                            </div>
+                                            <div class="card">
+                                                <div class="card-icon">
+                                                </div>
+                                                <div class="card-body">
+                                                    <h4 class="card-title">Easy Reading</h4>
+                                                    <p>Reading focus mode for long form articles, ebooks and other materials which involve large text areas</p>
+                                                </div>
+                                            </div>
+                                            <div class="card">
+                                                <div class="card-icon">
+                                                </div>
+                                                <div class="card-body">
+                                                    <h4 class="card-title">Calendar Input</h4>
+                                                    <p>Schedule your appointments, meetings and periodical evaluations using the provided in-app calendar option</p>
+                                                </div>
+                                            </div>
+                                            <div class="card">
+                                                <div class="card-icon">
+                                                </div>
+                                                <div class="card-body">
+                                                    <h4 class="card-title">Visual Editor</h4>
+                                                    <p>Leno provides a well designed and ergonomic visual editor for you to edit your notes and input data</p>
+                                                </div>
+                                            </div>
+                                    </div> 
+                                </div>
+                            </div> 
+                        </div> 
+                    </div>
+
+                    <!-- Tab -->
+                    <div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="tab-3">
+                        <div class="container">
+                            <div class="row">
+
+                                <!-- Text And Icon Cards Area -->
+                                <div class="col-md-8">
+                                    <div class="icon-cards-area">
+                                        <div class="card">
+                                            <div class="card-icon">
+                                                <i class="far fa-calendar-check"></i>
+                                            </div>
+                                            <div class="card-body">
+                                                <h4 class="card-title">Controle alt delete</h4>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-icon">
+                                                <i class="far fa-file-code"></i>
+                                            </div>
+                                            <div class="card-body">
+                                                <h4 class="card-title">Controle alt delete</h4>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-icon">
+                                                <i class="fas fa-cube"></i>
+                                            </div>
+                                            <div class="card-body">
+                                                <h4 class="card-title">Controle alt delete</h4>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-icon">
+                                                <i class="far fa-bookmark"></i>
+                                            </div>
+                                            <div class="card-body">
+                                                <h4 class="card-title">Controle alt delete</h4>
+                                            </div>
+                                        </div>
+                                    </div>                    
+                                </div>      
+                            </div> 
+                        </div> 
+                    </div>
+                </div> 
+            </div> 
+        </div> 
+    </div> 
+
+
+    <!--?-->
+    <div id="preview" class="basic-1">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Controle alt delete</h2>
+                    <div class="p-heading p-large">...</div>
+                </div> 
+            </div> 
+            <div class="row">
+                <div class="col-lg-12">
+					<span class="video-play-button">
+						<span></span>
+					</span>
+                </div>
+            </div> 
+        </div> 
+    </div> 
+
+
+    <!-- Details 1 -->
+    <div id="details" class="basic-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <img class="img-fluid" src="images/logo_controle_alt_delete.png" alt="logo">
+                </div>
+                <div class="col-lg-6">
+                    <div class="text-container">
+                        <h3>Controle-alt-delete</h3>
+                        <p>Leno can easily help you track your personal development evolution if you take the time to properly setup your goals at the beginning of the training process. Check out the details</p>
+                        <a class="btn-solid-reg popup-with-move-anim" href="#details-lightbox-1">LIGHTBOX</a>
+                    </div> 
+                </div>
+            </div>
+        </div> 
+    </div>
+
+
+    <!-- Details 2 -->
+    <div class="basic-3">
+        <div class="second">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="text-container">
+                            <h3>Controle-alt-delete</h3>
+                            <p>...</p>
+                            <a class="btn-solid-reg popup-with-move-anim" href="#details-lightbox-2">Controle-alt-delete</a>
+                        </div> 
+                    </div> 
+                    <div class="col-lg-6">
+                        <img class="img-fluid" src="images/logo_controle_alt_delete.png" alt="logo">
+                    </div> 
+                </div> 
+            </div> 
+        </div>
+    </div> 
+
+	
+    
+    
+
+    
+    <!-- Download -->
+    <div class="basic-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-xl-5">
+                    <div class="text-container">
+                    </div> 
+                </div> 
+                <div class="col-lg-6 col-xl-7">
+                    <div class="image-container">
+                        <img class="img-fluid" src="images/logo_controle_alt_delete.png" alt="alternative">
+                    </div>
+                </div> 
+            </div> 
+        </div>
+    </div> 
+
+
+   
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="footer-col">
+                        <h4>Controle Controle-alt-delete</h4>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="footer-col middle">
+                        <h4>Linkjes</h4>
+                        <ul class="list-unstyled li-space-lg">
+                            <li class="media">
+                                <i class="fas fa-square"></i>
+                                <div class="media-body">Website van controle alt delete <a class="turquoise" href="https://controlealtdelete.nl/">controlealtdelete.nl</a></div>
+                            </li>      
+                        </ul>
+                    </div>
+                </div> 
+                <div class="col-md-4">
+                    <div class="footer-col last">
+                        <h4>Social Media</h4>
+                        <span class="fa-stack">
+                            <a href="#your-link">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-facebook-f fa-stack-1x"></i>
+                            </a>
+                        </span>
+                        <span class="fa-stack">
+                            <a href="#your-link">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x"></i>
+                            </a>
+                        </span>
+                    </div> 
+                </div> 
+            </div> 
+        </div> 
+    </div> 
+
+    <!-- Copyright -->
+    <div class="copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <p class="p-small">Copyright © Leno - Mobile App HTML Landing Page Template by <a href="https://inovatik.com">Inovatik</a></p>
+                </div>
+            </div> 
+        </div> 
+	</div> 
+	
+	<script src="scripts/index.js"></script> <!-- Custom scripts -->
+	</body>
 </html>
