@@ -1,30 +1,61 @@
-const flag = 'https://raw.githubusercontent.com/hjnilsson/country-flags/master/png250px/mx.png'
 
-dataset = {
-	"children": [{
-		"facilityId": "NL",
-		"responseCount": 2
-	}, {
-		"facilityId": "Arubaans",
-		"responseCount": 2
-	}, {
-		"facilityId": "Marokkaans",
-		"responseCount": 1
-	}, {
-		"facilityId": "Indonesisch",
-		"responseCount": 2
-	}, {
-		"facilityId": "Curacaos",
-		"responseCount": 3
-	}, {
-		"facilityId": "Anders",
-		"responseCount": 1
-	}]
-};
+
+function dataOmzet() {
+	let result = fetch('../convertcsvdata.json') 
+		.then(data => data.json())
+		.then(json => {
+			console.log(json)
+ 			const newResults = json.map(result => {
+			return {
+					afkomst: result.Herkomst_def,
+					totstand: result.Totstand,
+					contact: result.Contact_gehad,
+					cijfer: result.rapportcijfer,
+					responseCount: 1
+					}
+		})
+		console.log(newResults)
+		bouwViz(newResults)
+})
+}
+dataOmzet() 
+
+// dataset2 = {
+// 	"children": [{
+// 		"facilityId": "NL",
+// 		"responseCount": 2
+// 	}, {
+// 		"facilityId": "Arubaans",
+// 		"responseCount": 2
+// 	}, {
+// 		"facilityId": "Marokkaans",
+// 		"responseCount": 1
+// 	}, {
+// 		"facilityId": "Indonesisch",
+// 		"responseCount": 2
+// 	}, {
+// 		"facilityId": "Curacaos",
+// 		"responseCount": 3
+// 	}, {
+// 		"facilityId": "Anders",
+// 		"responseCount": 1
+// 	}]
+// };
+//console.log(dataset2)
+function bouwViz(results) {
+
+//dataset = {"children": [results]};
+//dataset = results
+
+let datasetSub = JSON.stringify(results);
+
+console.log(datasetSub)
+dataset = {"children": JSON.parse(datasetSub)}
+console.log(dataset)
 
 var diameter = 600;
 var color = d3.scaleOrdinal(d3.schemeCategory20);
-
+console.log(results)
 var bubble = d3.pack(dataset)
 		.size([diameter, diameter])
 		.padding(1.5);
@@ -35,18 +66,15 @@ var svg = d3.select(".chart")
 		.attr("height", diameter)
 		.attr("class", "bubble");
 
-
 const defs = svg.append("defs");
 	let imgPattern = defs.selectAll("pattern")
-	//.data(data)
-	//.enter()
 	.append("pattern")
 		.attr('id','flag-NL-pattern')
 		.attr("width",1)
 		.attr("height",1)
 		.attr('patternUnits',"userSpaceOnUse")
 	.append("svg:image")
-			.attr("xlink:href",flag)
+			//.attr("xlink:href",flag)
 			.attr("width",40)
 			.attr("height",40)
 			.attr("x",0)
@@ -59,12 +87,12 @@ var div = d3.select("body").append("div")
 var nodes = d3.hierarchy(dataset)
 		.sum(function(d) { return d.responseCount; });
 	   
-	
 var node = svg.selectAll(".node")
 		.data(bubble(nodes).descendants())
 		.enter()
 		.filter(function(d){
 			return  !d.children
+			//return  !d.results
 		})
 
 		.append("g")
@@ -76,7 +104,7 @@ var node = svg.selectAll(".node")
 			div.transition()
 			  .duration(200)
 			  .style("opacity", .9);
-			div.html(d.facilityId + "<br/>" + d.responseCount)
+			div.html('d.afkomst' + "<br/>" + d.responseCount)
 			  .style("left", (d3.event.pageX) + "px")
 			  .style("top", (d3.event.pageY - 28) + "px")
 			})
@@ -88,18 +116,19 @@ var node = svg.selectAll(".node")
 	
 node.append("title")
 		.text(function(d) {
-			return d.facilityId + ": " + d.responseCount;
+			console.log(d.afkomst)
+			return d.afkomst + ": " + d.responseCount;
 		});
 
-// node.append("circle")
-// 		.attr("r", function(d) {
-// 			return d.r;
-// 		})
-// 		//.style("fill", "#FFF33D");
-// 		//.style("fill", function(d) {
-// 		//	return color(Math.random());
-// 		//});
-// 		.style("fill", url("flag-NL"));
+node.append("circle")
+		.attr("r", function(d) {
+			return d.r;
+		})
+		//.style("fill", "#FFF33D");
+		.style("fill", function(d) {
+			return color(Math.random());
+		});
+		//.style("fill", url("flag-NL"));
 
 // node.append("circle")
 // 		.attr("cx",100)
@@ -122,16 +151,16 @@ node.append("title")
 //let circles = svg.selectAll(".flag")
 	//	.data(bubble(nodes).descendants())
 	//	.enter()
-		node.append("circle")
-		//.attr("class", "flag")
-		.attr("r", function(d) {
- 			return d.r;
-		 })
-		// .attr("cx", 100)
-		// .attr("cy", 180)
-		.style("fill", function(d) {
-			return color(Math.random());
-		});
+		// node.append("circle")
+		// // //.attr("class", "flag")
+		// .attr("r", function(d) {
+ 		// 	return d.r;
+		//  })
+		// // // .attr("cx", 100)
+		// // // .attr("cy", 180)
+		// .style("fill", function(d) {
+		// 	return color(Math.random());
+		// });
 		//.style("fill", "#FFF33D")
 		//.attr("class", "flag")
 		// .style("fill", "url(#flag-NL-pattern)");
@@ -149,15 +178,15 @@ node.append("title")
 // 		.attr('x', function(d, i) { return -d.r/2; })
 // 		.attr('y', function(d, i) { return -d.r/2; })
 // 		.attr('width', function(d, i) { return d.r + 'px'; })
-	//	.attr('height', function(d, i) { return d.r + 'px'; })
-
+// 		.attr('height', function(d, i) { return d.r + 'px'; })
+		
 node.append("text")
 		.attr("dy", ".3em")
 		.style("text-anchor", "middle")
 		.text(function(d) {
-			return d.data.facilityId.substring(0, d.r / 3) + ": " + d.data.responseCount;
+			return d.data.afkomst.substring(0, d.r / 3) + ": " + d.data.responseCount;
 		});
-		
+	}
 
  d3.select(self.frameElement)
  		.style("height", diameter + "px");
