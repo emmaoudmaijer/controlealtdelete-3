@@ -682,7 +682,7 @@ a.white {
 	margin: 2.5rem auto;
 	padding: 3rem 1rem;
 	border-radius: 0.25rem;
-	background-color: lightgrey;
+	background-color: black;
 	text-align: left;
 }
 
@@ -758,7 +758,7 @@ a.white {
 .slider-2 {
 	padding-top: 6.875rem;
 	padding-bottom: 6.875rem;
-	background-color: lightgrey;
+	background-color: black;
 }
 
 .slider-2 .slider-container {
