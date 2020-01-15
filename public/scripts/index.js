@@ -12,7 +12,7 @@ function dataOmzet() {
 					totstand: result.Totstand,
 					contact: result.Contact_gehad,
 					freqcontact: result.freqcontact,
-					responseCount: Number(1)
+					//responseCount: Number(1)
 					}
 		})
 		//data = transformData(newResults)
@@ -23,59 +23,14 @@ function dataOmzet() {
 }
 dataOmzet() 
 
-// function bouwViz(results) {
-// data = transformData(results)
 
-// function remove99999(data){
-//     data.forEach(data => {
-//         for (let key in data) {
-//             if (data[key] == '99999') {
-//             delete data[key];
-//             }
-//         }
-//     });
-//     return data;
-// }
-// data = remove99999(results);
+// function bubbleChart2(results){
 
-// function removeNull(data){
-//     data.forEach(data => {
-//         for (let key in data) {
-// 			if (data[key] == '#NULL!') {
-//             delete data[key];
-//             }
-//         }
-//     });
-//     return data;
-// }
-// data = removeNull(results);
-// console.log(results)
-// function transformData(results){
-// 	let transformed =  d3.nest()
-// 		  .key(d => d.afkomst)
-// 		  .key(d => d.contact)
-// 		  .key(d => d.freqcontact)
-// 		.entries(results)
-// 		.map (function (group){
-// 			return {
-// 				afkomst: group.key,
-// 				//contact: group.values,
-// 				freqcontact: group.values
-// 			}
-// 		})
-// 		return transformed
-// }
-// console.log("transformed: ", data)
 
-// let datasetSub = JSON.stringify(results);
-
-// console.log(datasetSub)
-// dataset = {"children": JSON.parse(datasetSub)}
-// console.log(dataset)
 
 function bubbleChart(results) {
-	
-data = transformData(results)
+
+
 		
 	function remove99999(data){
 		data.forEach(data => {
@@ -87,8 +42,11 @@ data = transformData(results)
 		});
 		return data;
 	}
+
 	data = remove99999(results);
-		
+
+
+	/*
 		function removeNull(data){
 			data.forEach(data => {
 				for (let key in data) {
@@ -101,30 +59,39 @@ data = transformData(results)
 		}
 		data = removeNull(results);
 		console.log(results)
-		function transformData(results){
+	*/
+	
+		function transformData(data){
 			let transformed =  d3.nest()
 				  .key(d => d.afkomst)
-				  .key(d => d.contact)
-				  .key(d => d.freqcontact)
-				.entries(results)
-				.map (function (group){
-					return {
-						afkomst: group.key,
-						//contact: group.values,
-						freqcontact: group.values
-					}
-				})
-				return transformed
+				  //.key(d => d.contact)
+				  //.value(d => d.freqcontact)
+				.rollup(function(v) { 
+						return d3.sum(v, function(d) { return d.freqcontact; });
+					 })
+				.entries(data)
+				//.map (function (group){
+				//	return {
+				// 		afkomst: group.key,
+				// 		//contact: group.values,
+				// 		freqcontact: group.values[4]
+			 	//}
+				 //})
+			return transformed
 		}
+
+		data = transformData(data)
+
 		console.log("transformed: ", data)
-		
-		let datasetSub = JSON.stringify(results);
+
+
+
+		let datasetSub = JSON.stringify(data);
 		
 		//console.log(datasetSub)
 		dataset = {"children": JSON.parse(datasetSub)}
 		console.log(dataset)
-
-
+		
 
 
 var diameter = 600;
@@ -145,8 +112,37 @@ var div = d3.select("body").append("div")
 		.style("opacity", 0);	
 
 var nodes = d3.hierarchy(dataset)
-		.sum(function(d) { return d.freqcontact; });
-	   
+		.sum(function(d) { return d.value; });
+
+		// var simulation = d3.forceSimulation(nodes)
+		// .force('charge', d3.forceManyBody().strength(5))
+		// .force('center', d3.forceCenter(width / 2, height / 2))
+		// .force('collision', d3.forceCollide().radius(function(d) {
+		//   return d.radius
+		// }))
+		// .on('tick', ticked);
+	  
+	//   function ticked() {
+	// 	var u = d3.select('svg')
+	// 	  .selectAll('circle')
+	// 	  .data(nodes)
+	  
+	// 	u.enter()
+	// 	  .append('circle')
+	// 	  .attr('r', function(d) {
+	// 		return d.radius
+	// 	  })
+	// 	  .merge(u)
+	// 	  .attr('cx', function(d) {
+	// 		return d.x
+	// 	  })
+	// 	  .attr('cy', function(d) {
+	// 		return d.y
+	// 	  })
+	  
+	// 	u.exit().remove()
+	//   }
+          
 var node = svg.selectAll(".node")
 		.data(bubble(nodes).descendants())
 		.enter()
@@ -154,7 +150,6 @@ var node = svg.selectAll(".node")
 			return  !d.children
 			//return  !d.results
 		})
-
 		.append("g")
 		.attr("class", "node")
 		.attr("transform", function(d) {
@@ -165,7 +160,7 @@ var node = svg.selectAll(".node")
 			div.transition()
 			  .duration(200)
 			  .style("opacity", .9);
-			div.html(d.data.afkomst + "<br/>" + d.data.freqcontact)
+			div.html(d.data.key + "<br/>" + d.data.value)
 			  .style("left", (d3.event.pageX) + "px")
 			  .style("top", (d3.event.pageY - 28) + "px")
 			})
@@ -175,15 +170,16 @@ var node = svg.selectAll(".node")
 			  .style("opacity", 0);
 			});
 	
+			//let forceCollide = d3.forceCollide(d => d.radius + paddingObject);
 node.append("title")
 		.text(function(d) {
 			// console.log(d.afkomst)
-			return d.afkomst + ": " + d.freqcontact;
+			return d.key + ": " + d.value;
 		});
 
 node.append("circle")
 		.attr("r", function(d) {
-			return d.data.freqcontact * 5 +1;
+			return d.data.value * 0.11;
 		})
 		//.style("fill", "#FFF33D");
 		.style("fill", function(d) {
@@ -216,7 +212,7 @@ node.append("text")
 		.attr("dy", ".3em")
 		.style("text-anchor", "middle")
 		.text(function(d) {
-			return d.data.afkomst.substring(0, d.r / 3) + ": " + d.data.freqcontact;
+			return d.data.key.substring(0, d.r / 3) + ": " + d.data.value;
 		});
 	}
 
@@ -438,3 +434,53 @@ node.append("text")
 // };
 //console.log(dataset2)
 	
+
+// function bouwViz(results) {
+// data = transformData(results)
+
+// function remove99999(data){
+//     data.forEach(data => {
+//         for (let key in data) {
+//             if (data[key] == '99999') {
+//             delete data[key];
+//             }
+//         }
+//     });
+//     return data;
+// }
+// data = remove99999(results);
+
+// function removeNull(data){
+//     data.forEach(data => {
+//         for (let key in data) {
+// 			if (data[key] == '#NULL!') {
+//             delete data[key];
+//             }
+//         }
+//     });
+//     return data;
+// }
+// data = removeNull(results);
+// console.log(results)
+// function transformData(results){
+// 	let transformed =  d3.nest()
+// 		  .key(d => d.afkomst)
+// 		  .key(d => d.contact)
+// 		  .key(d => d.freqcontact)
+// 		.entries(results)
+// 		.map (function (group){
+// 			return {
+// 				afkomst: group.key,
+// 				//contact: group.values,
+// 				freqcontact: group.values
+// 			}
+// 		})
+// 		return transformed
+// }
+// console.log("transformed: ", data)
+
+// let datasetSub = JSON.stringify(results);
+
+// console.log(datasetSub)
+// dataset = {"children": JSON.parse(datasetSub)}
+// console.log(dataset)
