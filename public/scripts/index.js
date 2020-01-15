@@ -17,60 +17,115 @@ function dataOmzet() {
 		})
 		//data = transformData(newResults)
 		// console.log(newResults)
-		bouwViz(newResults)
+		//bouwViz(newResults)
+		bubbleChart(newResults)
 })
 }
 dataOmzet() 
 
-function bouwViz(results) {
+// function bouwViz(results) {
+// data = transformData(results)
+
+// function remove99999(data){
+//     data.forEach(data => {
+//         for (let key in data) {
+//             if (data[key] == '99999') {
+//             delete data[key];
+//             }
+//         }
+//     });
+//     return data;
+// }
+// data = remove99999(results);
+
+// function removeNull(data){
+//     data.forEach(data => {
+//         for (let key in data) {
+// 			if (data[key] == '#NULL!') {
+//             delete data[key];
+//             }
+//         }
+//     });
+//     return data;
+// }
+// data = removeNull(results);
+// console.log(results)
+// function transformData(results){
+// 	let transformed =  d3.nest()
+// 		  .key(d => d.afkomst)
+// 		  .key(d => d.contact)
+// 		  .key(d => d.freqcontact)
+// 		.entries(results)
+// 		.map (function (group){
+// 			return {
+// 				afkomst: group.key,
+// 				//contact: group.values,
+// 				freqcontact: group.values
+// 			}
+// 		})
+// 		return transformed
+// }
+// console.log("transformed: ", data)
+
+// let datasetSub = JSON.stringify(results);
+
+// console.log(datasetSub)
+// dataset = {"children": JSON.parse(datasetSub)}
+// console.log(dataset)
+
+function bubbleChart(results) {
+	
 data = transformData(results)
-
-function remove99999(data){
-    data.forEach(data => {
-        for (let key in data) {
-            if (data[key] == '99999') {
-            delete data[key];
-            }
-        }
-    });
-    return data;
-}
-data = remove99999(results);
-
-function removeNull(data){
-    data.forEach(data => {
-        for (let key in data) {
-			if (data[key] == '#NULL!') {
-            delete data[key];
-            }
-        }
-    });
-    return data;
-}
-data = removeNull(results);
-console.log(results)
-function transformData(results){
-	let transformed =  d3.nest()
-		  .key(d => d.afkomst)
-		  .key(d => d.contact)
-		  .key(d => d.freqcontact)
-		.entries(results)
-		.map (function (group){
-			return {
-				afkomst: group.key,
-				//contact: group.values,
-				freqcontact: group.values
+		
+	function remove99999(data){
+		data.forEach(data => {
+			for (let key in data) {
+				if (data[key] == '99999') {
+				delete data[key];
+				}
 			}
-		})
-		return transformed
-}
-console.log("transformed: ", data)
+		});
+		return data;
+	}
+	data = remove99999(results);
+		
+		function removeNull(data){
+			data.forEach(data => {
+				for (let key in data) {
+					if (data[key] == '#NULL!') {
+					delete data[key];
+					}
+				}
+			});
+			return data;
+		}
+		data = removeNull(results);
+		console.log(results)
+		function transformData(results){
+			let transformed =  d3.nest()
+				  .key(d => d.afkomst)
+				  .key(d => d.contact)
+				  .key(d => d.freqcontact)
+				.entries(results)
+				.map (function (group){
+					return {
+						afkomst: group.key,
+						//contact: group.values,
+						freqcontact: group.values
+					}
+				})
+				return transformed
+		}
+		console.log("transformed: ", data)
+		
+		let datasetSub = JSON.stringify(results);
+		
+		//console.log(datasetSub)
+		dataset = {"children": JSON.parse(datasetSub)}
+		console.log(dataset)
 
-let datasetSub = JSON.stringify(results);
 
-console.log(datasetSub)
-dataset = {"children": JSON.parse(datasetSub)}
-console.log(dataset)
+
 
 var diameter = 600;
 var color = d3.scaleOrdinal(d3.schemeCategory20);
@@ -84,20 +139,6 @@ var svg = d3.select(".chart")
 		.attr("width", diameter)
 		.attr("height", diameter)
 		.attr("class", "bubble");
-
-// const defs = svg.append("defs");
-// 	let imgPattern = defs.selectAll("pattern")
-// 	.append("pattern")
-// 		.attr('id','flag-NL-pattern')
-// 		.attr("width",1)
-// 		.attr("height",1)
-// 		.attr('patternUnits',"userSpaceOnUse")
-// 	.append("svg:image")
-// 			//.attr("xlink:href",flag)
-// 			.attr("width",40)
-// 			.attr("height",40)
-// 			.attr("x",0)
-// 			.attr("y",0);
 	
 var div = d3.select("body").append("div")
 		.attr("class", "tooltip")
@@ -150,28 +191,48 @@ node.append("circle")
 		});
 		//.style("fill", url("flag-NL"));
 
-
 				var cs = [];
 		data.forEach(function(d){
 				if(!cs.contains(d.group)) {
 					cs.push(d.group);
 				}
 		});
-		function create_nodes(data,node_counter) {
-			var i = cs.indexOf(data[node_counter].group),
-				r = Math.sqrt((i + 1) / m * -Math.log(Math.random())) * maxRadius,
-				d = {
-				  cluster: i,
-				  radius: data[node_counter].size*1.5,
-				  text: data[node_counter].text,
-				  x: Math.cos(i / m * 2 * Math.PI) * 200 + width / 2 + Math.random(),
-				  y: Math.sin(i / m * 2 * Math.PI) * 200 + height / 2 + Math.random()
-				};
-			if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
-			return d;
-		  };
-create_nodes()
+// 		function create_nodes(data,node_counter) {
+// 			var i = cs.indexOf(data[node_counter].group),
+// 				r = Math.sqrt((i + 1) / m * -Math.log(Math.random())) * maxRadius,
+// 				d = {
+// 				  cluster: i,
+// 				  radius: data[node_counter].size*1.5,
+// 				  text: data[node_counter].text,
+// 				  x: Math.cos(i / m * 2 * Math.PI) * 200 + width / 2 + Math.random(),
+// 				  y: Math.sin(i / m * 2 * Math.PI) * 200 + height / 2 + Math.random()
+// 				};
+// 			if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
+// 			return d;
+// 		  };
+// create_nodes()
 
+node.append("text")
+		.attr("dy", ".3em")
+		.style("text-anchor", "middle")
+		.text(function(d) {
+			return d.data.afkomst.substring(0, d.r / 3) + ": " + d.data.freqcontact;
+		});
+	}
+
+// const defs = svg.append("defs");
+// 	let imgPattern = defs.selectAll("pattern")
+// 	.append("pattern")
+// 		.attr('id','flag-NL-pattern')
+// 		.attr("width",1)
+// 		.attr("height",1)
+// 		.attr('patternUnits',"userSpaceOnUse")
+// 	.append("svg:image")
+// 			//.attr("xlink:href",flag)
+// 			.attr("width",40)
+// 			.attr("height",40)
+// 			.attr("x",0)
+// 			.attr("y",0);
 
 // node.append("circle")
 // 		.attr("cx",100)
@@ -222,21 +283,18 @@ create_nodes()
 // 		.attr('y', function(d, i) { return -d.r/2; })
 // 		.attr('width', function(d, i) { return d.r + 'px'; })
 // 		.attr('height', function(d, i) { return d.r + 'px'; })
-		
-node.append("text")
-		.attr("dy", ".3em")
-		.style("text-anchor", "middle")
-		.text(function(d) {
-			return d.data.afkomst.substring(0, d.r / 3) + ": " + d.data.freqcontact;
-		});
-	}
 
- d3.select(self.frameElement)
- 		.style("height", diameter + "px");
+
+
+
+
 
 
 
 
+ d3.select(self.frameElement)
+		 .style("height", diameter + "px");
+		// .style('height', '550px');
 		 
 		(function($) {
 			"use strict"; 
@@ -379,3 +437,4 @@ node.append("text")
 // 	}]
 // };
 //console.log(dataset2)
+	
