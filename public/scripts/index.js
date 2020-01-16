@@ -47,6 +47,8 @@ function bubbleChart(results) {
 
 		data = transformData(data)
 
+		//data.forEach(element => console.log(element));
+
 		console.log("transformed: ", data)
 
 		let datasetSub = JSON.stringify(data);
@@ -404,78 +406,250 @@ function bubbleChart(results) {
 
 
 function chart3 (results){
-	function bubbleChart(results) {
 
-		function remove99999(data){
-			data.forEach(data => {
-				for (let key in data) {
-					if (data[key] == '99999') {
-					delete data[key];
-					}
-				}
-			});
-			return data;
-		}
-		data = remove99999(results);
+		// function remove99999(data){
+		// 	data.forEach(data => {
+		// 		for (let key in data) {
+		// 			if (data[key] == '99999') {
+		// 			delete data[key];
+		// 			}
+		// 		}
+		// 	});
+		// 	return data;
+		// }
+		// data = remove99999(results);
 	
-			function transformData(data){
-				let transformed =  d3.nest()
-					  .key(d => d.afkomst)
-					.rollup(function(v) { 
-							return d3.sum(v, function(d) { return d.freqcontact; });
-						 })
-					.entries(data)
-				return transformed
-			}
+		// 	function transformData(data){
+		// 		let transformed =  d3.nest()
+		// 			  .key(d => d.afkomst)
+		// 			.rollup(function(v) { 
+		// 					return d3.sum(v, function(d) { return d.freqcontact; });
+		// 				 })
+		// 			.entries(data)
+		// 		return transformed
+		// 	}
 	
-			data = transformData(data)
+		// 	data = transformData(data)
 	
-			console.log("transformed: ", data)
+		// 	console.log("transformed: ", data)
 	
-			let datasetSub = JSON.stringify(data);
-			dataset = {"children": JSON.parse(datasetSub)}
-			console.log(dataset)	
-	
+		// 	let datasetSub = JSON.stringify(data);
+		// 	dataset = {"children": JSON.parse(datasetSub)}
+		// 	console.log(dataset)	
+// // set the dimensions and margins of the graph
+// var margin = {top: 10, right: 30, bottom: 30, left: 60},
+//     width = 460 - margin.left - margin.right,
+//     height = 400 - margin.top - margin.bottom;
+
+// // append the svg object to the body of the page
+// var svg = d3.select("#chart3")
+//   .append("svg")
+//     .attr("width", width + margin.left + margin.right)
+//     .attr("height", height + margin.top + margin.bottom)
+//   .append("g")
+//     .attr("transform",
+//           "translate(" + margin.left + "," + margin.top + ")");
+
+//   // Add X axis
+//   var x = d3.scaleLinear()
+//     .domain([0, 4000])
+//     .range([ 0, width ]);
+//   svg.append("g")
+//     .attr("transform", "translate(0," + height + ")")
+//     .call(d3.axisBottom(x));
+
+//   // Add Y axis
+//   var y = d3.scaleLinear()
+//     .domain([0, 500000])
+//     .range([ height, 0]);
+//   svg.append("g")
+//     .call(d3.axisLeft(y));
+
+//   // Add dots
+//   svg.append('g')
+//     .selectAll("dot")
+//     .data(dataset)
+//     .enter()
+//     .append("circle")
+//       .attr("cx", function (d) { return x(d.key); } )
+//       .attr("cy", function (d) { return y(d.value); } )
+//       .attr("r", 1.5)
+//       .style("fill", "#69b3a2")
+
+// }
 // set the dimensions and margins of the graph
-var margin = {top: 10, right: 30, bottom: 30, left: 60},
-    width = 460 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+// var margin = {top: 10, right: 30, bottom: 40, left: 50},
+//     width = 520 - margin.left - margin.right,
+//     height = 520 - margin.top - margin.bottom;
 
-// append the svg object to the body of the page
-var svg = d3.select("chart3")
-  .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
+// // append the svg object to the body of the page
+// var svg = d3.select("#chart3")
+//   .append("svg")
+//     .attr("width", width + margin.left + margin.right)
+//     .attr("height", height + margin.top + margin.bottom)
+//   .append("g")
+//     .attr("transform",
+//           "translate(" + margin.left + "," + margin.top + ")")
 
-  // Add X axis
-  var x = d3.scaleLinear()
-    .domain([0, 4000])
-    .range([ 0, width ]);
-  svg.append("g")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x));
+// // Add the grey background that makes ggplot2 famous
+// svg
+//   .append("rect")
+//     .attr("x",0)
+//     .attr("y",0)
+//     .attr("height", height)
+//     .attr("width", height)
+//     .style("fill", "EBEBEB")
 
-  // Add Y axis
-  var y = d3.scaleLinear()
-    .domain([0, 500000])
-    .range([ height, 0]);
-  svg.append("g")
-    .call(d3.axisLeft(y));
+// //Read the data
+// var dataset = [
+	
+// ]
+// function data(data) {
 
-  // Add dots
-  svg.append('g')
-    .selectAll("dot")
-    .data(dataset)
-    .enter()
-    .append("circle")
-      .attr("cx", function (d) { return x(d.afkomst); } )
-      .attr("cy", function (d) { return y(d.cijfer); } )
-      .attr("r", 1.5)
-      .style("fill", "#69b3a2")
+//   // Add X axis
+//   var x = d3.scaleLinear()
+//     .domain([4*0.95, 8*1.001])
+//     .range([ 0, width ])
+//   svg.append("g")
+//     .attr("transform", "translate(0," + height + ")")
+//     .call(d3.axisBottom(x).tickSize(-height*1.3).ticks(10))
+//     .select(".domain").remove()
 
-}
+//   // Add Y axis
+//   var y = d3.scaleLinear()
+//     .domain([-0.001, 9*1.01])
+//     .range([ height, 0])
+//     .nice()
+//   svg.append("g")
+//     .call(d3.axisLeft(y).tickSize(-width*1.3).ticks(7))
+//     .select(".domain").remove()
 
-}
+//   // Customization
+//   svg.selectAll(".tick line").attr("stroke", "white")
+
+//   // Add X axis label:
+//   svg.append("text")
+//       .attr("text-anchor", "end")
+//       .attr("x", width/2 + margin.left)
+//       .attr("y", height + margin.top + 20)
+//       .text("Sepal Length");
+
+//   // Y axis label:
+//   svg.append("text")
+//       .attr("text-anchor", "end")
+//       .attr("transform", "rotate(-90)")
+//       .attr("y", -margin.left + 20)
+//       .attr("x", -margin.top - height/2 + 20)
+//       .text("Petal Length")
+
+//   // Color scale: give me a specie name, I return a color
+//   var color = d3.scaleOrdinal()
+//     .domain(["setosa", "versicolor", "virginica" ])
+//     .range([ "#F8766D", "#00BA38", "#619CFF"])
+
+//   // Add dots
+//   svg.append('g')
+//     .selectAll("dot")
+//     .data(data)
+//     .enter()
+//     .append("circle")
+//       .attr("cx", function (d) { return x(d.Sepal_Length); } )
+//       .attr("cy", function (d) { return y(d.Petal_Length); } )
+//       .attr("r", 5)
+//       .style("fill", function (d) { return color(d.Species) } )
+
+
+//}}
+var data = [
+	[10, 20], [20, 100], [200, 50],
+	[25, 80], [10, 200], [150, 75],
+	[10, 70], [30, 150], [100, 15]
+  ]
+  // set the dimensions and margins of the graph
+var margin = {top: 10, right: 20, bottom: 40, left: 200},
+width = 1000 - margin.left - margin.right,
+height = 600 - margin.top - margin.bottom;
+
+// create svg element, respecting margins
+var svg = d3.select("#chart3")
+	.append("svg")
+	.attr("width", width + margin.left + margin.right)
+	.attr("height", height + margin.top + margin.bottom)
+	.append("g")
+	.attr("transform",
+		"translate(" + margin.left + "," + margin.top + ")");
+
+// Add X axis
+var x = d3.scaleLinear()
+	.domain([0, 10])
+	.range([0, width]);
+
+svg.append("g")
+.attr("transform", "translate(0," + height + ")")
+.attr("class", "axisWhite")
+.call(d3.axisBottom(x))
+
+
+// Add Y axis
+var y = d3.scaleBand()
+	.domain(["Ik ging naar de politie", "De politie kwam naar mij"])         // This is what is written on the Axis: from 0 to 100
+	.range([ height, 0]);
+
+svg.append("g")
+	.attr("class", "axisWhite")
+	.call(d3.axisLeft(y))
+	.selectAll("text")
+		.style("text-anchor", "end")
+		.style("font-size", 10)
+		.style("fill", "white")
+
+// Add X axis label:
+svg.append("text")
+.attr("text-anchor", "end")
+.attr("x", width)
+.attr("y", height + margin.top + 20)
+.text("Wat voor cijfers geven amsterdammers de politie?");
+
+// Y axis label:
+svg.append("text")
+.attr("text-anchor", "end")
+.attr("transform", "rotate(-90)")
+.attr("y", -margin.left+20)
+.attr("x", -margin.top)
+.text("Ik ging naar de politie")
+
+
+  svg.selectAll("circle")
+	 .data(data).enter()
+	 .append("circle")
+	 .attr("cx", function(d) {return d[0]})
+	 .attr("cy", function(d) {return d[1]})
+	 .attr("r", 6)
+	 .attr("fill", function(d) {
+		return "rgb("+d[0]+","+d[1]+",0)"
+	  })
+
+// var w = 940,
+//     h = 300,
+//     pad = 20,
+//     left_pad = 100,
+// 	Data_url = '/data.json';
+	
+// 	var svg = d3.select("#chart3")
+//         .append("svg")
+//         .attr("width", w)
+// 		.attr("height", h);
+	
+	
+	
+// 	svg.append("g")
+//     .attr("class", "axis")
+//     .attr("transform", "translate(0, "+(h-pad)+")")
+//     .call(xAxis);
+ 
+// svg.append("g")
+//     .attr("class", "axis")
+//     .attr("transform", "translate("+(left_pad-pad)+", 0)")
+//     .call(yAxis);
+// }
+	}
