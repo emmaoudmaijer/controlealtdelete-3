@@ -1,5 +1,4 @@
 
-
 function dataOmzet() {
 	let result = fetch('../convertcsvdata.json') 
 		.then(data => data.json())
@@ -12,26 +11,18 @@ function dataOmzet() {
 					totstand: result.Totstand,
 					contact: result.Contact_gehad,
 					freqcontact: result.freqcontact,
-					//responseCount: Number(1)
+					cijfer: result.rapportcijfer
 					}
 		})
-		//data = transformData(newResults)
-		// console.log(newResults)
-		//bouwViz(newResults)
 		bubbleChart(newResults)
+		bubbleChart2(newResults)
+		chart3(newResults)
 })
 }
 dataOmzet() 
 
-
-// function bubbleChart2(results){
-
-
-
 function bubbleChart(results) {
 
-
-		
 	function remove99999(data){
 		data.forEach(data => {
 			for (let key in data) {
@@ -42,41 +33,15 @@ function bubbleChart(results) {
 		});
 		return data;
 	}
-
 	data = remove99999(results);
 
-
-	/*
-		function removeNull(data){
-			data.forEach(data => {
-				for (let key in data) {
-					if (data[key] == '#NULL!') {
-					delete data[key];
-					}
-				}
-			});
-			return data;
-		}
-		data = removeNull(results);
-		console.log(results)
-	*/
-	
 		function transformData(data){
 			let transformed =  d3.nest()
 				  .key(d => d.afkomst)
-				  //.key(d => d.contact)
-				  //.value(d => d.freqcontact)
 				.rollup(function(v) { 
 						return d3.sum(v, function(d) { return d.freqcontact; });
 					 })
 				.entries(data)
-				//.map (function (group){
-				//	return {
-				// 		afkomst: group.key,
-				// 		//contact: group.values,
-				// 		freqcontact: group.values[4]
-			 	//}
-				 //})
 			return transformed
 		}
 
@@ -84,71 +49,41 @@ function bubbleChart(results) {
 
 		console.log("transformed: ", data)
 
-
-
 		let datasetSub = JSON.stringify(data);
-		
-		//console.log(datasetSub)
 		dataset = {"children": JSON.parse(datasetSub)}
-		console.log(dataset)
-		
+		console.log(dataset)	
 
 
-var diameter = 600;
-var color = d3.scaleOrdinal(d3.schemeCategory20);
-// console.log(results)
-var bubble = d3.pack(dataset)
+		var diameter = 600;
+
+		var color = d3.scaleOrdinal(d3.schemeCategory20);
+		var bubble = d3.pack(dataset)
 		.size([diameter, diameter])
 		.padding(1.5);
 
-var svg = d3.select(".chart")
+		var animation = d3.transition()
+		.duration(700)
+		.ease(d3.easePoly);
+
+		var svg = d3.select(".chart")
 		.append("svg")
 		.attr("width", diameter)
 		.attr("height", diameter)
 		.attr("class", "bubble");
-	
-var div = d3.select("body").append("div")
+
+		var div = d3.select("body").append("div")
 		.attr("class", "tooltip")
 		.style("opacity", 0);	
 
-var nodes = d3.hierarchy(dataset)
-		.sum(function(d) { return d.value; });
+		var nodes = d3.hierarchy(dataset)
+		.sum(function(d) { return Math.sqrt(d.value); });
+		
 
-		// var simulation = d3.forceSimulation(nodes)
-		// .force('charge', d3.forceManyBody().strength(5))
-		// .force('center', d3.forceCenter(width / 2, height / 2))
-		// .force('collision', d3.forceCollide().radius(function(d) {
-		//   return d.radius
-		// }))
-		// .on('tick', ticked);
-	  
-	//   function ticked() {
-	// 	var u = d3.select('svg')
-	// 	  .selectAll('circle')
-	// 	  .data(nodes)
-	  
-	// 	u.enter()
-	// 	  .append('circle')
-	// 	  .attr('r', function(d) {
-	// 		return d.radius
-	// 	  })
-	// 	  .merge(u)
-	// 	  .attr('cx', function(d) {
-	// 		return d.x
-	// 	  })
-	// 	  .attr('cy', function(d) {
-	// 		return d.y
-	// 	  })
-	  
-	// 	u.exit().remove()
-	//   }
-          
-var node = svg.selectAll(".node")
-		.data(bubble(nodes).descendants())
+		var node = svg.selectAll(".node")
+		.data(bubble(nodes).leaves())
 		.enter()
 		.filter(function(d){
 			return  !d.children
-			//return  !d.results
 		})
 		.append("g")
 		.attr("class", "node")
@@ -158,120 +93,160 @@ var node = svg.selectAll(".node")
 		.on("mouseover", function(d) {
 			console.log(d)
 			div.transition()
-			  .duration(200)
-			  .style("opacity", .9);
+				.duration(200)
+				.style("opacity", .9);
 			div.html(d.data.key + "<br/>" + d.data.value)
-			  .style("left", (d3.event.pageX) + "px")
-			  .style("top", (d3.event.pageY - 28) + "px")
+				.style("left", (d3.event.pageX) + "px")
+				.style("top", (d3.event.pageY - 28) + "px")
 			})
 		.on("mouseout", function(d) {
 			div.transition()
-			  .duration(500)
-			  .style("opacity", 0);
+				.duration(500)
+				.style("opacity", 0);
 			});
-	
-			//let forceCollide = d3.forceCollide(d => d.radius + paddingObject);
-node.append("title")
+
+		node.append("title")
 		.text(function(d) {
-			// console.log(d.afkomst)
 			return d.key + ": " + d.value;
 		});
 
-node.append("circle")
+		node.append("circle")
+		.transition(animation)
 		.attr("r", function(d) {
-			return d.data.value * 0.11;
+			return (d.r) ;
 		})
-		//.style("fill", "#FFF33D");
 		.style("fill", function(d) {
 			return color(Math.random());
 		});
-		//.style("fill", url("flag-NL"));
 
-				var cs = [];
-		data.forEach(function(d){
-				if(!cs.contains(d.group)) {
-					cs.push(d.group);
-				}
-		});
-// 		function create_nodes(data,node_counter) {
-// 			var i = cs.indexOf(data[node_counter].group),
-// 				r = Math.sqrt((i + 1) / m * -Math.log(Math.random())) * maxRadius,
-// 				d = {
-// 				  cluster: i,
-// 				  radius: data[node_counter].size*1.5,
-// 				  text: data[node_counter].text,
-// 				  x: Math.cos(i / m * 2 * Math.PI) * 200 + width / 2 + Math.random(),
-// 				  y: Math.sin(i / m * 2 * Math.PI) * 200 + height / 2 + Math.random()
-// 				};
-// 			if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
-// 			return d;
-// 		  };
-// create_nodes()
+		// 		var cs = [];
+		// data.forEach(function(d){
+		// 		//if(!cs.contains(d.group)) {
+		// 		//	cs.push(d.group);
+		// 		//}
+		// });
 
-node.append("text")
+		node.append("text")
 		.attr("dy", ".3em")
 		.style("text-anchor", "middle")
 		.text(function(d) {
-			return d.data.key.substring(0, d.r / 3) + ": " + d.data.value;
+			return d.data.key.substring(0, d.r ) + ": " + d.data.value;
 		});
+
+		d3.select(self.frameElement)
+		.style("height", diameter + "px");
 	}
 
-// const defs = svg.append("defs");
-// 	let imgPattern = defs.selectAll("pattern")
-// 	.append("pattern")
-// 		.attr('id','flag-NL-pattern')
-// 		.attr("width",1)
-// 		.attr("height",1)
-// 		.attr('patternUnits',"userSpaceOnUse")
-// 	.append("svg:image")
-// 			//.attr("xlink:href",flag)
-// 			.attr("width",40)
-// 			.attr("height",40)
-// 			.attr("x",0)
-// 			.attr("y",0);
+	function bubbleChart2(results) {
 
-// node.append("circle")
-// 		.attr("cx",100)
-// 		.attr("cy",100)
-
-// 		.attr("r", function(d) {
-// 			return d.r;
-// 		})
-		//.style("fill", "#FFF33D");
-		//.style("fill", function(d) {
-		//	return color(Math.random());
-		//});
-
-		//.attr("fill", "#fff")
-		//.attr("fill", "url(#flag-NL-pattern)");
-		//.attr("fill", "#ff0000")
-		//let imgPattern = defs.selectAll("pattern")
+		function remove99999(data){
+			data.forEach(data => {
+				for (let key in data) {
+					if (data[key] == '99999') {
+					delete data[key];
+					}
+				}
+			});
+			return data;
+		}
+		data = remove99999(results);
 	
-
-//let circles = svg.selectAll(".flag")
-	//	.data(bubble(nodes).descendants())
-	//	.enter()
-		// node.append("circle")
-		// // //.attr("class", "flag")
-		// .attr("r", function(d) {
- 		// 	return d.r;
-		//  })
-		// // // .attr("cx", 100)
-		// // // .attr("cy", 180)
-		// .style("fill", function(d) {
-		// 	return color(Math.random());
-		// });
-		//.style("fill", "#FFF33D")
-		//.attr("class", "flag")
-		// .style("fill", "url(#flag-NL-pattern)");
-		
-		
-// node.enter().append("image")
-// .attr("xlink:href", "images/NL.svg")
-// .attr("width", function(d) { return 2*d.r; })
-// .attr("height", function(d) { return 2*d.r; })
-// .attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; })
-// .attr('class', function(d) { return d.responseCount; });
+			function transformData(data){
+				let transformed =  d3.nest()
+					  .key(d => d.afkomst)
+					.rollup(function(v) { 
+							return d3.sum(v, function(d) { return d.freqcontact; });
+						 })
+					.entries(data)
+				return transformed
+			}
+	
+			data = transformData(data)
+	
+			console.log("transformed: ", data)
+	
+			let datasetSub = JSON.stringify(data);
+			dataset = {"children": JSON.parse(datasetSub)}
+			console.log(dataset)	
+	
+	
+			var diameter = 600;
+	
+			var color = d3.scaleOrdinal(d3.schemeCategory20);
+			var bubble = d3.pack(dataset)
+			.size([diameter, diameter])
+			.padding(1.5);
+	
+			var svg = d3.select(".chart2")
+			.append("svg")
+			.attr("width", diameter)
+			.attr("height", diameter)
+			.attr("class", "bubble");
+	
+			var div = d3.select("body").append("div")
+			.attr("class", "tooltip")
+			.style("opacity", 0);	
+	
+			var nodes = d3.hierarchy(dataset)
+			.sum(function(d) { return Math.sqrt(d.value); });
+			
+	
+			var node = svg.selectAll(".node")
+			.data(bubble(nodes).leaves())
+			.enter()
+			.filter(function(d){
+				return  !d.children
+			})
+			.append("g")
+			.attr("class", "node")
+			.attr("transform", function(d) {
+				return "translate(" + d.x + "," + d.y + ")";
+			})
+			.on("mouseover", function(d) {
+				console.log(d)
+				div.transition()
+					.duration(200)
+					.style("opacity", .9);
+				div.html(d.data.key + "<br/>" + d.data.value)
+					.style("left", (d3.event.pageX) + "px")
+					.style("top", (d3.event.pageY - 28) + "px")
+				})
+			.on("mouseout", function(d) {
+				div.transition()
+					.duration(500)
+					.style("opacity", 0);
+				});
+	
+			node.append("title")
+			.text(function(d) {
+				return d.key + ": " + d.value;
+			});
+	
+			node.append("circle")
+			.attr("r", function(d) {
+				return (d.r) ;
+			})
+			.style("fill", function(d) {
+				return color(Math.random());
+			});
+	
+			// 		var cs = [];
+			// data.forEach(function(d){
+			// 		if(!cs.contains(d.group)) {
+			// 			cs.push(d.group);
+			// 		}
+			// });
+	
+			node.append("text")
+			.attr("dy", ".3em")
+			.style("text-anchor", "middle")
+			.text(function(d) {
+				return d.data.key.substring(0, d.r ) + ": " + d.data.value;
+			});
+	
+			d3.select(self.frameElement)
+			.style("height", diameter + "px");
+		}
 
 // node.append('image')
 // 		.attr('xlink:href', 'images/NL.svg')
@@ -280,18 +255,7 @@ node.append("text")
 // 		.attr('width', function(d, i) { return d.r + 'px'; })
 // 		.attr('height', function(d, i) { return d.r + 'px'; })
 
-
-
-
-
-
-
-
-
- d3.select(self.frameElement)
-		 .style("height", diameter + "px");
-		// .style('height', '550px');
-		 
+	 
 		(function($) {
 			"use strict"; 
 			
@@ -438,49 +402,80 @@ node.append("text")
 // function bouwViz(results) {
 // data = transformData(results)
 
-// function remove99999(data){
-//     data.forEach(data => {
-//         for (let key in data) {
-//             if (data[key] == '99999') {
-//             delete data[key];
-//             }
-//         }
-//     });
-//     return data;
-// }
-// data = remove99999(results);
 
-// function removeNull(data){
-//     data.forEach(data => {
-//         for (let key in data) {
-// 			if (data[key] == '#NULL!') {
-//             delete data[key];
-//             }
-//         }
-//     });
-//     return data;
-// }
-// data = removeNull(results);
-// console.log(results)
-// function transformData(results){
-// 	let transformed =  d3.nest()
-// 		  .key(d => d.afkomst)
-// 		  .key(d => d.contact)
-// 		  .key(d => d.freqcontact)
-// 		.entries(results)
-// 		.map (function (group){
-// 			return {
-// 				afkomst: group.key,
-// 				//contact: group.values,
-// 				freqcontact: group.values
-// 			}
-// 		})
-// 		return transformed
-// }
-// console.log("transformed: ", data)
+function chart3 (results){
+	function bubbleChart(results) {
 
-// let datasetSub = JSON.stringify(results);
+		function remove99999(data){
+			data.forEach(data => {
+				for (let key in data) {
+					if (data[key] == '99999') {
+					delete data[key];
+					}
+				}
+			});
+			return data;
+		}
+		data = remove99999(results);
+	
+			function transformData(data){
+				let transformed =  d3.nest()
+					  .key(d => d.afkomst)
+					.rollup(function(v) { 
+							return d3.sum(v, function(d) { return d.freqcontact; });
+						 })
+					.entries(data)
+				return transformed
+			}
+	
+			data = transformData(data)
+	
+			console.log("transformed: ", data)
+	
+			let datasetSub = JSON.stringify(data);
+			dataset = {"children": JSON.parse(datasetSub)}
+			console.log(dataset)	
+	
+// set the dimensions and margins of the graph
+var margin = {top: 10, right: 30, bottom: 30, left: 60},
+    width = 460 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
 
-// console.log(datasetSub)
-// dataset = {"children": JSON.parse(datasetSub)}
-// console.log(dataset)
+// append the svg object to the body of the page
+var svg = d3.select("chart3")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+  // Add X axis
+  var x = d3.scaleLinear()
+    .domain([0, 4000])
+    .range([ 0, width ]);
+  svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x));
+
+  // Add Y axis
+  var y = d3.scaleLinear()
+    .domain([0, 500000])
+    .range([ height, 0]);
+  svg.append("g")
+    .call(d3.axisLeft(y));
+
+  // Add dots
+  svg.append('g')
+    .selectAll("dot")
+    .data(dataset)
+    .enter()
+    .append("circle")
+      .attr("cx", function (d) { return x(d.afkomst); } )
+      .attr("cy", function (d) { return y(d.cijfer); } )
+      .attr("r", 1.5)
+      .style("fill", "#69b3a2")
+
+}
+
+}
