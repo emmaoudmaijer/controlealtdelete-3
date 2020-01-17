@@ -1477,3 +1477,10 @@ color: white;
   74.96%, 91.62% { left: 25%; opacity: 1; }
   100% { left: 110%; opacity: 0; }
 }
+
+button{
+	color:white;
+	display: block;
+    position: relative;
+    top: -197em;
+}

@@ -16,12 +16,38 @@ function dataOmzet() {
 		})
 		bubbleChart(newResults)
 		bubbleChart2(newResults)
-		chart3(newResults)
+		//chart3(newResults)
 })
 }
 dataOmzet() 
 
 function bubbleChart(results) {
+
+
+const ikGing = results.filter(item => {
+	if(item.totstand == "Ik ging naar de politie toe"){
+		return item
+	}
+})
+
+let newData = d3.nest()
+	.key(d => d.afkomst)
+	.key(d => d.totstand)
+	.rollup(leaves => leaves.length)
+	.entries(ikGing)
+
+newData = newData.flat()
+
+console.log(newData)
+
+// console.log('ik ging', ikGing)
+
+// const popoNaarMij = results.filter(item => {
+// 	if(item.totstand == "De politie kwam naar mij toe"){
+// 		return item
+// 	}
+// })
+
 
 	function remove99999(data){
 		data.forEach(data => {
@@ -47,13 +73,15 @@ function bubbleChart(results) {
 
 		data = transformData(data)
 
+		
+
 		//data.forEach(element => console.log(element));
 
-		console.log("transformed: ", data)
+		// console.log("transformed: ", data)
 
 		let datasetSub = JSON.stringify(data);
 		dataset = {"children": JSON.parse(datasetSub)}
-		console.log(dataset)	
+		// console.log(dataset)	
 
 
 		var diameter = 600;
@@ -62,6 +90,11 @@ function bubbleChart(results) {
 		var bubble = d3.pack(dataset)
 		.size([diameter, diameter])
 		.padding(1.5);
+
+		var bubble2 = d3.pack(newData.map(d => d.values))
+		.size([diameter, diameter])
+		.padding(1.5);
+		console.log('23', newData)
 
 		var animation = d3.transition()
 		.duration(700)
@@ -79,21 +112,26 @@ function bubbleChart(results) {
 
 		var nodes = d3.hierarchy(dataset)
 		.sum(function(d) { return Math.sqrt(d.value); });
+
+		// console.log(nodes)
+
+		var nodes2 = d3.hierarchy(newData)
+		.sum(function(d) { return Math.sqrt(d.value); });
+		
+		
+		console.log('node2', nodes2)
+
 		
 
 		var node = svg.selectAll(".node")
 		.data(bubble(nodes).leaves())
 		.enter()
-		.filter(function(d){
-			return  !d.children
-		})
 		.append("g")
 		.attr("class", "node")
 		.attr("transform", function(d) {
 			return "translate(" + d.x + "," + d.y + ")";
 		})
 		.on("mouseover", function(d) {
-			console.log(d)
 			div.transition()
 				.duration(200)
 				.style("opacity", .9);
@@ -115,7 +153,7 @@ function bubbleChart(results) {
 		node.append("circle")
 		.transition(animation)
 		.attr("r", function(d) {
-			return (d.r) ;
+			return d.r ;
 		})
 		.style("fill", function(d) {
 			return color(Math.random());
@@ -137,7 +175,64 @@ function bubbleChart(results) {
 
 		d3.select(self.frameElement)
 		.style("height", diameter + "px");
-	}
+
+		node.exit().remove()
+
+	function update(){
+
+			node
+			.data(bubble2(nodes2).leaves())
+			.transition(animation)
+			.attr("r", function(d) {
+				console.log( d)
+						})
+
+		}
+
+		let button = d3.select('body').append('button')
+		let button = d3.select('body').append('button2')
+
+		button
+		.text('Contact door Amsterdammers')
+		.on('click', update)
+
+		button2
+		.text('Contact door de politie')
+		.on('click', update)
+
+
+
+// 		// ** Update data section (Called from the onclick)
+// function updateData() {
+
+//     // Get the data again
+//     d3.csv("data-alt.csv", function(error, data) {
+//        	data.forEach(function(d) {
+// 	    	d.date = parseDate(d.date);
+// 	    	d.close = +d.close;
+// 	    });
+
+//     	// Scale the range of the data again 
+//     	x.domain(d3.extent(data, function(d) { return d.date; }));
+// 	    y.domain([0, d3.max(data, function(d) { return d.close; })]);
+
+//     // Select the section we want to apply our changes to
+//     var svg = d3.select("body").transition();
+
+//     // Make the changes
+//         svg.select(".line")   // change the line
+//             .duration(750)
+//             .attr("d", valueline(data));
+//         svg.select(".x.axis") // change the x axis
+//             .duration(750)
+//             .call(xAxis);
+//         svg.select(".y.axis") // change the y axis
+//             .duration(750)
+//             .call(yAxis);
+
+//     });
+//}
+}
 
 	function bubbleChart2(results) {
 
@@ -405,7 +500,7 @@ function bubbleChart(results) {
 // data = transformData(results)
 
 
-function chart3 (results){
+//function chart3 (results){
 
 		// function remove99999(data){
 		// 	data.forEach(data => {
@@ -560,96 +655,96 @@ function chart3 (results){
 
 
 //}}
-var data = [
-	[10, 20], [20, 100], [200, 50],
-	[25, 80], [10, 200], [150, 75],
-	[10, 70], [30, 150], [100, 15]
-  ]
-  // set the dimensions and margins of the graph
-var margin = {top: 10, right: 20, bottom: 40, left: 200},
-width = 1000 - margin.left - margin.right,
-height = 600 - margin.top - margin.bottom;
+// var data = [
+// 	[10, 20], [20, 100], [200, 50],
+// 	[25, 80], [10, 200], [150, 75],
+// 	[10, 70], [30, 150], [100, 15]
+//   ]
+//   // set the dimensions and margins of the graph
+// var margin = {top: 10, right: 20, bottom: 40, left: 200},
+// width = 1000 - margin.left - margin.right,
+// height = 600 - margin.top - margin.bottom;
 
-// create svg element, respecting margins
-var svg = d3.select("#chart3")
-	.append("svg")
-	.attr("width", width + margin.left + margin.right)
-	.attr("height", height + margin.top + margin.bottom)
-	.append("g")
-	.attr("transform",
-		"translate(" + margin.left + "," + margin.top + ")");
+// // create svg element, respecting margins
+// var svg = d3.select("#chart3")
+// 	.append("svg")
+// 	.attr("width", width + margin.left + margin.right)
+// 	.attr("height", height + margin.top + margin.bottom)
+// 	.append("g")
+// 	.attr("transform",
+// 		"translate(" + margin.left + "," + margin.top + ")");
 
-// Add X axis
-var x = d3.scaleLinear()
-	.domain([0, 10])
-	.range([0, width]);
+// // Add X axis
+// var x = d3.scaleLinear()
+// 	.domain([0, 10])
+// 	.range([0, width]);
 
-svg.append("g")
-.attr("transform", "translate(0," + height + ")")
-.attr("class", "axisWhite")
-.call(d3.axisBottom(x))
-
-
-// Add Y axis
-var y = d3.scaleBand()
-	.domain(["Ik ging naar de politie", "De politie kwam naar mij"])         // This is what is written on the Axis: from 0 to 100
-	.range([ height, 0]);
-
-svg.append("g")
-	.attr("class", "axisWhite")
-	.call(d3.axisLeft(y))
-	.selectAll("text")
-		.style("text-anchor", "end")
-		.style("font-size", 10)
-		.style("fill", "white")
-
-// Add X axis label:
-svg.append("text")
-.attr("text-anchor", "end")
-.attr("x", width)
-.attr("y", height + margin.top + 20)
-.text("Wat voor cijfers geven amsterdammers de politie?");
-
-// Y axis label:
-svg.append("text")
-.attr("text-anchor", "end")
-.attr("transform", "rotate(-90)")
-.attr("y", -margin.left+20)
-.attr("x", -margin.top)
-.text("Ik ging naar de politie")
-
-
-  svg.selectAll("circle")
-	 .data(data).enter()
-	 .append("circle")
-	 .attr("cx", function(d) {return d[0]})
-	 .attr("cy", function(d) {return d[1]})
-	 .attr("r", 6)
-	 .attr("fill", function(d) {
-		return "rgb("+d[0]+","+d[1]+",0)"
-	  })
-
-// var w = 940,
-//     h = 300,
-//     pad = 20,
-//     left_pad = 100,
-// 	Data_url = '/data.json';
-	
-// 	var svg = d3.select("#chart3")
-//         .append("svg")
-//         .attr("width", w)
-// 		.attr("height", h);
-	
-	
-	
-// 	svg.append("g")
-//     .attr("class", "axis")
-//     .attr("transform", "translate(0, "+(h-pad)+")")
-//     .call(xAxis);
- 
 // svg.append("g")
-//     .attr("class", "axis")
-//     .attr("transform", "translate("+(left_pad-pad)+", 0)")
-//     .call(yAxis);
-// }
-	}
+// .attr("transform", "translate(0," + height + ")")
+// .attr("class", "axisWhite")
+// .call(d3.axisBottom(x))
+
+
+// // Add Y axis
+// var y = d3.scaleBand()
+// 	.domain(["Ik ging naar de politie", "De politie kwam naar mij"])         // This is what is written on the Axis: from 0 to 100
+// 	.range([ height, 0]);
+
+// svg.append("g")
+// 	.attr("class", "axisWhite")
+// 	.call(d3.axisLeft(y))
+// 	.selectAll("text")
+// 		.style("text-anchor", "end")
+// 		.style("font-size", 10)
+// 		.style("fill", "white")
+
+// // Add X axis label:
+// svg.append("text")
+// .attr("text-anchor", "end")
+// .attr("x", width)
+// .attr("y", height + margin.top + 20)
+// .text("Wat voor cijfers geven amsterdammers de politie?");
+
+// // Y axis label:
+// svg.append("text")
+// .attr("text-anchor", "end")
+// .attr("transform", "rotate(-90)")
+// .attr("y", -margin.left+20)
+// .attr("x", -margin.top)
+// .text("Ik ging naar de politie")
+
+
+//   svg.selectAll("circle")
+// 	 .data(data).enter()
+// 	 .append("circle")
+// 	 .attr("cx", function(d) {return d[0]})
+// 	 .attr("cy", function(d) {return d[1]})
+// 	 .attr("r", 6)
+// 	 .attr("fill", function(d) {
+// 		return "rgb("+d[0]+","+d[1]+",0)"
+// 	  })
+
+// // var w = 940,
+// //     h = 300,
+// //     pad = 20,
+// //     left_pad = 100,
+// // 	Data_url = '/data.json';
+	
+// // 	var svg = d3.select("#chart3")
+// //         .append("svg")
+// //         .attr("width", w)
+// // 		.attr("height", h);
+	
+	
+	
+// // 	svg.append("g")
+// //     .attr("class", "axis")
+// //     .attr("transform", "translate(0, "+(h-pad)+")")
+// //     .call(xAxis);
+ 
+// // svg.append("g")
+// //     .attr("class", "axis")
+// //     .attr("transform", "translate("+(left_pad-pad)+", 0)")
+// //     .call(yAxis);
+// // }
+// 	}
