@@ -24,6 +24,8 @@ dataOmzet()
 function bubbleChart(results) {
 
 
+// ------------- IK GING NAAR DE POLITIE TOE DATA VOOR UPDATE -----------------
+
 const ikGing = results.filter(item => {
 	if(item.totstand == "Ik ging naar de politie toe"){
 		return item
@@ -37,18 +39,27 @@ let newData = d3.nest()
 	.entries(ikGing)
 
 newData = newData.flat()
-
 console.log(newData)
 
-// console.log('ik ging', ikGing)
+// ------------- POLITIE KWAM NAAR MIJ TOE DATA VOOR UPDATE -----------------
 
-// const popoNaarMij = results.filter(item => {
-// 	if(item.totstand == "De politie kwam naar mij toe"){
-// 		return item
-// 	}
-// })
+const popoNaarMij = results.filter(item => {
+	if(item.totstand == "De politie kwam naar mij toe"){
+		return item
+	}
+})
+ //console.log('Naar mij', popoNaarMij)
+ let newData2 = d3.nest()
+	.key(d => d.afkomst)
+	.key(d => d.totstand)
+	.rollup(leaves => leaves.length)
+	.entries(popoNaarMij)
 
+newData2 = newData2.flat()
 
+console.log(newData2)
+
+// ------------- WEGHALEN VAN 99999 WAARDES EN TRANSFORMEREN VAN DATA VOOR CONTACT MET POLITIE -----------------
 	function remove99999(data){
 		data.forEach(data => {
 			for (let key in data) {
@@ -73,17 +84,13 @@ console.log(newData)
 
 		data = transformData(data)
 
-		
-
-		//data.forEach(element => console.log(element));
-
 		// console.log("transformed: ", data)
 
 		let datasetSub = JSON.stringify(data);
 		dataset = {"children": JSON.parse(datasetSub)}
 		// console.log(dataset)	
 
-
+// -------------------- BEGIN VAN BUBBLE CHART ----------------------------
 		var diameter = 600;
 
 		var color = d3.scaleOrdinal(d3.schemeCategory20);
@@ -113,15 +120,9 @@ console.log(newData)
 		var nodes = d3.hierarchy(dataset)
 		.sum(function(d) { return Math.sqrt(d.value); });
 
-		// console.log(nodes)
-
 		var nodes2 = d3.hierarchy(newData)
 		.sum(function(d) { return Math.sqrt(d.value); });
-		
-		
 		console.log('node2', nodes2)
-
-		
 
 		var node = svg.selectAll(".node")
 		.data(bubble(nodes).leaves())
@@ -178,6 +179,7 @@ console.log(newData)
 
 		node.exit().remove()
 
+// ------------- UPDATE FUNCTIE IN BUBBLE CHART -----------------
 	function update(){
 
 			node
@@ -190,48 +192,16 @@ console.log(newData)
 		}
 
 		let button = d3.select('body').append('button')
-		let button = d3.select('body').append('button2')
+		//let button = d3.select('body').append('button2')
 
 		button
 		.text('Contact door Amsterdammers')
 		.on('click', update)
 
-		button2
-		.text('Contact door de politie')
-		.on('click', update)
+		// button2
+		// .text('Contact door de politie')
+		// .on('click', update)
 
-
-
-// 		// ** Update data section (Called from the onclick)
-// function updateData() {
-
-//     // Get the data again
-//     d3.csv("data-alt.csv", function(error, data) {
-//        	data.forEach(function(d) {
-// 	    	d.date = parseDate(d.date);
-// 	    	d.close = +d.close;
-// 	    });
-
-//     	// Scale the range of the data again 
-//     	x.domain(d3.extent(data, function(d) { return d.date; }));
-// 	    y.domain([0, d3.max(data, function(d) { return d.close; })]);
-
-//     // Select the section we want to apply our changes to
-//     var svg = d3.select("body").transition();
-
-//     // Make the changes
-//         svg.select(".line")   // change the line
-//             .duration(750)
-//             .attr("d", valueline(data));
-//         svg.select(".x.axis") // change the x axis
-//             .duration(750)
-//             .call(xAxis);
-//         svg.select(".y.axis") // change the y axis
-//             .duration(750)
-//             .call(yAxis);
-
-//     });
-//}
 }
 
 	function bubbleChart2(results) {
@@ -327,12 +297,12 @@ console.log(newData)
 				return color(Math.random());
 			});
 	
-			// 		var cs = [];
-			// data.forEach(function(d){
-			// 		if(!cs.contains(d.group)) {
-			// 			cs.push(d.group);
-			// 		}
-			// });
+					var cs = [];
+			data.forEach(function(d){
+					if(!cs.contains(d.group)) {
+						cs.push(d.group);
+					}
+			});
 	
 			node.append("text")
 			.attr("dy", ".3em")
@@ -345,29 +315,9 @@ console.log(newData)
 			.style("height", diameter + "px");
 		}
 
-// node.append('image')
-// 		.attr('xlink:href', 'images/NL.svg')
-// 		.attr('x', function(d, i) { return -d.r/2; })
-// 		.attr('y', function(d, i) { return -d.r/2; })
-// 		.attr('width', function(d, i) { return d.r + 'px'; })
-// 		.attr('height', function(d, i) { return d.r + 'px'; })
-
 	 
 		(function($) {
 			"use strict"; 
-			
-			/* Preloader */
-			$(window).on('load', function() {
-				var preloaderFadeOutTime = 500;
-				function hidePreloader() {
-					var preloader = $('.spinner-wrapper');
-					setTimeout(function() {
-						preloader.fadeOut(preloaderFadeOutTime);
-					}, 500);
-				}
-				hidePreloader();
-			});
-		
 			
 			/* Navbar Scripts */
 			// jQuery to collapse the navbar on scroll
@@ -398,80 +348,6 @@ console.log(newData)
 		})
 
 
-
-
-
-
-		// var diameter = 600;
-        // var color = d3.scaleOrdinal(d3.schemeCategory20);
-
-        // var bubble = d3.pack(dataset)
-        //     .size([diameter, diameter])
-        //     .padding(1.5);
-
-        // var svg = d3.select("body")
-        //     .append("svg")
-        //     .attr("width", diameter)
-        //     .attr("height", diameter)
-        //     .attr("class", "bubble");
-
-        // var nodes = d3.hierarchy(dataset)
-        //     .sum(function(d) { return d.freqcontact; });
-
-        // var node = svg.selectAll(".node")
-        //     .data(bubble(nodes).descendants())
-        //     .enter()
-        //     .filter(function(d){
-        //         return  !d.children
-        //     })
-        //     .append("g")
-        //     .attr("class", "node")
-        //     .attr("transform", function(d) {
-        //         return "translate(" + d.x + "," + d.y + ")";
-        //     });
-
-        // node.append("title")
-        //     .text(function(d) {
-        //         return d.afkomst + ": " + d.freqcontact;
-        //     });
-
-        // node.append("circle")
-        //     .attr("r", function(d) {
-        //         return d.r;
-        //     })
-        //     .style("fill", function(d,i) {
-        //         return color(i);
-        //     });
-
-        // node.append("text")
-        //     .attr("dy", ".2em")
-        //     .style("text-anchor", "middle")
-        //     .text(function(d) {
-        //         return d.data.afkomst.substring(0, d.r / 3);
-        //     })
-        //     .attr("font-family", "sans-serif")
-        //     .attr("font-size", function(d){
-        //         return d.r/5;
-        //     })
-        //     .attr("fill", "white");
-
-        // node.append("text")
-        //     .attr("dy", "1.3em")
-        //     .style("text-anchor", "middle")
-        //     .text(function(d) {
-        //         return d.data.freqcontact;
-        //     })
-        //     .attr("font-family",  "Gill Sans", "Gill Sans MT")
-        //     .attr("font-size", function(d){
-        //         return d.r/5;
-        //     })
-        //     .attr("fill", "white");
-
-        // d3.select(self.frameElement)
-        //     .style("height", diameter + "px");
-
-
-
 		// dataset2 = {
 // 	"children": [{
 // 		"facilityId": "NL",
@@ -495,11 +371,6 @@ console.log(newData)
 // };
 //console.log(dataset2)
 	
-
-// function bouwViz(results) {
-// data = transformData(results)
-
-
 //function chart3 (results){
 
 		// function remove99999(data){
