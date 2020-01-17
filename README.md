@@ -3,8 +3,7 @@
 
 Tijdens het project voor information design hebben we een datavisualisatie gemaakt voor Controle alt delete. meer info
 
-![foto]()
-![foto]()
+![foto](public/images/bubblechart.png)
 
 ### Het concept:
 
