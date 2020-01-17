@@ -149,6 +149,7 @@ console.log(newData2)
 		node.append("title")
 		.text(function(d) {
 			return d.key + ": " + d.value;
+			//return d.value;	
 		});
 
 		node.append("circle")
@@ -171,7 +172,8 @@ console.log(newData2)
 		.attr("dy", ".3em")
 		.style("text-anchor", "middle")
 		.text(function(d) {
-			return d.data.key.substring(0, d.r ) + ": " + d.data.value;
+			return d.data.value;
+			//return d.data.key.substring(0, d.r ) + ": " + d.data.value;
 		});
 
 		d3.select(self.frameElement)
@@ -188,132 +190,140 @@ console.log(newData2)
 			.attr("r", function(d) {
 				console.log( d)
 						})
-
+			.text(function(d) {
+			return d.data.value;
+			});
 		}
 
+		let buttonAlgemeen = d3.select('body').append('button')
 		let button = d3.select('body').append('button')
-		//let button = d3.select('body').append('button2')
+		let button2 = d3.select('body').append('button')
+
+		buttonAlgemeen
+		.text('Algemeen contact')
+		.on('click', update)
 
 		button
 		.text('Contact door Amsterdammers')
 		.on('click', update)
 
-		// button2
-		// .text('Contact door de politie')
-		// .on('click', update)
+		button2
+		.text('Contact door de politie')
+		.on('click', update)
 
 }
 
-	function bubbleChart2(results) {
+	// function bubbleChart2(results) {
 
-		function remove99999(data){
-			data.forEach(data => {
-				for (let key in data) {
-					if (data[key] == '99999') {
-					delete data[key];
-					}
-				}
-			});
-			return data;
-		}
-		data = remove99999(results);
+	// 	function remove99999(data){
+	// 		data.forEach(data => {
+	// 			for (let key in data) {
+	// 				if (data[key] == '99999') {
+	// 				delete data[key];
+	// 				}
+	// 			}
+	// 		});
+	// 		return data;
+	// 	}
+	// 	data = remove99999(results);
 	
-			function transformData(data){
-				let transformed =  d3.nest()
-					  .key(d => d.afkomst)
-					.rollup(function(v) { 
-							return d3.sum(v, function(d) { return d.freqcontact; });
-						 })
-					.entries(data)
-				return transformed
-			}
+	// 		function transformData(data){
+	// 			let transformed =  d3.nest()
+	// 				  .key(d => d.afkomst)
+	// 				.rollup(function(v) { 
+	// 						return d3.sum(v, function(d) { return d.freqcontact; });
+	// 					 })
+	// 				.entries(data)
+	// 			return transformed
+	// 		}
 	
-			data = transformData(data)
+	// 		data = transformData(data)
 	
-			console.log("transformed: ", data)
+	// 		console.log("transformed: ", data)
 	
-			let datasetSub = JSON.stringify(data);
-			dataset = {"children": JSON.parse(datasetSub)}
-			console.log(dataset)	
+	// 		let datasetSub = JSON.stringify(data);
+	// 		dataset = {"children": JSON.parse(datasetSub)}
+	// 		console.log(dataset)	
 	
 	
-			var diameter = 600;
+	// 		var diameter = 600;
 	
-			var color = d3.scaleOrdinal(d3.schemeCategory20);
-			var bubble = d3.pack(dataset)
-			.size([diameter, diameter])
-			.padding(1.5);
+	// 		var color = d3.scaleOrdinal(d3.schemeCategory20);
+	// 		var bubble = d3.pack(dataset)
+	// 		.size([diameter, diameter])
+	// 		.padding(1.5);
 	
-			var svg = d3.select(".chart2")
-			.append("svg")
-			.attr("width", diameter)
-			.attr("height", diameter)
-			.attr("class", "bubble");
+	// 		var svg = d3.select(".chart2")
+	// 		.append("svg")
+	// 		.attr("width", diameter)
+	// 		.attr("height", diameter)
+	// 		.attr("class", "bubble");
 	
-			var div = d3.select("body").append("div")
-			.attr("class", "tooltip")
-			.style("opacity", 0);	
+	// 		var div = d3.select("body").append("div")
+	// 		.attr("class", "tooltip")
+	// 		.style("opacity", 0);	
 	
-			var nodes = d3.hierarchy(dataset)
-			.sum(function(d) { return Math.sqrt(d.value); });
+	// 		var nodes = d3.hierarchy(dataset)
+	// 		.sum(function(d) { return Math.sqrt(d.value); });
 			
 	
-			var node = svg.selectAll(".node")
-			.data(bubble(nodes).leaves())
-			.enter()
-			.filter(function(d){
-				return  !d.children
-			})
-			.append("g")
-			.attr("class", "node")
-			.attr("transform", function(d) {
-				return "translate(" + d.x + "," + d.y + ")";
-			})
-			.on("mouseover", function(d) {
-				console.log(d)
-				div.transition()
-					.duration(200)
-					.style("opacity", .9);
-				div.html(d.data.key + "<br/>" + d.data.value)
-					.style("left", (d3.event.pageX) + "px")
-					.style("top", (d3.event.pageY - 28) + "px")
-				})
-			.on("mouseout", function(d) {
-				div.transition()
-					.duration(500)
-					.style("opacity", 0);
-				});
+	// 		var node = svg.selectAll(".node")
+	// 		.data(bubble(nodes).leaves())
+	// 		.enter()
+	// 		.filter(function(d){
+	// 			return  !d.children
+	// 		})
+	// 		.append("g")
+	// 		.attr("class", "node")
+	// 		.attr("transform", function(d) {
+	// 			return "translate(" + d.x + "," + d.y + ")";
+	// 		})
+	// 		.on("mouseover", function(d) {
+	// 			console.log(d)
+	// 			div.transition()
+	// 				.duration(200)
+	// 				.style("opacity", .9);
+	// 			div.html(d.data.key + "<br/>" + d.data.value)
+	// 				.style("left", (d3.event.pageX) + "px")
+	// 				.style("top", (d3.event.pageY - 28) + "px")
+	// 			})
+	// 		.on("mouseout", function(d) {
+	// 			div.transition()
+	// 				.duration(500)
+	// 				.style("opacity", 0);
+	// 			});
 	
-			node.append("title")
-			.text(function(d) {
-				return d.key + ": " + d.value;
-			});
+	// 		node.append("title")
+	// 		.text(function(d) {
+	// 			return d.key + ": " + d.value;
+	// 		});
 	
-			node.append("circle")
-			.attr("r", function(d) {
-				return (d.r) ;
-			})
-			.style("fill", function(d) {
-				return color(Math.random());
-			});
+	// 		node.append("circle")
+	// 		.attr("r", function(d) {
+	// 			return (d.r) ;
+	// 		})
+	// 		.style("fill", function(d) {
+	// 			return color(Math.random());
+	// 		});
 	
-					var cs = [];
-			data.forEach(function(d){
-					if(!cs.contains(d.group)) {
-						cs.push(d.group);
-					}
-			});
+	// 		// 		var cs = [];
+	// 		// data.forEach(function(d){
+	// 		// 		if(!cs.contains(d.group)) {
+	// 		// 			cs.push(d.group);
+	// 		// 		}
+	// 		// });
 	
-			node.append("text")
-			.attr("dy", ".3em")
-			.style("text-anchor", "middle")
-			.text(function(d) {
-				return d.data.key.substring(0, d.r ) + ": " + d.data.value;
-			});
+	// 		node.append("text")
+	// 		.attr("dy", ".3em")
+	// 		.style("text-anchor", "middle")
+	// 		.text(function(d) {
+	// 			//return d.data.key.substring(0, d.r ) + ": " + d.data.value;
+	// 			return d.data.value;
+	// 		});
 	
-			d3.select(self.frameElement)
-			.style("height", diameter + "px");
-		}
+	// 		d3.select(self.frameElement)
+	// 		.style("height", diameter + "px");
+	// 	}
 
 	 
 		(function($) {
