@@ -15,7 +15,7 @@ function dataOmzet() {
 					}
 		})
 		bubbleChart(newResults)
-		bubbleChart2(newResults)
+		//bubbleChart2(newResults)
 		//chart3(newResults)
 })
 }
@@ -39,11 +39,12 @@ let newData = d3.nest()
 	.entries(ikGing)
 
 newData = newData.flat()
+//flatten(newData)
 console.log(newData)
 
 // ------------- POLITIE KWAM NAAR MIJ TOE DATA VOOR UPDATE -----------------
 
-const popoNaarMij = results.filter(item => {
+const naarMij = results.filter(item => {
 	if(item.totstand == "De politie kwam naar mij toe"){
 		return item
 	}
@@ -53,7 +54,7 @@ const popoNaarMij = results.filter(item => {
 	.key(d => d.afkomst)
 	.key(d => d.totstand)
 	.rollup(leaves => leaves.length)
-	.entries(popoNaarMij)
+	.entries(naarMij)
 
 newData2 = newData2.flat()
 
@@ -63,26 +64,43 @@ console.log(newData2)
 	function remove99999(data){
 		data.forEach(data => {
 			for (let key in data) {
-				if (data[key] == '99999') {
+				if (data[key] == '99999' || data[key] == 'Onbekend' || data[key] == '#NULL!' || data[key] == undefined) {
 				delete data[key];
 				}
 			}
 		});
 		return data;
 	}
+
+	
 	data = remove99999(results);
+
+	//Object.keys(data).forEach(key => data[key] === undefined ? delete data[key] : {});
 
 		function transformData(data){
 			let transformed =  d3.nest()
 				  .key(d => d.afkomst)
-				.rollup(function(v) { 
-						return d3.sum(v, function(d) { return d.freqcontact; });
-					 })
+				// .rollup(function(v) { 
+				// 		return d3.sum(v, function(d) { return d.freqcontact; });
+				// 	 })
+				.rollup(leaves => leaves.length)
 				.entries(data)
 			return transformed
 		}
 
 		data = transformData(data)
+
+		// transformed.forEach(afkomst => {
+		// 	// console.log(land.value.rapportCijfersBenaderd)
+		// 	afkomst.value.rapportCijfersBenaderd.forEach( (cijfer, index, array) => {
+		// 	  array[index] = Math.round((cijfer / land.value.benaderdTotaal) * 100)
+		// 	})
+		// 	afkomst.value.rapportCijfersNietBenaderd.forEach( (cijfer, index, array) => {
+		// 	  array[index] = Math.round((cijfer / land.value.nietBenaderdTotaal) * 100)
+		// 	})
+		//   })
+		//   return transformed
+		// }
 
 		// console.log("transformed: ", data)
 
@@ -94,6 +112,9 @@ console.log(newData2)
 		var diameter = 600;
 
 		var color = d3.scaleOrdinal(d3.schemeCategory20);
+			
+		color.range(['red', 'yellow', 'green', 'blue', 'orange']);
+
 		var bubble = d3.pack(dataset)
 		.size([diameter, diameter])
 		.padding(1.5);
@@ -102,6 +123,11 @@ console.log(newData2)
 		.size([diameter, diameter])
 		.padding(1.5);
 		console.log('23', newData)
+
+		var bubble3 = d3.pack(newData2.map(d => d.values))
+		.size([diameter, diameter])
+		.padding(1.5);
+		console.log('23', newData2)
 
 		var animation = d3.transition()
 		.duration(700)
@@ -122,7 +148,11 @@ console.log(newData2)
 
 		var nodes2 = d3.hierarchy(newData)
 		.sum(function(d) { return Math.sqrt(d.value); });
-		console.log('node2', nodes2)
+		console.log('nodes2', nodes2)
+
+		var nodes3 = d3.hierarchy(newData2)
+		.sum(function(d) { return Math.sqrt(d.value); });
+		console.log('nodes3', nodes3)
 
 		var node = svg.selectAll(".node")
 		.data(bubble(nodes).leaves())
@@ -157,9 +187,27 @@ console.log(newData2)
 		.attr("r", function(d) {
 			return d.r ;
 		})
-		.style("fill", function(d) {
-			return color(Math.random());
-		});
+		// .style("fill", function(d) {
+		// 	return color(Math.random());
+		// });
+		.style("fill", function(d){
+			console.log(d.data.key);
+			if (d.data.key == "Nederlands"){
+			  return "#ef8133"
+			} else if (d.data.key == "Marokkaans"){
+			  return "#66b770"
+			} else if (d.data.key == "Surinaams"){
+			  return "#f3cc31"
+			} else if (d.data.key == "Turks"){
+				return "#e63e32"
+			} else if (d.data.key == "Voormalig Nederlandse Antillen"){
+				return "#494496"
+			} else if (d.data.key == "Westers"){
+				return "#a54f9a"
+			} else {
+			  return "#61c5db"
+			}
+		  });
 
 		// 		var cs = [];
 		// data.forEach(function(d){
@@ -191,6 +239,7 @@ console.log(newData2)
 				console.log( d)
 						})
 			.text(function(d) {
+				console.log(d.data.flat())
 			return d.data.value;
 			});
 		}

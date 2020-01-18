@@ -10,11 +10,11 @@ h1 {
 	color: #FFF33D;
 }
  
-.circle {
+/* .circle {
 	background-color: yellow;
-}
+} */
 .node circle:hover {
-	 stroke: #FFF33D;
+	 stroke: white;
 	stroke-width: 6 ;
 }
 
@@ -133,7 +133,7 @@ a.white {
 
   ul .NL::before {
 	  content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
-	  color: orange;
+	  color: #ef8133;
 	  font-size: 3em;
 	  font-weight: bold; /* If you want it to be bold */
 	  display: inline-block; /* Needed to add space between the bullet and the text */
@@ -141,7 +141,7 @@ a.white {
   }
   ul .MN::before {
 	content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
-	  color: green;
+	  color: #66b770;
 	  font-size: 3em;
 	  font-weight: bold; /* If you want it to be bold */
 	  display: inline-block; /* Needed to add space between the bullet and the text */
@@ -149,7 +149,7 @@ a.white {
 }
 ul .TN::before {
 	content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
-	  color: red;
+	  color: #e63e32;
 	  font-size: 3em;
 	  font-weight: bold; /* If you want it to be bold */
 	  display: inline-block; /* Needed to add space between the bullet and the text */
@@ -157,7 +157,7 @@ ul .TN::before {
 }
 ul .SN::before {
 	content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
-	  color: yellow;
+	  color: #f3cc31;
 	  font-size: 3em;
 	  font-weight: bold; /* If you want it to be bold */
 	  display: inline-block; /* Needed to add space between the bullet and the text */
@@ -165,7 +165,7 @@ ul .SN::before {
 }
 ul .VAN::before {
 	content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
-	  color: blue;
+	  color: #494496;
 	  font-size: 3em;
 	  font-weight: bold; /* If you want it to be bold */
 	  display: inline-block; /* Needed to add space between the bullet and the text */
@@ -173,7 +173,7 @@ ul .VAN::before {
 }
 ul .OW::before {
 	content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
-	  color: rgb(68, 66, 66);
+	  color: #a54f9a;
 	  font-size: 3em;
 	  font-weight: bold; /* If you want it to be bold */
 	  display: inline-block; /* Needed to add space between the bullet and the text */
@@ -181,7 +181,7 @@ ul .OW::before {
 }
 ul .ONW::before {
 	content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
-	  color: lightgray;
+	  color: #61c5db;
 	  font-size: 3em;
 	  font-weight: bold; /* If you want it to be bold */
 	  display: inline-block; /* Needed to add space between the bullet and the text */
@@ -1531,4 +1531,11 @@ margin: 3em;
 .titelscatterplot h2{
 text-align: left;
 padding-left: 1em;
+}
+/* 
+.tableauViz {
+	background-color: black;
+} */
+.tableauViz {
+	background-color: black;
 }
