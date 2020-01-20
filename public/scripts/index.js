@@ -26,69 +26,165 @@ function bubbleChart(results) {
 
 // ------------- IK GING NAAR DE POLITIE TOE DATA VOOR UPDATE -----------------
 
-const ikGing = results.filter(item => {
-	if(item.totstand == "Ik ging naar de politie toe"){
-		return item
-	}
-})
+// const ikGing = results.filter(item => {
+// 	if(item.totstand == "Ik ging naar de politie toe"){
+// 		return item
+// 	}
+// })
 
-let newData = d3.nest()
-	.key(d => d.afkomst)
-	.key(d => d.totstand)
-	.rollup(leaves => leaves.length)
-	.entries(ikGing)
+// let newDataRaw = d3.nest()
+// 	.key(d => d.afkomst)
+// 	//.key(d => d.totstand)
+// 	.rollup(leaves => leaves.length)
+// 	// .rollup(function(v) { 
+// 	// 	return d3.sum(v, function(d) { return d.totstand; });
+// 	//  })
+// 	.entries(ikGing)
 
-newData = newData.flat()
-//flatten(newData)
-console.log(newData)
+// newDataRaw = newDataRaw.flat()
+// //flatten(newData)
+// //console.log(newData)
+// let newDataRawTemp = JSON.stringify(newDataRaw);
+// newData = {"children": JSON.parse(newDataRawTemp)}
+// // console.log(dataset)	
 
-// ------------- POLITIE KWAM NAAR MIJ TOE DATA VOOR UPDATE -----------------
+// // ------------- POLITIE KWAM NAAR MIJ TOE DATA VOOR UPDATE -----------------
 
-const naarMij = results.filter(item => {
-	if(item.totstand == "De politie kwam naar mij toe"){
-		return item
-	}
-})
- //console.log('Naar mij', popoNaarMij)
- let newData2 = d3.nest()
-	.key(d => d.afkomst)
-	.key(d => d.totstand)
-	.rollup(leaves => leaves.length)
-	.entries(naarMij)
+// const naarMij = results.filter(item => {
+// 	if(item.totstand == "De politie kwam naar mij toe"){
+// 		return item
+// 	}
+// })
+//  //console.log('Naar mij', popoNaarMij)
+//  let newDataRaw2 = d3.nest()
+// 	.key(d => d.afkomst)
+// 	//.key(d => d.totstand)
+// 	.rollup(leaves => leaves.length)
+// 	.entries(naarMij)
 
-newData2 = newData2.flat()
+// newDataRaw2 = newDataRaw2.flat()
+// let newDataRawTemp2 = JSON.stringify(newDataRaw2);
+// newData2 = {"children": JSON.parse(newDataRawTemp2)}
+// console.log(newData2)
 
-console.log(newData2)
 
 // ------------- WEGHALEN VAN 99999 WAARDES EN TRANSFORMEREN VAN DATA VOOR CONTACT MET POLITIE -----------------
-	function remove99999(data){
-		data.forEach(data => {
-			for (let key in data) {
-				if (data[key] == '99999' || data[key] == 'Onbekend' || data[key] == '#NULL!' || data[key] == undefined) {
-				delete data[key];
+	function removeInvalidRecords(dataset){
+
+			var dataset_clean = [];
+			var total = 0
+	
+			for(var i = 0; i < dataset.length; i++) {
+				var obj = dataset[i];
+				if (obj.freqcontact !='99999' && obj.afkomst !='Onbekend' && obj.afkomst !='#NULL!' && obj.afkomst != undefined) {
+	
+					dataset_clean.push( JSON.parse(JSON.stringify(dataset[i])) );
+					//total = total + obj.freqcontact;
 				}
 			}
-		});
-		return data;
-	}
-
+				
+			return dataset_clean;
+		}
 	
-	data = remove99999(results);
+	//console.log("Ruwe Dataset: ",results)
+ 	data = removeInvalidRecords(results);
+	 //console.log("Clean Dataset",data);
+
+	 const ikGing = data.filter(item => {
+		if(item.totstand == "Ik ging naar de politie toe"){
+			return item
+		}
+	})
+	
+	let newDataRaw = d3.nest()
+		.key(d => d.afkomst)
+		//.key(d => d.totstand)
+		.rollup(leaves => leaves.length)
+		// .rollup(function(v) { 
+		// 	return d3.sum(v, function(d) { return d.totstand; });
+		//  })
+		.entries(ikGing)
+	
+	newDataRaw = newDataRaw.flat()
+	//flatten(newData)
+	//console.log(newData)
+	// var total2 = newDataRaw.reduce(function (accumulator, currentValue) {return accumulator + currentValue.value}, 0);
+	// console.log("total 2 :", total2);
+
+
+	// function convertValuesToPercentages(newDataRaw){
+	// 	for(var i = 0; i < newDataRaw.length; i++) {
+    // 		var obj3 = newDataRaw[i];
+    // 		newDataRaw[i].value = Math.round((obj3.value / total) * 100,0);
+	// 	}
+	// 	return newDataRaw
+	// }
+
+	// var data2 = convertValuesToPercentages(newDataRaw);
+	// console.log("Dataset in % : ", data2)
+	
+	let newDataRawTemp = JSON.stringify(newDataRaw);
+	newData = {"children": JSON.parse(newDataRawTemp)}
+	// console.log(dataset)	
+	
+	// ------------- POLITIE KWAM NAAR MIJ TOE DATA VOOR UPDATE -----------------
+	
+	const naarMij = data.filter(item => {
+		if(item.totstand == "De politie kwam naar mij toe"){
+			return item
+		}
+	})
+	 //console.log('Naar mij', popoNaarMij)
+	 let newDataRaw2 = d3.nest()
+		.key(d => d.afkomst)
+		//.key(d => d.totstand)
+		.rollup(leaves => leaves.length)
+		.entries(naarMij)
+	
+	newDataRaw2 = newDataRaw2.flat()
+	let newDataRawTemp2 = JSON.stringify(newDataRaw2);
+	newData2 = {"children": JSON.parse(newDataRawTemp2)}
+	console.log(newData2)
 
 	//Object.keys(data).forEach(key => data[key] === undefined ? delete data[key] : {});
 
-		function transformData(data){
+	function rollupRecordsByCountry(data){
 			let transformed =  d3.nest()
-				  .key(d => d.afkomst)
-				// .rollup(function(v) { 
-				// 		return d3.sum(v, function(d) { return d.freqcontact; });
-				// 	 })
-				.rollup(leaves => leaves.length)
+				.key(d => d.afkomst)				
+				//.rollup(function(v) { 
+				//	return d3.sum(v, v.freqcontact);
+				//})
+				.rollup(function(v) { 
+						return d3.sum(v, function(d) { return d.freqcontact; });
+					 })
+				//.rollup(leaves => leaves.length)				
 				.entries(data)
 			return transformed
-		}
+	}
 
-		data = transformData(data)
+	data = rollupRecordsByCountry(data)
+	console.log("Dataset with sums : ", data)
+
+	var total = data.reduce(function (accumulator, currentValue) {return accumulator + currentValue.value}, 0);
+	console.log("total :", total);
+
+
+	function convertValuesToPercentages(data){
+		for(var i = 0; i < data.length; i++) {
+    		var obj2 = data[i];
+    		data[i].value = Math.round((obj2.value / total) * 100,0);
+		}
+		return data
+	}
+
+	var data = convertValuesToPercentages(data);
+	console.log("Dataset in % : ", data)
+
+	//for(var i = 0; i < data.length; i++) {
+	//	var obj2 = data[i];
+	//	data[i].value = (obj2.value / total) * 100;
+	//}
+
 
 		// transformed.forEach(afkomst => {
 		// 	// console.log(land.value.rapportCijfersBenaderd)
@@ -102,11 +198,22 @@ console.log(newData2)
 		//   return transformed
 		// }
 
-		// console.log("transformed: ", data)
+	
 
 		let datasetSub = JSON.stringify(data);
 		dataset = {"children": JSON.parse(datasetSub)}
 		// console.log(dataset)	
+
+function setFontSizeLegenda(country, direction){
+	//alert(country)
+	if(direction =='ON'){
+		document.getElementById(country).style.color = "white";
+	} else {
+		document.getElementById(country).style.color = "grey";
+	}
+	return
+}
+
 
 // -------------------- BEGIN VAN BUBBLE CHART ----------------------------
 		var diameter = 600;
@@ -118,13 +225,15 @@ console.log(newData2)
 		var bubble = d3.pack(dataset)
 		.size([diameter, diameter])
 		.padding(1.5);
+		//console.log(dataset)
 
-		var bubble2 = d3.pack(newData.map(d => d.values))
+		//var bubble2 = d3.pack(newData.map(d => d.values))
+		var bubble2 = d3.pack(newData)
 		.size([diameter, diameter])
 		.padding(1.5);
 		console.log('23', newData)
 
-		var bubble3 = d3.pack(newData2.map(d => d.values))
+		var bubble3 = d3.pack(newData2)
 		.size([diameter, diameter])
 		.padding(1.5);
 		console.log('23', newData2)
@@ -145,14 +254,15 @@ console.log(newData2)
 
 		var nodes = d3.hierarchy(dataset)
 		.sum(function(d) { return Math.sqrt(d.value); });
+		console.log('nodes :', dataset)
 
-		var nodes2 = d3.hierarchy(newData)
-		.sum(function(d) { return Math.sqrt(d.value); });
-		console.log('nodes2', nodes2)
+		// var nodes2 = d3.hierarchy(newData)
+		// .sum(function(d) { return Math.sqrt(d.value); });
+		// console.log('nodes2 :', newData)
 
 		var nodes3 = d3.hierarchy(newData2)
 		.sum(function(d) { return Math.sqrt(d.value); });
-		console.log('nodes3', nodes3)
+		console.log('nodes3 :', newData2)
 
 		var node = svg.selectAll(".node")
 		.data(bubble(nodes).leaves())
@@ -168,13 +278,16 @@ console.log(newData2)
 				.style("opacity", .9);
 			div.html(d.data.key + "<br/>" + d.data.value)
 				.style("left", (d3.event.pageX) + "px")
-				.style("top", (d3.event.pageY - 28) + "px")
-			})
+				.style("top", (d3.event.pageY - 28) + "px");
+			setFontSizeLegenda(d.data.key,'ON');
+		})
+			
 		.on("mouseout", function(d) {
 			div.transition()
 				.duration(500)
 				.style("opacity", 0);
-			});
+			setFontSizeLegenda(d.data.key,'OUT');
+		});
 
 		node.append("title")
 		.text(function(d) {
@@ -187,11 +300,8 @@ console.log(newData2)
 		.attr("r", function(d) {
 			return d.r ;
 		})
-		// .style("fill", function(d) {
-		// 	return color(Math.random());
-		// });
 		.style("fill", function(d){
-			console.log(d.data.key);
+			//console.log(d.data.key);
 			if (d.data.key == "Nederlands"){
 			  return "#ef8133"
 			} else if (d.data.key == "Marokkaans"){
@@ -220,7 +330,7 @@ console.log(newData2)
 		.attr("dy", ".3em")
 		.style("text-anchor", "middle")
 		.text(function(d) {
-			return d.data.value;
+			return d.data.value + "% ";
 			//return d.data.key.substring(0, d.r ) + ": " + d.data.value;
 		});
 
@@ -228,25 +338,44 @@ console.log(newData2)
 		.style("height", diameter + "px");
 
 		node.exit().remove()
-
 // ------------- UPDATE FUNCTIE IN BUBBLE CHART -----------------
 	function update(){
 
+		var nodes2 = d3.hierarchy(newData)
+		.sum(function(d) { return Math.sqrt(d.value); });
+		console.log('nodes2 :', newData)
+
 			node
+			.selectAll('node')
 			.data(bubble2(nodes2).leaves())
+			.enter()
 			.transition(animation)
 			.attr("r", function(d) {
-				console.log( d)
+				return d.r ;
 						})
 			.text(function(d) {
-				console.log(d.data.flat())
-			return d.data.value;
+				//console.log(d.data)
+				//console.log(d.data.value)
+			return d.data;
+			});
+
+			node
+			.data(bubble3(nodes3).leaves())
+			.transition(animation)
+			.attr("r", function(d) {
+			//	console.log( d)
+						})
+			.text(function(d) {
+				//console.log(d.data)
+				console.log(d.data)
+			return d.data;
+			
 			});
 		}
 
-		let buttonAlgemeen = d3.select('body').append('button')
-		let button = d3.select('body').append('button')
-		let button2 = d3.select('body').append('button')
+		let buttonAlgemeen = d3.select('.buttons').append('button')
+		let button = d3.select('.buttons').append('button')
+		let button2 = d3.select('.buttons').append('button')
 
 		buttonAlgemeen
 		.text('Algemeen contact')
@@ -678,3 +807,169 @@ console.log(newData2)
 // //     .call(yAxis);
 // // }
 // 	}
+
+// //-------SCATTERPLOT DOOR LAURENS-------
+// const width = 600
+// const height = 600
+
+// let svg = d3.select("#chart3")
+//   .append("svg")
+
+// //const svg = d3.select('svg')
+// //console.log(svg)
+// svg.attr('width', width + "px")
+// svg.attr('height', height + "px")
+// const x = d3.scaleLinear()
+// 	.domain([0, 10])
+// 	.range([0, width]);
+// const y = d3.scaleLinear()
+// 	.domain(["Ik ging naar de politie", "De politie kwam naar mij"])         // This is what is written on the Axis: from 0 to 100
+// 	.range([ height, 0]);
+
+// const color = d3.scaleOrdinal(d3.schemeDark2)
+
+// //d3.json(dataSource)
+// let dataSource = fetch('../convertcsvdata.json') 
+// 	.then(data => data.json())
+// 	.then(json => {
+//   	console.log("starting with data length", json.length)
+//   	const filtered = json.filter(item => checkInvalid(item))
+//     console.log("data length after filtering 99999", filtered.length)
+//     const data = filtered.map(result => {
+//       return {
+//         id: result.response_ID,
+//         afkomst: result.Herkomst_def,
+//         totstand: result.Totstand == "De politie kwam naar mij toe" ? 1 : 0,
+//         contact: result.Contact_gehad,
+//         freqcontact: result.freqcontact,
+//         rapportcijfer: result.rapportcijfer
+//     	}
+// 		})
+//     const transformed = transformData(data)
+//    // console.log(transformed)
+
+//   	addScales(transformed)
+//   	drawScatterPlot(transformed)
+//   })
+
+// function transformData(data){
+// 	const transformed = d3.nest()
+//   	//first group all respondents by afkomst
+//     .key(d => d.afkomst)
+//     .rollup(d => {
+//       return {
+//       	amount: d.length,
+//         benaderdTotaal: d.filter(respondent => respondent.totstand == 1).length,
+//         nietBenaderdTotaal: d.filter(respondent => respondent.totstand == 0).length,
+// 				//Create an array of 0s for each rapportcijfer percentage we will fill in later
+//         rapportCijfersBenaderd: [0,0,0,0,0,0,0,0,0,0],
+//         rapportCijfersNietBenaderd: [0,0,0,0,0,0,0,0,0,0],
+//       }
+//   	})
+//   	.entries(data)
+//   //For each respondent, check if they approached the police and increment the amount of respondents that
+//   // had a certain rapportcijfer
+//   data.forEach(respondent => {
+//   	const land = transformed.find(afkomst => afkomst.key == respondent.afkomst)
+//     //console.log(land)
+//     if (respondent.totstand == 1){
+//       land.value.rapportCijfersBenaderd[respondent.rapportcijfer - 1] ++
+//     } else if (respondent.totstand == 0){
+//       land.value.rapportCijfersNietBenaderd[respondent.rapportcijfer - 1] ++
+//     }		
+//   })
+//   //For each country, convert the amount of people that had a certain rapportcijfer to a percentage
+//   transformed.forEach(land => {
+//     // console.log(land.value.rapportCijfersBenaderd)
+//     land.value.rapportCijfersBenaderd.forEach( (cijfer, index, array) => {
+//       array[index] = Math.round((cijfer / land.value.benaderdTotaal) * 100)
+//     })
+//     land.value.rapportCijfersNietBenaderd.forEach( (cijfer, index, array) => {
+//       array[index] = Math.round((cijfer / land.value.nietBenaderdTotaal) * 100)
+//     })
+//   })
+//   return transformed
+// }
+
+// //This function removes any items that have 99999 as an answer to any of the questions we're using for this viz!
+// function checkInvalid(item){
+//   const importantKeys = ["Herkomst_def", "Totstand", "Contact_gehad", "freqcontact" ,"rapportcijfer"]
+// 	for (let key of importantKeys) {
+//   	if (item[key] == '99999') {
+//       // console.log("removing invalid item because", key)
+//     	return false
+//     }
+//   }
+//   return true
+// }
+// function drawScatterPlot(data){  
+//   data.forEach( (country, index) => {
+//     //console.log(country)
+//     //Add all the circles for approached by police
+//   	let circlesTop = svg.selectAll(".top")
+//       .data(country.value.rapportCijfersBenaderd)
+//       .enter()
+//       .append("circle")
+//         .attr("class", country)
+//         .attr("r", d => circleSize(d))
+//         .attr("cx", (d, i) => x(i + 1))
+//         .attr("cy", (10 * index) + 100)
+// 			.attr("fill", color(index))
+// 		// .on("mouseover", function(d) {
+// 		// 	div.transition()
+// 		// 		.duration(200)
+// 		// 		.style("opacity", .9);
+// 		// 	div.html(d.data.key + "<br/>" + d.data.value)
+// 		// 		.style("left", (d3.event.pageX) + "px")
+// 		// 		.style("top", (d3.event.pageY - 28) + "px")
+// 		// 	})
+// 		// .on("mouseout", function(d) {
+// 		// 	div.transition()
+// 		// 		.duration(500)
+// 		// 		.style("opacity", 0);
+// 		// 	});
+    
+//     //Add all the circles for approached police themselves
+//     let circlesBottom = svg.selectAll(".bottom")
+//       .data(country.value.rapportCijfersNietBenaderd)
+//       .enter()
+//       .append("circle")
+//         .attr("class", country)
+//         .attr("r", d => circleSize(d))
+//         .attr("cx", (d, i) => x(i + 1))
+//         .attr("cy", (10 * index) + 300)
+//     		.attr("fill", color(index))
+//   })
+// }
+
+// function addScales(data){
+//  	x.domain([1,10])	//From lowest to highest cijfer
+//   	.range([0, width])
+//   y.domain([0,255])
+//   	//By putting height first, we're fixing the inverse effect of y
+//   	.range([height,0])
+// }
+
+// //Determine the circlesize. I've tweaked this by hand  but there are nicer ways
+// function circleSize(item){
+// 	if (item == 0){
+//    return 0.5
+//   }
+//   else if (item < 5){
+//    return 2 
+//   }
+//   else if (item < 15){
+//    return 3 
+//   }
+//   else if (item < 25){
+//    return 4 
+//   }
+//   else if (item < 35){
+//    return 5 
+//   }
+//   else if (item < 45){
+//    return 6 
+//   }
+//   else return 100
+// }
+// //}());
