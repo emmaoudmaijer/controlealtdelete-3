@@ -1,6 +1,6 @@
 
 function dataOmzet() {
-	let result = fetch('./public/convertcsvdata.json') 
+	let result = fetch('/public/convertcsvdata.json') 
 		.then(data => data.json())
 		.then(json => {
 			// console.log(json)
