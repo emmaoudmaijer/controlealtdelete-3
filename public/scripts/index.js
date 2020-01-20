@@ -1,6 +1,6 @@
 
 function dataOmzet() {
-	let result = fetch('../convertcsvdata.json') 
+	let result = fetch('https://oege.ie.hva.nl/~westere6/controlealtdelete/convertcsvdata.json') 
 		.then(data => data.json())
 		.then(json => {
 			// console.log(json)
