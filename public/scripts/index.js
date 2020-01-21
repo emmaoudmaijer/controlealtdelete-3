@@ -2,7 +2,6 @@ function dataOmzet() {
 	let result = fetch("../../convertcsvdata.json")
 		.then(data => data.json())
 		.then(json => {
-			// console.log(json)
 			const newResults = json.map(result => {
 				return {
 					id: result.response_ID,
@@ -166,9 +165,9 @@ function bubbleChart(results) {
 		});
 	console.log('nodes :', dataset)
 
-	// var nodes2 = d3.hierarchy(newData)
-	// .sum(function(d) { return Math.sqrt(d.value); });
-	// console.log('nodes2 :', newData)
+	var nodes2 = d3.hierarchy(newData)
+	.sum(function(d) { return Math.sqrt(d.value); });
+	console.log('nodes2 :', newData)
 
 	var nodes3 = d3.hierarchy(newData2)
 		.sum(function (d) {
@@ -215,19 +214,19 @@ function bubbleChart(results) {
 		})
 		.style("fill", function (d) {
 			if (d.data.key == "Nederlands") {
-				return "#ef8133"
+				return "#fd8b00"
 			} else if (d.data.key == "Marokkaans") {
-				return "#66b770"
+				return "#36e77f"
 			} else if (d.data.key == "Surinaams") {
-				return "#f3cc31"
+				return "#f2ca00"
 			} else if (d.data.key == "Turks") {
-				return "#e63e32"
+				return "#f30000"
 			} else if (d.data.key == "Voormalig Nederlandse Antillen") {
-				return "#494496"
+				return "#4a38f4"
 			} else if (d.data.key == "Westers") {
-				return "#a54f9a"
+				return "#df00ff"
 			} else {
-				return "#61c5db"
+				return "#30f5ff"
 			}
 		});
 
@@ -247,46 +246,32 @@ function bubbleChart(results) {
 
 	// ------------- UPDATE FUNCTIE IN BUBBLE CHART -----------------
 	function update() {
-
-		var nodes2 = d3.hierarchy(newData)
-			.sum(function (d) {
-				return Math.sqrt(d.value);
-			});
-		console.log('nodes2 :', newData)
+		//var circles = svg.selectAll('dataCircle')
+		//d3.select('.chart').remove()
+		// console.log('nodes2 :', newData)
 		//console.log(node)
-		var nodes = node
-			.selectAll('node')
-		console.log("nodes", nodes)
-		var circles = svg.selectAll('dataCircle')
+		// var nodes = node
+		// 	.selectAll('.nodes')
+		// console.log("nodes", nodes)
 		// var texts = nodes.selectAll('text')
+		//console.log("circc", circles)
+		node
+		.data(bubble2(nodes2).leaves())
+		//.enter()
+		//.attr("class", "node")
+		.transition(animation)
+		.attr("r", function(d) {
+			console.log(d.data)
+					})
 
-		console.log("circc", circles)
-
-		circles
-			.data(newData)
-			.transition(animation)
-			.attr("r", function (d) {
-				return d.value;
-			})
-
-		// .enter()
-
-
-		// node.exit().remove(); //remove unneeded circles
-		// node.enter().append("circle")
-		// 	.attr("r", 0); //create any new circles needed
-		// node
-		// .data(bubble3(nodes3).leaves())
-		// .transition(animation)
-		// .attr("r", function(d) {
-		// //	console.log( d)
-		// 			})
-		// .text(function(d) {
-		// 	//console.log(d.data)
-		// 	console.log(d.data)
-		// return d.data;
-
-		// });
+			// node
+			// .data(bubble2(newData))
+			// .enter()
+			// .transition(animation)
+			// .attr("r", function (d) {
+			// 	console.log(d.data)
+			// 	return d.value;
+			// })
 	}
 
 	let buttonAlgemeen = d3.select('.buttons').append('button')

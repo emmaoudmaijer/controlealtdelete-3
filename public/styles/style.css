@@ -6,6 +6,11 @@ body {
 	height: 100%;
 }
 
+.break {
+	background-color: #FFF33D;
+	height: 2em;
+	width: 15em;
+}
 h1 {
 	color: #FFF33D;
 }
@@ -129,72 +134,72 @@ a.white {
 
 .legenda {
 	list-style: none; /* Remove default bullets */
-	 line-height: 1;
+	 line-height: 0.7;
   }
 
   ul .NL::before {
 	  content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
 	  color: #ef8133;
-	  font-size: 3em;
+	  font-size: 5em;
 	  font-weight: bold; /* If you want it to be bold */
 	  display: inline-block; /* Needed to add space between the bullet and the text */
 	  width: 0.5em; /*Also needed for space (tweak if needed)*/
-	  vertical-align: -0.15em;
+	  vertical-align: -0.30em;
   }
 
   ul .MN::before {
 	content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
 	  color: #66b770;
-	  font-size: 3em;
+	  font-size: 5em;
 	  font-weight: bold; /* If you want it to be bold */
 	  display: inline-block; /* Needed to add space between the bullet and the text */
 	  width: 0.5em; /*Also needed for space (tweak if needed)*/
-	  vertical-align: -0.15em;
+	  vertical-align: -0.30em;
 }
 ul .TN::before {
 	content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
 	  color: #e63e32;
-	  font-size: 3em;
+	  font-size: 5em;
 	  font-weight: bold; /* If you want it to be bold */
 	  display: inline-block; /* Needed to add space between the bullet and the text */
 	  width: 0.5em; /*Also needed for space (tweak if needed)*/
-	  vertical-align: -0.15em;
+	  vertical-align: -0.30em;
 }
 ul .SN::before {
 	content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
 	  color: #f3cc31;
-	  font-size: 3em;
+	  font-size: 5em;
 	  font-weight: bold; /* If you want it to be bold */
 	  display: inline-block; /* Needed to add space between the bullet and the text */
 	  width: 0.5em; /*Also needed for space (tweak if needed)*/
-	  vertical-align: -0.15em;
+	  vertical-align: -0.30em;
 }
 ul .VAN::before {
 	content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
 	  color: #494496;
-	  font-size: 3em;
+	  font-size: 5em;
 	  font-weight: bold; /* If you want it to be bold */
 	  display: inline-block; /* Needed to add space between the bullet and the text */
 	  width: 0.5em; /*Also needed for space (tweak if needed)*/
-	  vertical-align: -0.15em;
+	  vertical-align: -0.30em;
 }
 ul .OW::before {
 	content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
 	  color: #a54f9a;
-	  font-size: 3em;
+	  font-size: 5em;
 	  font-weight: bold; /* If you want it to be bold */
 	  display: inline-block; /* Needed to add space between the bullet and the text */
 	  width: 0.5em; /*Also needed for space (tweak if needed)*/
-	  vertical-align: -0.15em;
+	  vertical-align: -0.30em;
 }
 ul .ONW::before {
 	content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
 	  color: #61c5db;
-	  font-size: 3em;
+	  font-size: 5em;
 	  font-weight: bold; /* If you want it to be bold */
 	  display: inline-block; /* Needed to add space between the bullet and the text */
 	  width: 0.5em; /*Also needed for space (tweak if needed)*/
-	  vertical-align: -0.15em;
+	  vertical-align: -0.30em;
 }
   
 .btn-solid-reg {
