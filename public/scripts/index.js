@@ -1,178 +1,115 @@
-
 function dataOmzet() {
-	let result = fetch('https://oege.ie.hva.nl/~westere6/controlealtdelete/convertcsvdata.json') 
+	let result = fetch("convertcsvdata.json")
 		.then(data => data.json())
 		.then(json => {
 			// console.log(json)
- 			const newResults = json.map(result => {
-			return {
+			const newResults = json.map(result => {
+				return {
 					id: result.response_ID,
 					afkomst: result.Herkomst_def,
 					totstand: result.Totstand,
 					contact: result.Contact_gehad,
 					freqcontact: result.freqcontact,
 					cijfer: result.rapportcijfer
-					}
+				}
+			})
+			bubbleChart(newResults)
+			//bubbleChart2(newResults)
+			//chart3(newResults)
 		})
-		bubbleChart(newResults)
-		//bubbleChart2(newResults)
-		//chart3(newResults)
-})
 }
-dataOmzet() 
+dataOmzet()
 
 function bubbleChart(results) {
 
+	// ------------- WEGHALEN VAN 99999 WAARDES EN TRANSFORMEREN VAN DATA VOOR CONTACT MET POLITIE -----------------
+	function removeInvalidRecords(dataset) {
 
-// ------------- IK GING NAAR DE POLITIE TOE DATA VOOR UPDATE -----------------
+		var dataset_clean = [];
+		var total = 0
 
-// const ikGing = results.filter(item => {
-// 	if(item.totstand == "Ik ging naar de politie toe"){
-// 		return item
-// 	}
-// })
+		for (var i = 0; i < dataset.length; i++) {
+			var obj = dataset[i];
+			if (obj.freqcontact != '99999' && obj.afkomst != 'Onbekend' && obj.afkomst != '#NULL!' && obj.afkomst != undefined) {
 
-// let newDataRaw = d3.nest()
-// 	.key(d => d.afkomst)
-// 	//.key(d => d.totstand)
-// 	.rollup(leaves => leaves.length)
-// 	// .rollup(function(v) { 
-// 	// 	return d3.sum(v, function(d) { return d.totstand; });
-// 	//  })
-// 	.entries(ikGing)
-
-// newDataRaw = newDataRaw.flat()
-// //flatten(newData)
-// //console.log(newData)
-// let newDataRawTemp = JSON.stringify(newDataRaw);
-// newData = {"children": JSON.parse(newDataRawTemp)}
-// // console.log(dataset)	
-
-// // ------------- POLITIE KWAM NAAR MIJ TOE DATA VOOR UPDATE -----------------
-
-// const naarMij = results.filter(item => {
-// 	if(item.totstand == "De politie kwam naar mij toe"){
-// 		return item
-// 	}
-// })
-//  //console.log('Naar mij', popoNaarMij)
-//  let newDataRaw2 = d3.nest()
-// 	.key(d => d.afkomst)
-// 	//.key(d => d.totstand)
-// 	.rollup(leaves => leaves.length)
-// 	.entries(naarMij)
-
-// newDataRaw2 = newDataRaw2.flat()
-// let newDataRawTemp2 = JSON.stringify(newDataRaw2);
-// newData2 = {"children": JSON.parse(newDataRawTemp2)}
-// console.log(newData2)
-
-
-// ------------- WEGHALEN VAN 99999 WAARDES EN TRANSFORMEREN VAN DATA VOOR CONTACT MET POLITIE -----------------
-	function removeInvalidRecords(dataset){
-
-			var dataset_clean = [];
-			var total = 0
-	
-			for(var i = 0; i < dataset.length; i++) {
-				var obj = dataset[i];
-				if (obj.freqcontact !='99999' && obj.afkomst !='Onbekend' && obj.afkomst !='#NULL!' && obj.afkomst != undefined) {
-	
-					dataset_clean.push( JSON.parse(JSON.stringify(dataset[i])) );
-					//total = total + obj.freqcontact;
-				}
+				dataset_clean.push(JSON.parse(JSON.stringify(dataset[i])));
+				//total = total + obj.freqcontact;
 			}
-				
-			return dataset_clean;
 		}
-	
-	//console.log("Ruwe Dataset: ",results)
- 	data = removeInvalidRecords(results);
-	 //console.log("Clean Dataset",data);
 
-	 const ikGing = data.filter(item => {
-		if(item.totstand == "Ik ging naar de politie toe"){
+		return dataset_clean;
+	}
+
+	//console.log("Ruwe Dataset: ",results)
+	data = removeInvalidRecords(results);
+	//console.log("Clean Dataset",data);
+
+	// ------------- IK GING NAAR DE POLITIE TOE DATA VOOR UPDATE -----------------
+	const ikGing = data.filter(item => {
+		if (item.totstand == "Ik ging naar de politie toe") {
 			return item
 		}
 	})
-	
+
 	let newDataRaw = d3.nest()
 		.key(d => d.afkomst)
-		//.key(d => d.totstand)
 		.rollup(leaves => leaves.length)
-		// .rollup(function(v) { 
-		// 	return d3.sum(v, function(d) { return d.totstand; });
-		//  })
 		.entries(ikGing)
-	
+
 	newDataRaw = newDataRaw.flat()
-	//flatten(newData)
-	//console.log(newData)
-	// var total2 = newDataRaw.reduce(function (accumulator, currentValue) {return accumulator + currentValue.value}, 0);
-	// console.log("total 2 :", total2);
 
-
-	// function convertValuesToPercentages(newDataRaw){
-	// 	for(var i = 0; i < newDataRaw.length; i++) {
-    // 		var obj3 = newDataRaw[i];
-    // 		newDataRaw[i].value = Math.round((obj3.value / total) * 100,0);
-	// 	}
-	// 	return newDataRaw
-	// }
-
-	// var data2 = convertValuesToPercentages(newDataRaw);
-	// console.log("Dataset in % : ", data2)
-	
 	let newDataRawTemp = JSON.stringify(newDataRaw);
-	newData = {"children": JSON.parse(newDataRawTemp)}
+	newData = {
+		"children": JSON.parse(newDataRawTemp)
+	}
 	// console.log(dataset)	
-	
+
 	// ------------- POLITIE KWAM NAAR MIJ TOE DATA VOOR UPDATE -----------------
-	
+
 	const naarMij = data.filter(item => {
-		if(item.totstand == "De politie kwam naar mij toe"){
+		if (item.totstand == "De politie kwam naar mij toe") {
 			return item
 		}
 	})
-	 //console.log('Naar mij', popoNaarMij)
-	 let newDataRaw2 = d3.nest()
+	//console.log('Naar mij', naarMij)
+	let newDataRaw2 = d3.nest()
 		.key(d => d.afkomst)
-		//.key(d => d.totstand)
 		.rollup(leaves => leaves.length)
 		.entries(naarMij)
-	
+
 	newDataRaw2 = newDataRaw2.flat()
 	let newDataRawTemp2 = JSON.stringify(newDataRaw2);
-	newData2 = {"children": JSON.parse(newDataRawTemp2)}
-	console.log(newData2)
+	newData2 = {
+		"children": JSON.parse(newDataRawTemp2)
+	}
+	console.log(newData2);
 
-	//Object.keys(data).forEach(key => data[key] === undefined ? delete data[key] : {});
-
-	function rollupRecordsByCountry(data){
-			let transformed =  d3.nest()
-				.key(d => d.afkomst)				
-				//.rollup(function(v) { 
-				//	return d3.sum(v, v.freqcontact);
-				//})
-				.rollup(function(v) { 
-						return d3.sum(v, function(d) { return d.freqcontact; });
-					 })
-				//.rollup(leaves => leaves.length)				
-				.entries(data)
-			return transformed
+	function rollupRecordsByCountry(data) {
+		let transformed = d3.nest()
+			.key(d => d.afkomst)
+			.rollup(function (v) {
+				return d3.sum(v, function (d) {
+					return d.freqcontact;
+				});
+			})
+			//.rollup(leaves => leaves.length)				
+			.entries(data)
+		return transformed
 	}
 
 	data = rollupRecordsByCountry(data)
 	console.log("Dataset with sums : ", data)
 
-	var total = data.reduce(function (accumulator, currentValue) {return accumulator + currentValue.value}, 0);
+	var total = data.reduce(function (accumulator, currentValue) {
+		return accumulator + currentValue.value
+	}, 0);
 	console.log("total :", total);
 
 
-	function convertValuesToPercentages(data){
-		for(var i = 0; i < data.length; i++) {
-    		var obj2 = data[i];
-    		data[i].value = Math.round((obj2.value / total) * 100,0);
+	function convertValuesToPercentages(data) {
+		for (var i = 0; i < data.length; i++) {
+			var obj2 = data[i];
+			data[i].value = Math.round((obj2.value / total) * 100, 0);
 		}
 		return data
 	}
@@ -180,416 +117,237 @@ function bubbleChart(results) {
 	var data = convertValuesToPercentages(data);
 	console.log("Dataset in % : ", data)
 
-	//for(var i = 0; i < data.length; i++) {
-	//	var obj2 = data[i];
-	//	data[i].value = (obj2.value / total) * 100;
-	//}
-
-
-		// transformed.forEach(afkomst => {
-		// 	// console.log(land.value.rapportCijfersBenaderd)
-		// 	afkomst.value.rapportCijfersBenaderd.forEach( (cijfer, index, array) => {
-		// 	  array[index] = Math.round((cijfer / land.value.benaderdTotaal) * 100)
-		// 	})
-		// 	afkomst.value.rapportCijfersNietBenaderd.forEach( (cijfer, index, array) => {
-		// 	  array[index] = Math.round((cijfer / land.value.nietBenaderdTotaal) * 100)
-		// 	})
-		//   })
-		//   return transformed
-		// }
-
-	
-
-		let datasetSub = JSON.stringify(data);
-		dataset = {"children": JSON.parse(datasetSub)}
-		// console.log(dataset)	
-
-function setFontSizeLegenda(country, direction){
-	//alert(country)
-	if(direction =='ON'){
-		document.getElementById(country).style.color = "white";
-	} else {
-		document.getElementById(country).style.color = "grey";
+	let datasetSub = JSON.stringify(data);
+	dataset = {
+		"children": JSON.parse(datasetSub)
 	}
-	return
-}
+	// console.log(dataset)	
 
+	function setFontSizeLegenda(country, direction) {
+		if (direction == 'ON') {
+			document.getElementById(country).style.color = "white";
+		} else {
+			document.getElementById(country).style.color = "grey";
+		}
+		return
+	}
 
-// -------------------- BEGIN VAN BUBBLE CHART ----------------------------
-		var diameter = 600;
+	// -------------------- BEGIN VAN BUBBLE CHART ----------------------------
+	var diameter = 600;
 
-		var color = d3.scaleOrdinal(d3.schemeCategory20);
-			
-		color.range(['red', 'yellow', 'green', 'blue', 'orange']);
+	var color = d3.scaleOrdinal(d3.schemeCategory20);
 
-		var bubble = d3.pack(dataset)
+	color.range(['red', 'yellow', 'green', 'blue', 'orange']);
+
+	var bubble = d3.pack(dataset)
 		.size([diameter, diameter])
 		.padding(1.5);
-		//console.log(dataset)
+	//console.log(dataset)
 
-		//var bubble2 = d3.pack(newData.map(d => d.values))
-		var bubble2 = d3.pack(newData)
+	//var bubble2 = d3.pack(newData.map(d => d.values))
+	var bubble2 = d3.pack(newData)
 		.size([diameter, diameter])
 		.padding(1.5);
-		console.log('23', newData)
+	console.log('23', newData)
 
-		var bubble3 = d3.pack(newData2)
+	var bubble3 = d3.pack(newData2)
 		.size([diameter, diameter])
 		.padding(1.5);
-		console.log('23', newData2)
+	console.log('23', newData2)
 
-		var animation = d3.transition()
+	var animation = d3.transition()
 		.duration(700)
 		.ease(d3.easePoly);
 
-		var svg = d3.select(".chart")
+	var svg = d3.select(".chart")
 		.append("svg")
 		.attr("width", diameter)
 		.attr("height", diameter)
 		.attr("class", "bubble");
 
-		var div = d3.select("body").append("div")
+	var div = d3.select("body").append("div")
 		.attr("class", "tooltip")
-		.style("opacity", 0);	
+		.style("opacity", 0);
 
-		var nodes = d3.hierarchy(dataset)
-		.sum(function(d) { return Math.sqrt(d.value); });
-		console.log('nodes :', dataset)
+	var nodes = d3.hierarchy(dataset)
+		.sum(function (d) {
+			return Math.sqrt(d.value);
+		});
+	console.log('nodes :', dataset)
 
-		// var nodes2 = d3.hierarchy(newData)
-		// .sum(function(d) { return Math.sqrt(d.value); });
-		// console.log('nodes2 :', newData)
+	// var nodes2 = d3.hierarchy(newData)
+	// .sum(function(d) { return Math.sqrt(d.value); });
+	// console.log('nodes2 :', newData)
 
-		var nodes3 = d3.hierarchy(newData2)
-		.sum(function(d) { return Math.sqrt(d.value); });
-		console.log('nodes3 :', newData2)
+	var nodes3 = d3.hierarchy(newData2)
+		.sum(function (d) {
+			return Math.sqrt(d.value);
+		});
+	console.log('nodes3 :', newData2)
 
-		var node = svg.selectAll(".node")
+	var node = svg.selectAll(".node")
 		.data(bubble(nodes).leaves())
 		.enter()
 		.append("g")
 		.attr("class", "node")
-		.attr("transform", function(d) {
+		.attr("transform", function (d) {
 			return "translate(" + d.x + "," + d.y + ")";
 		})
-		.on("mouseover", function(d) {
+		.on("mouseover", function (d) {
 			div.transition()
 				.duration(200)
 				.style("opacity", .9);
 			div.html(d.data.key + "<br/>" + d.data.value)
 				.style("left", (d3.event.pageX) + "px")
 				.style("top", (d3.event.pageY - 28) + "px");
-			setFontSizeLegenda(d.data.key,'ON');
+			setFontSizeLegenda(d.data.key, 'ON');
 		})
-			
-		.on("mouseout", function(d) {
+
+		.on("mouseout", function (d) {
 			div.transition()
 				.duration(500)
 				.style("opacity", 0);
-			setFontSizeLegenda(d.data.key,'OUT');
+			setFontSizeLegenda(d.data.key, 'OUT');
 		});
 
-		node.append("title")
-		.text(function(d) {
+	node.append("title")
+		.text(function (d) {
 			return d.key + ": " + d.value;
 			//return d.value;	
 		});
 
-		node.append("circle")
+	node.append("circle")
+		.attr("class", "dataCircle")
 		.transition(animation)
-		.attr("r", function(d) {
-			return d.r ;
+		.attr("r", function (d) {
+			return d.r;
 		})
-		.style("fill", function(d){
+		.style("fill", function (d) {
 			//console.log(d.data.key);
-			if (d.data.key == "Nederlands"){
-			  return "#ef8133"
-			} else if (d.data.key == "Marokkaans"){
-			  return "#66b770"
-			} else if (d.data.key == "Surinaams"){
-			  return "#f3cc31"
-			} else if (d.data.key == "Turks"){
+			if (d.data.key == "Nederlands") {
+				return "#ef8133"
+			} else if (d.data.key == "Marokkaans") {
+				return "#66b770"
+			} else if (d.data.key == "Surinaams") {
+				return "#f3cc31"
+			} else if (d.data.key == "Turks") {
 				return "#e63e32"
-			} else if (d.data.key == "Voormalig Nederlandse Antillen"){
+			} else if (d.data.key == "Voormalig Nederlandse Antillen") {
 				return "#494496"
-			} else if (d.data.key == "Westers"){
+			} else if (d.data.key == "Westers") {
 				return "#a54f9a"
 			} else {
-			  return "#61c5db"
+				return "#61c5db"
 			}
-		  });
-
-		// 		var cs = [];
-		// data.forEach(function(d){
-		// 		//if(!cs.contains(d.group)) {
-		// 		//	cs.push(d.group);
-		// 		//}
-		// });
-
-		node.append("text")
-		.attr("dy", ".3em")
-		.style("text-anchor", "middle")
-		.text(function(d) {
-			return d.data.value + "% ";
-			//return d.data.key.substring(0, d.r ) + ": " + d.data.value;
 		});
 
-		d3.select(self.frameElement)
+	node.append("text")
+		.attr("dy", ".3em")
+		.attr("class", "textbubble")
+		.style("text-anchor", "middle")
+		.style("fill", "white")
+		.text(function (d) {
+			return d.data.value + "% ";
+		});
+
+	d3.select(self.frameElement)
 		.style("height", diameter + "px");
 
-		node.exit().remove()
-// ------------- UPDATE FUNCTIE IN BUBBLE CHART -----------------
-	function update(){
+	// node.exit().remove()
+
+	// ------------- UPDATE FUNCTIE IN BUBBLE CHART -----------------
+	function update() {
 
 		var nodes2 = d3.hierarchy(newData)
-		.sum(function(d) { return Math.sqrt(d.value); });
+			.sum(function (d) {
+				return Math.sqrt(d.value);
+			});
 		console.log('nodes2 :', newData)
-
-			node
+		//console.log(node)
+		var nodes = node
 			.selectAll('node')
-			.data(bubble2(nodes2).leaves())
-			.enter()
+		console.log("nodes", nodes)
+		var circles = svg.selectAll('dataCircle')
+		// var texts = nodes.selectAll('text')
+
+		console.log("circc", circles)
+
+		circles
+			.data(newData)
 			.transition(animation)
-			.attr("r", function(d) {
-				return d.r ;
-						})
-			.text(function(d) {
-				//console.log(d.data)
-				//console.log(d.data.value)
-			return d.data;
-			});
+			.attr("r", function (d) {
+				return d.value;
+			})
 
-			node
-			.data(bubble3(nodes3).leaves())
-			.transition(animation)
-			.attr("r", function(d) {
-			//	console.log( d)
-						})
-			.text(function(d) {
-				//console.log(d.data)
-				console.log(d.data)
-			return d.data;
-			
-			});
-		}
+		// .enter()
 
-		let buttonAlgemeen = d3.select('.buttons').append('button')
-		let button = d3.select('.buttons').append('button')
-		let button2 = d3.select('.buttons').append('button')
 
-		buttonAlgemeen
+		node.exit().remove(); //remove unneeded circles
+		node.enter().append("circle")
+			.attr("r", 0); //create any new circles needed
+		// node
+		// .data(bubble3(nodes3).leaves())
+		// .transition(animation)
+		// .attr("r", function(d) {
+		// //	console.log( d)
+		// 			})
+		// .text(function(d) {
+		// 	//console.log(d.data)
+		// 	console.log(d.data)
+		// return d.data;
+
+		// });
+	}
+
+	let buttonAlgemeen = d3.select('.buttons').append('button')
+	let button = d3.select('.buttons').append('button')
+	let button2 = d3.select('.buttons').append('button')
+
+	buttonAlgemeen
 		.text('Algemeen contact')
 		.on('click', update)
 
-		button
+	button
 		.text('Contact door Amsterdammers')
 		.on('click', update)
 
-		button2
+	button2
 		.text('Contact door de politie')
 		.on('click', update)
 
 }
 
-	// function bubbleChart2(results) {
+(function ($) {
+	"use strict";
 
-	// 	function remove99999(data){
-	// 		data.forEach(data => {
-	// 			for (let key in data) {
-	// 				if (data[key] == '99999') {
-	// 				delete data[key];
-	// 				}
-	// 			}
-	// 		});
-	// 		return data;
-	// 	}
-	// 	data = remove99999(results);
-	
-	// 		function transformData(data){
-	// 			let transformed =  d3.nest()
-	// 				  .key(d => d.afkomst)
-	// 				.rollup(function(v) { 
-	// 						return d3.sum(v, function(d) { return d.freqcontact; });
-	// 					 })
-	// 				.entries(data)
-	// 			return transformed
-	// 		}
-	
-	// 		data = transformData(data)
-	
-	// 		console.log("transformed: ", data)
-	
-	// 		let datasetSub = JSON.stringify(data);
-	// 		dataset = {"children": JSON.parse(datasetSub)}
-	// 		console.log(dataset)	
-	
-	
-	// 		var diameter = 600;
-	
-	// 		var color = d3.scaleOrdinal(d3.schemeCategory20);
-	// 		var bubble = d3.pack(dataset)
-	// 		.size([diameter, diameter])
-	// 		.padding(1.5);
-	
-	// 		var svg = d3.select(".chart2")
-	// 		.append("svg")
-	// 		.attr("width", diameter)
-	// 		.attr("height", diameter)
-	// 		.attr("class", "bubble");
-	
-	// 		var div = d3.select("body").append("div")
-	// 		.attr("class", "tooltip")
-	// 		.style("opacity", 0);	
-	
-	// 		var nodes = d3.hierarchy(dataset)
-	// 		.sum(function(d) { return Math.sqrt(d.value); });
-			
-	
-	// 		var node = svg.selectAll(".node")
-	// 		.data(bubble(nodes).leaves())
-	// 		.enter()
-	// 		.filter(function(d){
-	// 			return  !d.children
-	// 		})
-	// 		.append("g")
-	// 		.attr("class", "node")
-	// 		.attr("transform", function(d) {
-	// 			return "translate(" + d.x + "," + d.y + ")";
-	// 		})
-	// 		.on("mouseover", function(d) {
-	// 			console.log(d)
-	// 			div.transition()
-	// 				.duration(200)
-	// 				.style("opacity", .9);
-	// 			div.html(d.data.key + "<br/>" + d.data.value)
-	// 				.style("left", (d3.event.pageX) + "px")
-	// 				.style("top", (d3.event.pageY - 28) + "px")
-	// 			})
-	// 		.on("mouseout", function(d) {
-	// 			div.transition()
-	// 				.duration(500)
-	// 				.style("opacity", 0);
-	// 			});
-	
-	// 		node.append("title")
-	// 		.text(function(d) {
-	// 			return d.key + ": " + d.value;
-	// 		});
-	
-	// 		node.append("circle")
-	// 		.attr("r", function(d) {
-	// 			return (d.r) ;
-	// 		})
-	// 		.style("fill", function(d) {
-	// 			return color(Math.random());
-	// 		});
-	
-	// 		// 		var cs = [];
-	// 		// data.forEach(function(d){
-	// 		// 		if(!cs.contains(d.group)) {
-	// 		// 			cs.push(d.group);
-	// 		// 		}
-	// 		// });
-	
-	// 		node.append("text")
-	// 		.attr("dy", ".3em")
-	// 		.style("text-anchor", "middle")
-	// 		.text(function(d) {
-	// 			//return d.data.key.substring(0, d.r ) + ": " + d.data.value;
-	// 			return d.data.value;
-	// 		});
-	
-	// 		d3.select(self.frameElement)
-	// 		.style("height", diameter + "px");
-	// 	}
+	/* Navbar Scripts */
+	// jQuery to collapse the navbar on scroll
+	$(window).on('scroll load', function () {
+		if ($(".navbar").offset().top > 20) {
+			$(".fixed-top").addClass("top-nav-collapse");
+		} else {
+			$(".fixed-top").removeClass("top-nav-collapse");
+		}
+	});
 
-	 
-		(function($) {
-			"use strict"; 
-			
-			/* Navbar Scripts */
-			// jQuery to collapse the navbar on scroll
-			$(window).on('scroll load', function() {
-				if ($(".navbar").offset().top > 20) {
-					$(".fixed-top").addClass("top-nav-collapse");
-				} else {
-					$(".fixed-top").removeClass("top-nav-collapse");
-				}
-			});
-		
-			// jQuery for page scrolling feature - requires jQuery Easing plugin
-			$(function() {
-				$(document).on('click', 'a.page-scroll', function(event) {
-					var $anchor = $(this);
-					$('html, body').stop().animate({
-						scrollTop: $($anchor.attr('href')).offset().top
-					}, 600, 'easeInOutExpo');
-					event.preventDefault();
-				});
-			});
-		
-			// closes the responsive menu on menu item click
-			$(".navbar-nav li a").on("click", function(event) {
-			if (!$(this).parent().hasClass('dropdown'))
-				$(".navbar-collapse").collapse('hide');
-			});
-		})
+	// jQuery for page scrolling feature - requires jQuery Easing plugin
+	$(function () {
+		$(document).on('click', 'a.page-scroll', function (event) {
+			var $anchor = $(this);
+			$('html, body').stop().animate({
+				scrollTop: $($anchor.attr('href')).offset().top
+			}, 600, 'easeInOutExpo');
+			event.preventDefault();
+		});
+	});
 
+	// closes the responsive menu on menu item click
+	$(".navbar-nav li a").on("click", function (event) {
+		if (!$(this).parent().hasClass('dropdown'))
+			$(".navbar-collapse").collapse('hide');
+	});
+})
 
-		// dataset2 = {
-// 	"children": [{
-// 		"facilityId": "NL",
-// 		"responseCount": 2
-// 	}, {
-// 		"facilityId": "Arubaans",
-// 		"responseCount": 2
-// 	}, {
-// 		"facilityId": "Marokkaans",
-// 		"responseCount": 1
-// 	}, {
-// 		"facilityId": "Indonesisch",
-// 		"responseCount": 2
-// 	}, {
-// 		"facilityId": "Curacaos",
-// 		"responseCount": 3
-// 	}, {
-// 		"facilityId": "Anders",
-// 		"responseCount": 1
-// 	}]
-// };
-//console.log(dataset2)
-	
-//function chart3 (results){
-
-		// function remove99999(data){
-		// 	data.forEach(data => {
-		// 		for (let key in data) {
-		// 			if (data[key] == '99999') {
-		// 			delete data[key];
-		// 			}
-		// 		}
-		// 	});
-		// 	return data;
-		// }
-		// data = remove99999(results);
-	
-		// 	function transformData(data){
-		// 		let transformed =  d3.nest()
-		// 			  .key(d => d.afkomst)
-		// 			.rollup(function(v) { 
-		// 					return d3.sum(v, function(d) { return d.freqcontact; });
-		// 				 })
-		// 			.entries(data)
-		// 		return transformed
-		// 	}
-	
-		// 	data = transformData(data)
-	
-		// 	console.log("transformed: ", data)
-	
-		// 	let datasetSub = JSON.stringify(data);
-		// 	dataset = {"children": JSON.parse(datasetSub)}
-		// 	console.log(dataset)	
 // // set the dimensions and margins of the graph
 // var margin = {top: 10, right: 30, bottom: 30, left: 60},
 //     width = 460 - margin.left - margin.right,
@@ -656,7 +414,7 @@ function setFontSizeLegenda(country, direction){
 
 // //Read the data
 // var dataset = [
-	
+
 // ]
 // function data(data) {
 
@@ -788,19 +546,19 @@ function setFontSizeLegenda(country, direction){
 // //     pad = 20,
 // //     left_pad = 100,
 // // 	Data_url = '/data.json';
-	
+
 // // 	var svg = d3.select("#chart3")
 // //         .append("svg")
 // //         .attr("width", w)
 // // 		.attr("height", h);
-	
-	
-	
+
+
+
 // // 	svg.append("g")
 // //     .attr("class", "axis")
 // //     .attr("transform", "translate(0, "+(h-pad)+")")
 // //     .call(xAxis);
- 
+
 // // svg.append("g")
 // //     .attr("class", "axis")
 // //     .attr("transform", "translate("+(left_pad-pad)+", 0)")
@@ -928,7 +686,7 @@ function setFontSizeLegenda(country, direction){
 // 		// 		.duration(500)
 // 		// 		.style("opacity", 0);
 // 		// 	});
-    
+
 //     //Add all the circles for approached police themselves
 //     let circlesBottom = svg.selectAll(".bottom")
 //       .data(country.value.rapportCijfersNietBenaderd)

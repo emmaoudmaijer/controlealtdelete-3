@@ -16,6 +16,7 @@ h1 {
 .node circle:hover {
 	 stroke: white;
 	stroke-width: 6 ;
+	color: white;
 }
 
 text.title {
@@ -34,8 +35,8 @@ text.title {
 	border: 0px;
 	border-radius: 8px;
 	pointer-events: none;
-	background-color: white;
-	color: black;
+	background-color: grey;
+	color: white;
   }
 
 
@@ -1540,13 +1541,6 @@ margin: 3em;
 text-align: left;
 padding-left: 1em;
 }
-/* 
-.tableauViz {
-	background-color: black;
-} */
-.tableauViz {
-	background-color: black;
-}
 
 #chart3 svg {
 	width: 1960px;
@@ -1556,4 +1550,8 @@ padding-left: 1em;
 #chart3 circle:hover {
 	stroke: white;
    stroke-width: 1 ;
+}
+
+.textbubble {
+	font-size: 1.5em;
 }
