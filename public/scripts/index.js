@@ -246,15 +246,7 @@ function bubbleChart(results) {
 
 	// ------------- UPDATE FUNCTIE IN BUBBLE CHART -----------------
 	function update() {
-		//var circles = svg.selectAll('dataCircle')
-		//d3.select('.chart').remove()
-		// console.log('nodes2 :', newData)
-		//console.log(node)
-		// var nodes = node
-		// 	.selectAll('.nodes')
-		// console.log("nodes", nodes)
-		// var texts = nodes.selectAll('text')
-		//console.log("circc", circles)
+	
 		node
 		.data(bubble2(nodes2).leaves())
 		//.enter()
@@ -280,15 +272,15 @@ function bubbleChart(results) {
 	let button2 = d3.select('.buttons').append('button')
 
 	buttonAlgemeen
-		.text('Algemeen contact')
+		.text('Het meeste contact')
 		.on('click', update)
 
 	button
-		.text('Contact door Amsterdammers')
+		.text('Wie er naar de politie ging')
 		.on('click', update)
 
 	button2
-		.text('Contact door de politie')
+		.text('Naar wie de politie ging')
 		.on('click', update)
 
 }

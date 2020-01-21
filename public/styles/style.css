@@ -1,7 +1,7 @@
 
 body { 
 	color: white;
-	font-family: roboto;
+	font-family: 'roboto';
 	width: 100%;
 	height: 100%;
 }
@@ -84,7 +84,7 @@ h1 {
 
 h2 {
 	color: #f1f1f8;
-	font: 700 2.25rem/2.75rem "Montserrat", sans-serif;
+	font-family: 'Rubik', sans-serif;
 }
 
 h3 {
@@ -129,7 +129,7 @@ a.white {
 	/* padding: -50; */
 	/* margin: -; */
 	color:grey;
-	font-family: roboto;
+	font-family: 'roboto';
 }
 
 .legenda {
@@ -448,7 +448,7 @@ ul .ONW::before {
 
 .tabs .nav-link {
 	margin-bottom: 1rem;
-	padding: 0.5rem 1.375rem 0.25rem 1.375rem;
+	padding: 0.3rem 1.175rem 0.05rem 1.175rem;
 	border: none;
 	border-bottom: 0.1875rem solid #f1f1f8;
 	border-radius: 0;
@@ -467,7 +467,7 @@ ul .ONW::before {
 
 .tabs .nav-link .fas {
 	margin-right: 0.375rem;
-	font-size: 1rem;
+	font-size: 0.5rem;
 }
 
 .tabs .tab-content {
@@ -480,7 +480,7 @@ ul .ONW::before {
 }
 
 .tabs .card-body {
-	padding: 1rem 0 1.25rem 0;
+	padding: 0.5rem 0 1rem 0;
 }
 
 .tabs .card-title {
@@ -489,8 +489,8 @@ ul .ONW::before {
 
 .tabs .card .card-icon {
 	display: inline-block;
-	width: 1rem;
-	height: 1rem;
+	width: 0.5rem;
+	height: 0.5rem;
 	border-radius: 50%;
 	background-color: #FFF33D;
 	text-align: center;
@@ -500,7 +500,7 @@ ul .ONW::before {
 .tabs .card .card-icon .fas,
 .tabs .card .card-icon .far {
 	color: #fff;
-	font-size: 0.1rem;
+	font-size: 0.09rem;
 	line-height: 3.5rem;
 }
 
@@ -1559,4 +1559,11 @@ padding-left: 1em;
 
 .textbubble {
 	font-size: 1.5em;
+	font-family: 'Rubik';
+}
+
+.textbubblechart {
+	font-size: 1.5em;
+	font-family: roboto;
+	line-height: 1.6;
 }
