@@ -262,6 +262,7 @@ function bubbleChart(results) {
 		.transition(animation)
 		.attr("r", function(d) {
 			console.log(d.data)
+			return d.data
 					})
 
 			// node
