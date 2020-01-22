@@ -105,6 +105,25 @@ Dit krijg je dan terug in de console als de data:
 
 ![console](public/images/console.png)
 
+De data die we gaan gebruiken gaan we omzetten naar procenten omdat de aantallen niet evenveel zijn van de culturele afkomsten, waardoor de verschillen te groot werken, en deze dus niet eerlijke vergelijkingen laten zien. Uiteindelijk krijg je dus per culturele afkomst te zien hoevaak er contact is geweest met de politie, in procenten.
+
+```js
+	var total = data.reduce(function (accumulator, currentValue) {
+			return accumulator + currentValue.value
+		}, 0);
+		console.log("total :", total);
+	
+
+
+		function convertValuesToPercentages(data) {
+			for (var i = 0; i < data.length; i++) {
+				var obj2 = data[i];
+				data[i].value = Math.round((obj2.value / total) * 100, 0);
+			}
+			return data
+		}
+```
+
 ## Install project
 Clone deze repository naar je computer:
 ```
