@@ -26,7 +26,6 @@ function removeInvalidRecords(dataset) {
 		if (obj.freqcontact != '99999' && obj.afkomst != 'Onbekend' && obj.afkomst != '#NULL!' && obj.afkomst != undefined) {
 
 			dataset_clean.push(JSON.parse(JSON.stringify(dataset[i])));
-			//total = total + obj.freqcontact;
 		}
 	}
 
@@ -53,8 +52,7 @@ function bubbleChart(results) {
 					return d3.sum(v, function (d) {
 						return d.freqcontact;
 					});
-				})
-				//.rollup(leaves => leaves.length)				
+				})				
 				.entries(data)
 			return transformed
 		}
@@ -99,7 +97,6 @@ function bubbleChart(results) {
 	var total2 = newDataRaw.reduce(function (accumulator, currentValue) {
 		return accumulator + currentValue.value
 	}, 0);
-	//console.log("total2 :", total2);
 
 	for (var i = 0; i < newDataRaw.length; i++) {
 		var obj2 = newDataRaw[i];
@@ -125,7 +122,6 @@ function bubbleChart(results) {
 	var total2 = newDataRaw2.reduce(function (accumulator, currentValue) {
 		return accumulator + currentValue.value
 	}, 0);
-	//console.log("total2 :", total2);
 
 	for (var i = 0; i < newDataRaw2.length; i++) {
 		var obj2 = newDataRaw2[i];
@@ -201,7 +197,7 @@ function bubbleChart(results) {
 			div.transition()
 				.duration(200)
 				.style("opacity", .9);
-			div.html(d.data.key + "<br/>" + d.data.value)
+			div.html("<b>Culturele afkomst: </b>" + d.data.key + "<br/>" + "<br/>" + "<b>Percentage contact: </b>" + "<br/>" + d.data.value + "%")
 				.style("left", (d3.event.pageX) + "px")
 				.style("top", (d3.event.pageY - 28) + "px");
 			setFontSizeLegenda(d.data.key, 'ON');
@@ -281,7 +277,7 @@ function update2() {
 			div.transition()
 				.duration(200)
 				.style("opacity", .9);
-			div.html(d.data.key + "<br/>" + d.data.value)
+			div.html("<b>Culturele afkomst: </b>" + d.data.key + "<br/>" + "<br/>" + "<b>Percentage contact: </b>" + "<br/>" + d.data.value + "%")
 				.style("left", (d3.event.pageX) + "px")
 				.style("top", (d3.event.pageY - 28) + "px");
 			setFontSizeLegenda(d.data.key, 'ON');
@@ -353,7 +349,79 @@ function update2() {
 				div.transition()
 					.duration(200)
 					.style("opacity", .9);
-				div.html(d.data.key + "<br/>" + d.data.value)
+				div.html("<b>Culturele afkomst: </b>" + d.data.key + "<br/>" + "<br/>" + "<b>Percentage contact: </b>" + "<br/>" + d.data.value + "%")
+					.style("left", (d3.event.pageX) + "px")
+					.style("top", (d3.event.pageY - 28) + "px");
+				setFontSizeLegenda(d.data.key, 'ON');
+			})
+			.on("mouseout", function (d) {
+				div.transition()
+					.duration(500)
+					.style("opacity", 0);
+				setFontSizeLegenda(d.data.key, 'OUT');
+			});
+	
+		node.append("circle")
+			.attr("class", "dataCircle")
+			.transition(animation)
+			.attr("r", function (d) {
+				return d.r;
+			})
+			.style("fill", function (d) {
+				if (d.data.key == "Nederlands") {
+					return "#fd8b00"
+				} else if (d.data.key == "Marokkaans") {
+					return "#36e77f"
+				} else if (d.data.key == "Surinaams") {
+					return "#f2ca00"
+				} else if (d.data.key == "Turks") {
+					return "#f30000"
+				} else if (d.data.key == "Voormalig Nederlandse Antillen") {
+					return "#4a38f4"
+				} else if (d.data.key == "Westers") {
+					return "#df00ff"
+				} else {
+					return "#30f5ff"
+				}
+		});
+	
+		node.append("text")
+			.attr("dy", ".3em")
+			.attr("class", "textbubble")
+			.style("text-anchor", "middle")
+			.style("fill", "white")
+			.text(function (d) {
+				return d.data.value + "% ";
+			});
+	
+		}
+
+		function update4() {
+
+		var bubble = d3.pack(dataset)
+		.size([diameter, diameter])
+		.padding(1.5);
+		console.log('23', dataset)
+	
+		var node = svg.selectAll("g")
+			.remove();
+	
+		var nodes = d3.hierarchy(dataset)
+			.sum(function(d) { return Math.sqrt(d.value); });
+		
+		var node = svg.selectAll(".node")
+			.data(bubble(nodes).leaves())
+			.enter()
+			.append("g")
+			.attr("class", "node")
+			.attr("transform", function (d) {
+				return "translate(" + d.x + "," + d.y + ")";
+			})
+			.on("mouseover", function (d) {
+				div.transition()
+					.duration(200)
+					.style("opacity", .9);
+				div.html("<b>Culturele afkomst: </b>" + d.data.key + "<br/>" + "<br/>" + "<b>Percentage contact: </b>" + "<br/>" + d.data.value + "%")
 					.style("left", (d3.event.pageX) + "px")
 					.style("top", (d3.event.pageY - 28) + "px");
 				setFontSizeLegenda(d.data.key, 'ON');
@@ -407,7 +475,7 @@ function update2() {
 
 	buttonAlgemeen
 	.text('Algemeen contact')
-	.on('click', bubbleChart)
+	.on('click', update4)
 
 	button
 	.text('Contact door Amsterdammers')
@@ -420,34 +488,3 @@ function update2() {
 
 }
 //---------------------------------------------- EINDE VAN BUBBLE CHART ------------------------------------------------------
-
-// (function ($) {
-// 	"use strict";
-
-// 	/* Navbar Scripts */
-// 	// jQuery to collapse the navbar on scroll
-// 	$(window).on('scroll load', function () {
-// 		if ($(".navbar").offset().top > 20) {
-// 			$(".fixed-top").addClass("top-nav-collapse");
-// 		} else {
-// 			$(".fixed-top").removeClass("top-nav-collapse");
-// 		}
-// 	});
-
-// 	// jQuery for page scrolling feature - requires jQuery Easing plugin
-// 	$(function () {
-// 		$(document).on('click', 'a.page-scroll', function (event) {
-// 			var $anchor = $(this);
-// 			$('html, body').stop().animate({
-// 				scrollTop: $($anchor.attr('href')).offset().top
-// 			}, 600, 'easeInOutExpo');
-// 			event.preventDefault();
-// 		});
-// 	});
-
-// 	// closes the responsive menu on menu item click
-// 	$(".navbar-nav li a").on("click", function (event) {
-// 		if (!$(this).parent().hasClass('dropdown'))
-// 			$(".navbar-collapse").collapse('hide');
-// 	});
-// })

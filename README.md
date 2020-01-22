@@ -28,12 +28,14 @@ In totaal zijn er drie datavisualisaties te zien op deze pagina. Deze hebben te 
 **De bubble chart die je als eerst ziet:** In totaal zijn er 1934 respondenten geweest met verschillende culturele afkomsten, hiervan zijn er 794 in contact geweest met de politie in de afgelopen 12 maanden. Nederlandse Nederlanders het meest in contact geweest met de politie, gevolgd door overige Nederlanders met een niet Westerse migratieachtergrond en Surinamers. Je zou hieruit kunnen opmaken dat de kans aanwezig is dat de politie etnisch profileert. Alles in de bubble chart hebben we in procenten berekend zodat de verhoudingen dan eerlijker zijn en beter te vergelijken.
 
 **De bar chart die je als tweede ziet:**
+
 Bij deze bar chart hebben we gekeken naar hoe het contact met de politie en de respondent tot stand is gekomen. Zo is er te zien dat alleen Nederlanders met een Westerse migratieachtergrond en Nederlandse Nederlanders over het algemeen vaker zelf op de politie stappen en dat 
 de rest van de culturele afkomsten vaker worden aangesproken door de politie.
 
 ![barchart](public/images/visualisatie.2.png)
 
 **De scatterplot die je onderaan ziet:**
+
 De grafiek onderaan de one pager is een scatterplot. Hieruit kun je aflezen wat de totstandkoming van het contact te maken heeft met het vertrouwen van de respondent. Je ziet twee losse grafieken. De bovenste is voor wanneer de politie naar de respondent zelf is toegestapt en de tweede is voor wanneer de respondent zelf naar de politie is gestapt. De cijfers onderaan staan voor het aantal vertrouwen dat de respondent in de politie heeft en de transparantie staat voor het aantal procent (met culturele achtergrond) die dat cijfer heeft gegeven. Op deze manier kan je zien dat iemand die zelf op de politie stapt over het algemeen meer vertrouwen heeft in de politie dan andersom.
 
 ![scatterplot](public/images/scatterplot.png)
