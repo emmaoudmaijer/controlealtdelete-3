@@ -20,7 +20,7 @@ op de huisstijl. Wij willen met dit project een verhaal vertellen en in procente
 ### Doelgroep
 Onze website is bedoeld voor de orginatisoren van controle alt delete, maar ook voor mensen die vinden dat ze onterecht zijn behandeld door de politie en die via controle alt delete op deze pagina terecht zijn gekomen. Zo krijgen de bezoekers van de website een indicatie van hoe het contact met de politie tot stand komt en wat voor effect dit heeft met de culturele afkomsten. Ook is de website bedoeld voor de politie om hun ook een indicatie te geven van hoe het contact is verdeeld.
 
-### De visualisaties
+## De visualisaties
 
 In totaal zijn er drie datavisualisaties te zien op deze pagina. Deze hebben te maken met de **culturele achtergronden** van de respondenten, welke van deze respondenten er **contact** hebben gehad met de politie en wie van hen er **op de politie is afgestapt of andersom**, hoe het **contact** tot stand is gekomen en hoeveel **vertrouwen** de respondenten hebben in de politie. 
 
@@ -97,11 +97,13 @@ function rollupRecordsByCountry(data) {
 		}
 		data = rollupRecordsByCountry(data)
 ```
-Dit krijg je dan terug in de console:
+Dit krijg je dan terug in de console als de data:
 
 ![console](public/images/console.png)
 
-voor update van de bubble chart hebben we de data uit de 'totstand' kolom nodig en dan alleen de waardes "ik ging naar de politie toe" en "de politie kwam naar mij toe"
+#### Bubble chart update
+
+Voor het updaten van de bubble chart hebben we de data uit de 'totstand' kolom nodig en dan alleen de waardes "ik ging naar de politie toe" en "de politie kwam naar mij toe"
 
 ```js
 function getIWentData(data) {
