@@ -15,13 +15,33 @@ Aan ons de vraag om deze data te doorzoeken, visueel inzichtelijk maken en aan t
 op de huisstijl. Verder moeten we tijdens
 het project meerdere malen onze voorstellen presenteren over hoe wij de indicaties visueel kunnen maken.
 
+### Doelgroep
+
 ## De visualisaties
 
-### Doelgroep
 
 
 ## Data 
-
+```js
+function dataOmzet() {
+	let result = fetch("convertcsvdata.json")
+		.then(data => data.json())
+		.then(json => {
+			const newResults = json.map(result => {
+				return {
+					id: result.response_ID,
+					afkomst: result.Herkomst_def,
+					totstand: result.Totstand,
+					contact: result.Contact_gehad,
+					freqcontact: result.freqcontact,
+					cijfer: result.rapportcijfer
+				}
+			})
+			bubbleChart(newResults)
+		})
+}
+dataOmzet()
+```
 
 ## Install project
 Clone deze repository naar je computer:
