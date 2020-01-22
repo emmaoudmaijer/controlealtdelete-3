@@ -82,7 +82,8 @@ function removeInvalidRecords(dataset) {
 	return dataset_clean;
 }
 ```
-Wij hebben ervoor gekozen om de respondenten met de culturele afkomst 'onbekend' weg te laten omdat wij ons vooral focussen op wat de culturele afkomst te maken heeft met de hoeveelheid contact met de politie. Onbekende afkomst is hierin dus niet interessant.
+
+Wij hebben ervoor gekozen om de respondenten met de culturele afkomst 'onbekend' weg te laten omdat wij ons vooral focussen op wat de culturele afkomst te maken heeft met de hoeveelheid contact met de politie. Onbekende afkomst is hierin onmogelijk te gebruiken omdat je daar geen vergelijkingen mee kan maken.
 De 99999 waardes hebben wij eruit gelaten omdat dat de respondenten zijn die geen contact hebben gehad met met de politie, deze nemen wij niet mee in ons onderzoek omdat wij focussen op de mensen die wel contact hebben gehad.
 
 **Data groeperen:**
