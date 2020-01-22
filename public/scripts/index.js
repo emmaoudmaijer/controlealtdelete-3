@@ -1,5 +1,5 @@
 function dataOmzet() {
-	let result = fetch("../convertcsvdata.json")
+	let result = fetch("convertcsvdata.json")
 		.then(data => data.json())
 		.then(json => {
 			const newResults = json.map(result => {
@@ -33,34 +33,48 @@ dataOmzet()
 // }
 //data = removeInvalidRecords(dataset);
 
-function removeInvalidRecords(results) {
+function removeInvalidRecords(dataset) {
 	var dataset_clean = [];
 
-	for (var i = 0; i < results.length; i++) {
-		var obj = results[i];
+	for (var i = 0; i < dataset.length; i++) {
+		var obj = dataset[i];
 		if (obj.freqcontact != '99999' && obj.afkomst != 'Onbekend' && obj.afkomst != '#NULL!' && obj.afkomst != undefined) {
 
-			dataset_clean.push(JSON.parse(JSON.stringify(results[i])));
+			dataset_clean.push(JSON.parse(JSON.stringify(dataset[i])));
 			//total = total + obj.freqcontact;
 		}
 	}
 
 	return dataset_clean;
 }
-
-function getIWentData(results) {
-	return results.filter(item => item.totstand === "Ik ging naar de politie toe")
+function getIWentData(data) {
+	return data.filter(item => item.totstand === "Ik ging naar de politie toe")
 }
 
-function getToMeData(results) {
-	return results.filter(item => item.totstand === "De politie kwam naar mij toe")
+function getToMeData(data) {
+	return data.filter(item => item.totstand === "De politie kwam naar mij toe")
 }
-
 function bubbleChart(results) {
 
 		//-------------- DATASET 1: ALGEMEEN CONTACT
-		 data = removeInvalidRecords(results);
 
+// function removeInvalidRecords(results) {
+// 	var dataset_clean = [];
+
+// 	for (var i = 0; i < dataset.length; i++) {
+// 		var obj = results[i];
+// 		if (obj.freqcontact != '99999' && obj.afkomst != 'Onbekend' && obj.afkomst != '#NULL!' && obj.afkomst != undefined) {
+
+// 			dataset_clean.push(JSON.parse(JSON.stringify(result[i])));
+// 			//total = total + obj.freqcontact;
+// 		}
+// 	}
+
+// 	return dataset_clean;
+//}
+		 data = removeInvalidRecords(results);
+		 
+	
 		function rollupRecordsByCountry(data) {
 			let transformed = d3.nest()
 				.key(d => d.afkomst)
