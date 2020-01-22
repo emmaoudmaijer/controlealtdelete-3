@@ -30,12 +30,12 @@ In totaal zijn er drie datavisualisaties te zien op deze pagina. Deze hebben te 
 Bij deze bar chart hebben we gekeken naar hoe het contact met de politie en de respondent tot stand is gekomen. Zo is er te zien dat alleen Nederlanders met een Westerse migratieachtergrond en Nederlandse Nederlanders over het algemeen vaker zelf op de politie stappen en dat 
 de rest van de culturele afkomsten vaker worden aangesproken door de politie.
 
-![bar chart](images/visualisatie2.png)
+![bar chart](public/images/visualisatie2.png)
 
 **De scatterplot die je als onderaan ziet:**
 De grafiek onderaan de one pager is een scatterplot. Hieruit kun je aflezen wat de totstandkoming van het contact te maken heeft met het vertrouwen van de respondent. Je ziet twee losse grafieken. De bovenste is voor wanneer de politie naar de respondent zelf is toegestapt en de tweede is voor wanneer de respondent zelf naar de politie is gestapt. De cijfers onderaan staan voor het aantal vertrouwen dat de respondent in de politie heeft en de transparantie staat voor het aantal procent (met culturele achtergrond) die dat cijfer heeft gegeven. Op deze manier kan je zien dat iemand die zelf op de politie stapt over het algemeen meer vertrouwen heeft in de politie dan andersom.
 
-![scatterplot](images/scatterplot.png)
+![scatterplot](public/images/scatterplot.png)
 
 
 ## Data 
