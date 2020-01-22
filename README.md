@@ -1,13 +1,11 @@
 # Controle alt delete
 [Link naar live demo](https://emmaoudmaijer.github.io/controlealtdelete-3/public/)
 
-Tijdens het project voor information design hebben we een datavisualisatie gemaakt voor Controle alt delete. meer info
-
-![foto](public/images/bubblechart.png)
-
 ## Wie is onze opdrachtgever: Controle Alt Delete:
 
 Door de Hogeschool van Amsterdam is ons een opdrachtgever toegewezen, Controle Alt Delete. Dit is een organisatie die zich focust op etnisch profileren bij de politie. Ze zetten zich in tegen etnisch profileren. Amnesty International is een samenwerkings- partner van Controle Alt Delete. Ze richten zich echter niet alleen op de politie maar ook op bijvoorbeeld BOA’s en de Koninklijke Marechaussee. Met dit project hebben we alleen met de politie te maken. Easy Solutions is een onderneming waar Controle Alt Delete een project van is. Ze verstoppen dit omdat Easy Solutions meerdere opdrachtgevers heeft die dit een heel spannend/politiek onderwerp kunnen vinden (denk aan de gemeente, etc.). Controle Alt Delete wordt als organisatie gepresenteerd, terwijl het eigenlijk een project is. Het is verder geregistreerd als een B.V. dat geen winst maakt. Wij burgers weten niet wat de omvang van etnisch profileren is. Daardoor kunnen wij niet meten of de maatregelen die de politie neemt het gewenste effect hebben.
+
+![foto](public/images/bubblechart.png)
 
 ## Het concept:
 Ons concept laat verschillende variabelen zien zoals het aantal keer contact tussen de politie en de Amsterdamse respondenten, de manier van het contact en het vertrouwen in deze contact in verhouding met de culturele achtergrond van deze respondenten.
@@ -37,10 +35,12 @@ De grafiek onderaan de one pager is een scatterplot. Hieruit kun je aflezen wat 
 
 ![scatterplot](public/images/scatterplot.png)
 
-
 ## Data 
-Controle Alt Delete heeft onderzoek gedaan door een enquête af te leggen in Amsterdam. Dit hebben zij gedaan om de ervaring van Amsterdammers met etnisch profileren in kaart te brengen. De respondenten hebben verschillende culturele afkomsten, namelijk: Nederlands, Marokkaans, Turks, Surinaams, Nederlands Antilliaans, etc. Een aantal respondenten hebben de vraag over de afkomst niet ingevuld. Deze respondenten zijn in de  datavisualisaties niet meegerekend. Door middel van onafhankelijk onderzoek cijfers verzamelen die sterke indicaties geven voor de omvang van etnisch profileren in Nederland.
-                                        
+Controle Alt Delete heeft onderzoek gedaan door een enquête af te leggen in Amsterdam. Dit hebben zij gedaan om de ervaring van Amsterdammers met etnisch profileren in kaart te brengen. De respondenten hebben verschillende culturele afkomsten, namelijk: Nederlands, Marokkaans, Turks, Surinaams, Nederlands Antilliaans, etc. Een aantal respondenten hebben de vraag over de afkomst niet ingevuld. Deze respondenten zijn in de  datavisualisaties niet meegerekend. Door middel van onafhankelijk onderzoek cijfers verzamelen die sterke indicaties geven voor de omvang van etnisch profileren in Nederland. 
+
+De antwoorden van de enquête werden aangeleverd als een csv bestand die we hebben omgezet naar een json file en vervolgens kon ik deze gaan opschonen.
+
+![data](public/images/exceldata.png)      
 
 ```js
 function dataOmzet() {
@@ -61,7 +61,71 @@ function dataOmzet() {
 }
 dataOmzet()
 ```
-Uit de data is hier de culturele afkomst, de totstandkoming, en het aantal keer contact hier opgehaald. Dit moet natuurlijk we 
+Uit de data is hier de culturele afkomst, de totstandkoming, en het aantal keer contact opgehaald. Dit zullen we moeten groeperen zodat je een key en een value terug krijgt. Eerst hebben we de onbekende afkomsten en 99999 values weggehaald.
+
+```js
+
+function removeInvalidRecords(dataset) {
+	var dataset_clean = [];
+
+	for (var i = 0; i < dataset.length; i++) {
+		var obj = dataset[i];
+		if (obj.freqcontact != '99999' && obj.afkomst != 'Onbekend' && obj.afkomst != '#NULL!' && obj.afkomst != undefined) {
+
+			dataset_clean.push(JSON.parse(JSON.stringify(dataset[i])));
+			//total = total + obj.freqcontact;
+		}
+	}
+
+	return dataset_clean;
+}
+```
+
+```js
+function rollupRecordsByCountry(data) {
+			let transformed = d3.nest()
+				.key(d => d.afkomst)
+				.rollup(function (v) {
+					return d3.sum(v, function (d) {
+						return d.freqcontact;
+					});
+				})				
+				.entries(data)
+			return transformed
+		}
+		data = rollupRecordsByCountry(data)
+```
+
+voor update van de bubble chart hebben we de data uit de 'totstand' kolom nodig en dan alleen de waardes "ik ging naar de politie toe" en "de politie kwam naar mij toe"
+
+```js
+function getIWentData(data) {
+	return data.filter(item => item.totstand === "Ik ging naar de politie toe")
+}
+
+function getToMeData(data) {
+	return data.filter(item => item.totstand === "De politie kwam naar mij toe")
+}
+```
+```js
+let newDataRaw = d3.nest()
+		.key(d => d.afkomst)
+		.rollup(leaves => leaves.length)
+		.entries(ikGing)
+
+	newDataRaw = newDataRaw.flat()
+
+	var total2 = newDataRaw.reduce(function (accumulator, currentValue) {
+		return accumulator + currentValue.value
+	}, 0);
+	//console.log("total2 :", total2);
+
+	for (var i = 0; i < newDataRaw.length; i++) {
+		var obj2 = newDataRaw[i];
+		newDataRaw[i].value = Math.round((obj2.value / total2) * 100, 0);
+	}
+
+```
 
 ## Install project
 Clone deze repository naar je computer:
