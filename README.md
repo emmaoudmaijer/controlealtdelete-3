@@ -82,6 +82,9 @@ function removeInvalidRecords(dataset) {
 	return dataset_clean;
 }
 ```
+Wij hebben ervoor gekozen om de respondenten met de culturele afkomst 'onbekend' weg te laten omdat wij ons vooral focussen op wat de culturele afkomst te maken heeft met de hoeveelheid contact met de politie. Onbekende afkomst is hierin dus niet interessant.
+De 99999 waardes hebben wij eruit gelaten omdat dat de respondenten zijn die geen contact hebben gehad met met de politie, deze nemen wij niet mee in ons onderzoek omdat wij focussen op de mensen die wel contact hebben gehad.
+
 **Data groeperen:**
 ```js
 function rollupRecordsByCountry(data) {
@@ -101,39 +104,6 @@ Dit krijg je dan terug in de console als de data:
 
 ![console](public/images/console.png)
 
-#### Bubble chart update
-
-Voor het updaten van de bubble chart hebben we de data uit de 'totstand' kolom nodig en dan alleen de waardes "ik ging naar de politie toe" en "de politie kwam naar mij toe"
-
-```js
-function getIWentData(data) {
-	return data.filter(item => item.totstand === "Ik ging naar de politie toe")
-}
-
-function getToMeData(data) {
-	return data.filter(item => item.totstand === "De politie kwam naar mij toe")
-}
-```
-```js
-let newDataRaw = d3.nest()
-		.key(d => d.afkomst)
-		.rollup(leaves => leaves.length)
-		.entries(ikGing)
-
-	newDataRaw = newDataRaw.flat()
-
-	var total2 = newDataRaw.reduce(function (accumulator, currentValue) {
-		return accumulator + currentValue.value
-	}, 0);
-	//console.log("total2 :", total2);
-
-	for (var i = 0; i < newDataRaw.length; i++) {
-		var obj2 = newDataRaw[i];
-		newDataRaw[i].value = Math.round((obj2.value / total2) * 100, 0);
-	}
-
-```
-
 ## Install project
 Clone deze repository naar je computer:
 ```
@@ -147,18 +117,27 @@ Installeer packages
 ```
 npm install
 ```
+Om D3 in te laden, zet deze linkjes in je html:
+```
+    <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+```
+Deze bubble chart is gemaakt met versie 4.
 
 ### Bronnen
 
-* [https://bl.ocks.org/HarryStevens/54d01f118bc8d1f2c4ccd98235f33848](https://bl.ocks.org/HarryStevens/54d01f118bc8d1f2c4ccd98235f33848)
-* [https://www.d3-graph-gallery.com/graph/scatter_animation_start.html](https://www.d3-graph-gallery.com/graph/scatter_animation_start.html)
-* [https://bl.ocks.org/ctufts/f38ef0187f98c537d791d24fda4a6ef9](https://bl.ocks.org/ctufts/f38ef0187f98c537d791d24fda4a6ef9)
-* [https://codepen.io/girliemac/pen/cDfmb/](https://codepen.io/girliemac/pen/cDfmb/)
-* [http://vallandingham.me/bubble_chart_v4/](http://vallandingham.me/bubble_chart_v4/#)
-* [https://bl.ocks.org/officeofjane/a70f4b44013d06b9c0a973f163d8ab7a/c5660429ab70f58ba18c6edc70f3a9ae92bcbf47](https://bl.ocks.org/officeofjane/a70f4b44013d06b9c0a973f163d8ab7a/c5660429ab70f58ba18c6edc70f3a9ae92bcbf47)
-* [https://stackoverflow.com/questions/39176404/d3-js-clustering-bubbles-to-segments](https://stackoverflow.com/questions/39176404/d3-js-clustering-bubbles-to-segments)
-* [https://bl.ocks.org/SpaceActuary/d6b5ca8e5fb17842d652d0de21e88a05](https://bl.ocks.org/SpaceActuary/d6b5ca8e5fb17842d652d0de21e88a05)
-* [https://www.w3schools.com/howto/howto_js_quotes_slideshow.asp](https://www.w3schools.com/howto/howto_js_quotes_slideshow.asp)
+**Voor de Bubble chart:**
+* [Bron 1](https://bl.ocks.org/HarryStevens/54d01f118bc8d1f2c4ccd98235f33848)
+* [Bron 2](https://www.d3-graph-gallery.com/graph/scatter_animation_start.html)
+* [Bron 3](https://bl.ocks.org/ctufts/f38ef0187f98c537d791d24fda4a6ef9)
+* [Bron 4](https://codepen.io/girliemac/pen/cDfmb/)
+* [Bron 5](http://vallandingham.me/bubble_chart_v4/#)
+* [Bron 6](https://bl.ocks.org/officeofjane/a70f4b44013d06b9c0a973f163d8ab7a/c5660429ab70f58ba18c6edc70f3a9ae92bcbf47)
+* [Bron 7](https://stackoverflow.com/questions/39176404/d3-js-clustering-bubbles-to-segments)
+
+**Slideshow**
+* [Bron 1](https://bl.ocks.org/SpaceActuary/d6b5ca8e5fb17842d652d0de21e88a05)
+* [Bron 2](https://www.w3schools.com/howto/howto_js_quotes_slideshow.asp)
 
 ## Licence
 ISC - Emma Oudmaijer
