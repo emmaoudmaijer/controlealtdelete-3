@@ -95,7 +95,8 @@ function rollupRecordsByCountry(data) {
 		}
 		data = rollupRecordsByCountry(data)
 ```
-
+Dit krijg je dan terug in de console:
+![console](public/images/console.png)
 voor update van de bubble chart hebben we de data uit de 'totstand' kolom nodig en dan alleen de waardes "ik ging naar de politie toe" en "de politie kwam naar mij toe"
 
 ```js
