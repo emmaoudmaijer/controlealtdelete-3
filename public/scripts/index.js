@@ -1,5 +1,5 @@
 function dataOmzet() {
-	let result = fetch("public/convertcsvdata.json")
+	let result = fetch("convertcsvdata.json")
 		.then(data => data.json())
 		.then(json => {
 			const newResults = json.map(result => {
