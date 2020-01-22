@@ -47,6 +47,7 @@ function removeInvalidRecords(dataset) {
 
 	return dataset_clean;
 }
+
 function getIWentData(data) {
 	return data.filter(item => item.totstand === "Ik ging naar de politie toe")
 }
