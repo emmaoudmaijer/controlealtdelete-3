@@ -17,9 +17,6 @@ html {
 	margin-bottom: 3em;
 	margin-top: 2em;
 }
-h1 {
-	color: #FFF33D;
-}
 
 .node circle:hover {
 	 stroke: white;
@@ -40,7 +37,6 @@ text.title {
 	height: 15%;
 	padding: 2px;
 	font: 14px sans-serif;
-	/* font-weight: 600; */
 	border: 2px solid black;
 	border-radius: 8px;
 	pointer-events: none;
@@ -55,36 +51,14 @@ text.title {
 }
 
 body, p {
-	color: #f1f1f8; 
+	color: #8c8c92; 
 	font: 400 0.875rem/1.375rem "Open Sans", sans-serif;
 }
 
-.p-large {
-	color: #f1f1f8;
-	font: 400 1rem/1.5rem "Open Sans", sans-serif;
-}
-
-.p-small {
-	color: #f1f1f8;
-	font: 400 0.75rem/1.25rem "Open Sans", sans-serif;
-}
-
-.p-heading {
-	margin-bottom: 3.75rem;
-	text-align: center;
-}
-
-.li-space-lg li {
-	margin-bottom: 0.375rem;
-}
-
-.indent {
-	padding-left: 1.25rem;
-}
 
 h1 {
 	color: #f1f1f8;
-	font: 700 2.5rem/2.875rem "Montserrat", sans-serif;
+	font: 700 2.5rem/2.875rem "rubik", sans-serif;
 }
 
 h2 {
@@ -92,24 +66,13 @@ h2 {
 	font-family: 'Rubik', sans-serif;
 }
 
-h3 {
+ h3 {
 	color: #f1f1f8;
-	font: 700 1.75rem/2.125rem "Montserrat", sans-serif;
+	font: 600 1.75rem/2.125rem "rubik", sans-serif;
 }
-
 h4 {
 	color: #f1f1f8;
-	font: 700 1.375rem/1.75rem "Montserrat", sans-serif;
-}
-
-h5 {
-	color: #f1f1f8;
-	font: 700 1.125rem/1.625rem "Montserrat", sans-serif;
-}
-
-h6 {
-	color: #f1f1f8;
-	font: 700 1rem/1.5rem "Montserrat", sans-serif;
+	font: 600 1.375rem/1.75rem "rubik", sans-serif;
 }
 
 a {
@@ -117,18 +80,6 @@ a {
 	text-decoration: underline;
 }
 
-a:hover {
-	color: #f1f1f8;
-	text-decoration: underline;
-}
-
-a.turquoise {
-	color: #FFF33D;
-}
-
-a.white {
-	color: #fff;
-}
 .legenda {
 	color:grey;
 	font-family: 'roboto';
@@ -344,11 +295,7 @@ ul .ONW::before {
 	transition: all 0.2s ease;
 }
 
-.navbar-custom .navbar-toggler {
-	border: none;
-	color: #FFF33D;
-	font-size: 2rem;
-}
+
 
 /*********************/
 /*    04. Header     */
@@ -547,28 +494,6 @@ ul .ONW::before {
 	margin-top: 0.5rem;
 }
 
-
-/*************************/
-/*     08. Details 2     */
-/*************************/
-.basic-3 {
-	padding-top: 3.5rem;
-	padding-bottom: 7.25rem;
-	background-color: black;
-}
-
-.basic-3 .text-container {
-	margin-bottom: 3.5rem;
-}
-
-.basic-3 h3 {
-	margin-bottom: 1.125rem;
-}
-
-.basic-3 .btn-solid-reg {
-	margin-top: 0.5rem;
-}
-
 /**********************/
 /*     14. Footer     */
 /**********************/
@@ -620,42 +545,6 @@ ul .ONW::before {
 }
 
 
-/*************************/
-/*     15. Copyright     */
-/*************************/
-.copyright {
-	padding-top: 1rem;
-	padding-bottom: 0.5rem;
-	background-color: #262431;
-	text-align: center;
-}
-
-.copyright .p-small {
-	color: #f1f1f8;
-	opacity: 0.6;
-}
-
-
-/**********************************/
-/*     16. Back To Top Button     */
-/**********************************/
-a.back-to-top {
-	position: fixed;
-	z-index: 999;
-	right: 0.75rem;
-	bottom: 0.75rem;
-	display: none;
-	width: 2.625rem;
-	height: 2.625rem;
-	border-radius: 1.875rem;
-	background: #FFF33D url("../images/up-arrow.png") no-repeat center 47%;
-	background-size: 1.125rem 1.125rem;
-	text-indent: -9999px;
-}
-
-a:hover.back-to-top {
-	background-color: #FFF33D; 
-}
 
 
 
@@ -723,14 +612,11 @@ a:hover.back-to-top {
 	.tabs #tab-2 img {
 		margin-bottom: 0;
 	}
-
-
 /* end of min-width width 768px */
 
 
 /* Min-width width 992px */
-@media (min-width: 992px) {
-	
+@media (min-width: 992px) {	
 	/* Navigation */
 	.navbar-custom .social-icons {
 		display: block;
@@ -769,7 +655,6 @@ a:hover.back-to-top {
 	}
 	/* end of general styles */
 
-
 	/* Header */
 	.header .header-content {
 		padding-top: 13rem;
@@ -781,7 +666,6 @@ a:hover.back-to-top {
 		margin-top: 6.5rem;
 	}
 	/* end of header */
-
 
 	/* Features */
 	.tabs .card-body {
@@ -830,16 +714,6 @@ a:hover.back-to-top {
 		margin-bottom: 0.5rem;
 	}
 	/* end of features */
-
-
-	/* Video */
-	.basic-1 .image-container {
-		max-width: 53.125rem;
-		margin-right: auto;
-		margin-left: auto;
-	}
-	/* end of video */
-
 
 	/* Details 1 */
 	.basic-2 img {
@@ -909,22 +783,6 @@ a:hover.back-to-top {
 	}
 	/* end of statistics */
 
-
-	/* Extra Pages */
-	.ex-header h1 {
-		width: 80%;
-		margin-right: auto;
-		margin-left: auto;
-	}
-
-	.ex-basic-2 {
-		padding-bottom: 5rem;
-	}
-
-	.ex-basic-2 .text-container.column {
-		margin-bottom: 0;
-	}
-	/* end of extra pages */
 }
 /* end of min-width width 992px */
 
@@ -1162,16 +1020,6 @@ margin: 3em;
 
 .titelscatterplot h2{
 text-align: left;
-}
-
-#chart3 svg {
-	width: 1960px;
-	height: 500px;
-  }
-
-#chart3 circle:hover {
-	stroke: white;
-   stroke-width: 1 ;
 }
 
 .textbubble {
