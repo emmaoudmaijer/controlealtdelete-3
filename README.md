@@ -112,8 +112,6 @@ De data die we gaan gebruiken gaan we omzetten naar procenten omdat de aantallen
 			return accumulator + currentValue.value
 		}, 0);
 		console.log("total :", total);
-	
-
 
 		function convertValuesToPercentages(data) {
 			for (var i = 0; i < data.length; i++) {
