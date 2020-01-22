@@ -1,5 +1,5 @@
 function dataOmzet() {
-	let result = fetch("../../convertcsvdata.json")
+	let result = fetch("../convertcsvdata.json")
 		.then(data => data.json())
 		.then(json => {
 			const newResults = json.map(result => {
@@ -17,14 +17,30 @@ function dataOmzet() {
 }
 dataOmzet()
 
-function removeInvalidRecords(dataset) {
+// function removeInvalidRecords(dataset) {
+// 	var dataset_clean = [];
+
+// 	for (var i = 0; i < dataset.length; i++) {
+// 		var obj = dataset[i];
+// 		if (obj.freqcontact != '99999' && obj.afkomst != 'Onbekend' && obj.afkomst != '#NULL!' && obj.afkomst != undefined) {
+
+// 			dataset_clean.push(JSON.parse(JSON.stringify(dataset[i])));
+// 			//total = total + obj.freqcontact;
+// 		}
+// 	}
+
+// 	return dataset_clean;
+// }
+//data = removeInvalidRecords(dataset);
+
+function removeInvalidRecords(results) {
 	var dataset_clean = [];
 
-	for (var i = 0; i < dataset.length; i++) {
-		var obj = dataset[i];
+	for (var i = 0; i < results.length; i++) {
+		var obj = results[i];
 		if (obj.freqcontact != '99999' && obj.afkomst != 'Onbekend' && obj.afkomst != '#NULL!' && obj.afkomst != undefined) {
 
-			dataset_clean.push(JSON.parse(JSON.stringify(dataset[i])));
+			dataset_clean.push(JSON.parse(JSON.stringify(results[i])));
 			//total = total + obj.freqcontact;
 		}
 	}
@@ -32,18 +48,18 @@ function removeInvalidRecords(dataset) {
 	return dataset_clean;
 }
 
-function getIWentData(dataset) {
-	return dataset.filter(item => item.totstand === "Ik ging naar de politie toe")
+function getIWentData(results) {
+	return results.filter(item => item.totstand === "Ik ging naar de politie toe")
 }
 
-function getToMeData(dataset) {
-	return dataset.filter(item => item.totstand === "De politie kwam naar mij toe")
+function getToMeData(results) {
+	return results.filter(item => item.totstand === "De politie kwam naar mij toe")
 }
 
 function bubbleChart(results) {
 
 		//-------------- DATASET 1: ALGEMEEN CONTACT
-		data = removeInvalidRecords(results);
+		 data = removeInvalidRecords(results);
 
 		function rollupRecordsByCountry(data) {
 			let transformed = d3.nest()
@@ -150,13 +166,6 @@ function bubbleChart(results) {
 	var bubble = d3.pack(dataset)
 		.size([diameter, diameter])
 		.padding(1.5);
-
-
-
-	var bubble3 = d3.pack(newData2)
-		.size([diameter, diameter])
-		.padding(1.5);
-	console.log('23', newData2)
 
 	var animation = d3.transition()
 		.duration(700)
@@ -315,6 +324,62 @@ function update2() {
 
 	}
 
+	function update3() {
+		
+		var bubble3 = d3.pack(newData2)
+		.size([diameter, diameter])
+		.padding(1.5);
+		console.log('23', newData2)
+	
+		var node3 = svg.selectAll("g")
+			.remove();
+	
+		var nodes3 = d3.hierarchy(newData2)
+			.sum(function(d) { return Math.sqrt(d.value); });
+		
+		var node = svg.selectAll(".node")
+			.data(bubble3(nodes3).leaves())
+			.enter()
+			.append("g")
+			.attr("class", "node")
+			.attr("transform", function (d) {
+				return "translate(" + d.x + "," + d.y + ")";
+			});
+	
+		node.append("circle")
+			.attr("class", "dataCircle")
+			.transition(animation)
+			.attr("r", function (d) {
+				return d.r;
+			})
+			.style("fill", function (d) {
+				if (d.data.key == "Nederlands") {
+					return "#fd8b00"
+				} else if (d.data.key == "Marokkaans") {
+					return "#36e77f"
+				} else if (d.data.key == "Surinaams") {
+					return "#f2ca00"
+				} else if (d.data.key == "Turks") {
+					return "#f30000"
+				} else if (d.data.key == "Voormalig Nederlandse Antillen") {
+					return "#4a38f4"
+				} else if (d.data.key == "Westers") {
+					return "#df00ff"
+				} else {
+					return "#30f5ff"
+				}
+		});
+	
+		node.append("text")
+			.attr("dy", ".3em")
+			.attr("class", "textbubble")
+			.style("text-anchor", "middle")
+			.style("fill", "white")
+			.text(function (d) {
+				return d.data.value + "% ";
+			});
+	
+		}
 	//EINDE UPDATE FUNCTIONS
 
 	let buttonAlgemeen = d3.select('.buttons').append('button')
@@ -331,7 +396,7 @@ function update2() {
 
 	button2
 	.text('Contact door de politie')
-	.on('click', update2)
+	.on('click', update3)
 
 
 }
