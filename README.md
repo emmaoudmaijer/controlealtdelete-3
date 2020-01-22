@@ -46,9 +46,7 @@ Om meer te weten te komen over ons proces en onze keuzes kan je onze product bio
 ## Data 
 Controle Alt Delete heeft onderzoek gedaan door een enquête af te leggen in Amsterdam. Dit hebben zij gedaan om de ervaring van Amsterdammers met etnisch profileren in kaart te brengen. De respondenten hebben verschillende culturele afkomsten, namelijk: Nederlands, Marokkaans, Turks, Surinaams, Nederlands Antilliaans, etc. Een aantal respondenten hebben de vraag over de afkomst niet ingevuld. Deze respondenten zijn in de  datavisualisaties niet meegerekend. Door middel van onafhankelijk onderzoek cijfers verzamelen die sterke indicaties geven voor de omvang van etnisch profileren in Nederland. 
 
-De antwoorden van de enquête werden aangeleverd als een csv bestand die we hebben omgezet naar een json file en vervolgens kon ik deze gaan opschonen.
-
-![data](public/images/exceldata.png)      
+De antwoorden van de enquête werden aangeleverd als een csv bestand die we online hebben omgezet naar een json file en vervolgens kon ik deze gaan opschonen.
 
 ```js
 function dataOmzet() {
