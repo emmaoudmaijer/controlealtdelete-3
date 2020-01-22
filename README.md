@@ -1,4 +1,4 @@
-# Controle alt delete
+# Controle Alt Delete
 [Link naar live demo](https://emmaoudmaijer.github.io/controlealtdelete-3/public/)
 
 ## Wie is onze opdrachtgever: Controle Alt Delete:
@@ -32,7 +32,7 @@ de rest van de culturele afkomsten vaker worden aangesproken door de politie.
 
 ![barchart](public/images/visualisatie.2.png)
 
-**De scatterplot die je als onderaan ziet:**
+**De scatterplot die je onderaan ziet:**
 De grafiek onderaan de one pager is een scatterplot. Hieruit kun je aflezen wat de totstandkoming van het contact te maken heeft met het vertrouwen van de respondent. Je ziet twee losse grafieken. De bovenste is voor wanneer de politie naar de respondent zelf is toegestapt en de tweede is voor wanneer de respondent zelf naar de politie is gestapt. De cijfers onderaan staan voor het aantal vertrouwen dat de respondent in de politie heeft en de transparantie staat voor het aantal procent (met culturele achtergrond) die dat cijfer heeft gegeven. Op deze manier kan je zien dat iemand die zelf op de politie stapt over het algemeen meer vertrouwen heeft in de politie dan andersom.
 
 ![scatterplot](public/images/scatterplot.png)
