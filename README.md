@@ -5,6 +5,8 @@
 
 Door de Hogeschool van Amsterdam is ons een opdrachtgever toegewezen, Controle Alt Delete. Dit is een organisatie die zich focust op etnisch profileren bij de politie. Ze zetten zich in tegen etnisch profileren. Amnesty International is een samenwerkings- partner van Controle Alt Delete. Ze richten zich echter niet alleen op de politie maar ook op bijvoorbeeld BOA’s en de Koninklijke Marechaussee. Met dit project hebben we alleen met de politie te maken. Easy Solutions is een onderneming waar Controle Alt Delete een project van is. Ze verstoppen dit omdat Easy Solutions meerdere opdrachtgevers heeft die dit een heel spannend/politiek onderwerp kunnen vinden (denk aan de gemeente, etc.). Controle Alt Delete wordt als organisatie gepresenteerd, terwijl het eigenlijk een project is. Het is verder geregistreerd als een B.V. dat geen winst maakt. Wij burgers weten niet wat de omvang van etnisch profileren is. Daardoor kunnen wij niet meten of de maatregelen die de politie neemt het gewenste effect hebben.
 
+
+
 ![foto](public/images/bubblechart.png)
 
 ## Het concept:
@@ -80,7 +82,7 @@ function removeInvalidRecords(dataset) {
 	return dataset_clean;
 }
 ```
-
+**Data groeperen:**
 ```js
 function rollupRecordsByCountry(data) {
 			let transformed = d3.nest()
@@ -96,7 +98,9 @@ function rollupRecordsByCountry(data) {
 		data = rollupRecordsByCountry(data)
 ```
 Dit krijg je dan terug in de console:
+
 ![console](public/images/console.png)
+
 voor update van de bubble chart hebben we de data uit de 'totstand' kolom nodig en dan alleen de waardes "ik ging naar de politie toe" en "de politie kwam naar mij toe"
 
 ```js
