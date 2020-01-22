@@ -12,16 +12,20 @@ Door de Hogeschool van Amsterdam is ons een opdrachtgever toegewezen, Controle A
 ### Doelstelling
 De doelstelling is om door middel van onafhankelijke onderzoek cijfers te verzamelen die sterke indicaties geven voor de omvang van etnisch profileren in Nederland.
 Aan ons de vraag om deze data te doorzoeken, visueel inzichtelijk maken en aan te sluiten
-op de huisstijl. Verder moeten we tijdens
-het project meerdere malen onze voorstellen presenteren over hoe wij de indicaties visueel kunnen maken.
+op de huisstijl. Wij willen met dit project een verhaal vertellen en in procenten laten zien welke Nederlanders met een culturele afkomst het meest in contact is geweest met de politie in de afgelopen 12 maanden. Dit kan je zien in combinatie met hoeveel procent van de groep zelf naar de politie is gestapt of dat de politie naar hun kwam.
 
 ### Doelgroep
+Onze website is bedoeld voor de orginatisoren van controle alt delete, maar ook voor mensen die vinden dat ze onterecht zijn behandeld door de politie en die via controle alt delete op deze pagina terecht zijn gekomen. Zo krijgen de bezoekers van de website een indicatie van hoe het contact met de politie tot stand komt en wat voor effect dit heeft met de culturele afkomsten. Ook is de website bedoeld voor de politie om hun ook een indicatie te geven van hoe het contact is verdeeld.
 
 ## De visualisaties
 
 
 
+
 ## Data 
+Controle Alt Delete heeft onderzoek gedaan door een enquête af te leggen in Amsterdam. Dit hebben zij gedaan om de ervaring van Amsterdammers met etnisch profileren in kaart te brengen. De respondenten hebben verschillende culturele afkomsten, namelijk: Nederlands, Marokkaans, Turks, Surinaams, Nederlands Antilliaans, etc. Een aantal respondenten hebben de vraag over de afkomst niet ingevuld. Deze respondenten zijn in de  datavisualisaties niet meegerekend. Door middel van onafhankelijk onderzoek cijfers verzamelen die sterke indicaties geven voor de omvang van etnisch profileren in Nederland.
+                                        
+
 ```js
 function dataOmzet() {
 	let result = fetch("convertcsvdata.json")
