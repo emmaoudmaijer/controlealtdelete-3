@@ -1775,6 +1775,26 @@ pre code {
     margin-right: 2.7em;
     }
 
+    svg {
+      width: 500px;
+      height: 600px;
+      padding-left: -20em;
+    }
+    .bubble {
+      width: 500px;
+      height: 500px;
+    }
+    .node {
+     width: 1em;
+    }
+    #omsch-chart{
+      padding-top: 7em;
+    }
+   circle {
+    width: 200px;
+    height: 200px;
+    padding-bottom: 20em;
+    }
     .item-1,
     .item-2,
     .item-3{
@@ -2356,6 +2376,7 @@ textarea.form-control {
 }
 
 @media (min-width: 576px) {
+
   .form-inline label {
     display: -ms-flexbox;
     display: flex;
@@ -4292,6 +4313,7 @@ input[type="button"].btn-block {
 }
 
 @media (min-width: 576px) {
+
   .navbar-expand-sm {
     -ms-flex-flow: row nowrap;
     flex-flow: row nowrap;
@@ -4811,6 +4833,10 @@ input[type="button"].btn-block {
     display: inline-block;
     width: 100%;
   }
+  svg {
+
+  }
+ 
 }
 
 .accordion > .card {

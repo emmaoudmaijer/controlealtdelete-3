@@ -146,6 +146,7 @@ function bubbleChart(results) {
 
 	// -------------------- BEGIN VAN BUBBLE CHART ----------------------------
 	var diameter = 600;
+	//color = d3.scale.category20c();
 
 	var color = d3.scaleOrdinal(d3.schemeCategory20);
 
