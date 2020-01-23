@@ -9,7 +9,7 @@ Met dit project hebben we alleen met de politie te maken. Easy Solutions is een 
 
 [Website van Controle Alt Delete](https://controlealtdelete.nl/)
 
-![foto](public/images/bubblechart.png)
+![foto](public/images/Schermopname.gif)
 
 ## Het concept:
 Ons concept laat verschillende variabelen zien zoals het aantal keer contact tussen de politie en de Amsterdamse respondenten, de manier van het contact en het vertrouwen in deze contact in verhouding met de culturele achtergrond van deze respondenten.
