@@ -251,9 +251,14 @@ function bubbleChart(results) {
 	d3.select(self.frameElement)
 		.style("height", diameter + "px");
 
+	
+	// buttonAlgemeen
+	// .style('background-color', 'yellow')
+
 // ------------- UPDATE FUNCTIE IN BUBBLE CHART -----------------
 function update2() {
-		
+	document.getElementById("titelchart").innerHTML = "Wie ging er zelf naar de politie?" 
+	document.getElementById("omsch-chart").innerHTML = "blabla"
 	var bubble2 = d3.pack(newData)
 	.size([diameter, diameter])
 	.padding(1.5);
@@ -321,10 +326,22 @@ function update2() {
 		.text(function (d) {
 			return d.data.value + "% ";
 		})
+		button
+		.style('background-color', 'yellow')
 
+		button2
+		.style('background-color', 'transparent')
+		// .style('color', 'white')
+
+		buttonAlgemeen
+		.style('background-color', 'transparent')
+		// .style('color', 'white')
 	}
 
 	function update3() {
+		
+		document.getElementById("titelchart").innerHTML = "Naar wie kwam de politie het meest toe?" 
+		document.getElementById("omsch-chart").innerHTML = "We kijken ook naar hoe het contact met de politie en de respondent tot stand is gekomen. Zo zie je dat alleen Nederlanders met een westerse migratie achtergrond en Nederlandse Nederlanders over het algemeen vaker zelf naar de politie stappen en dat de rest van de culturele afkomsten vaker worden aangesproken door de politie."
 		
 		var bubble3 = d3.pack(newData2)
 		.size([diameter, diameter])
@@ -393,11 +410,23 @@ function update2() {
 			.text(function (d) {
 				return d.data.value + "% ";
 			});
+			
+		button2
+		.style('background-color', 'yellow')
+
+		button
+		.style('background-color', 'transparent')
+		//.style('color', 'white')
+
+		buttonAlgemeen
+		.style('background-color', 'transparent')
+	//	.style('color', 'white')
 	
 		}
 
 		function update4() {
-
+			document.getElementById("titelchart").innerHTML = "Welke Amsterdammers hebben het meest contact <br>gehad met de politie?"
+			document.getElementById("omsch-chart").innerHTML = "In totaal zijn er 1934 respondenten geweest met verschillende culturele afkomsten, hiervan zijn er 794 in contact geweest met de politie in de afgelopen 12 maanden. Zoals je hierboven ziet zijn Nederlandse Nederlanders het meest in contact geweest met de politie, gevolgd door overige Nederlanders met een niet Westerse migratieachtergrond en Surinaamse Nederlanders. Je zou hieruit kunnen opmaken dat de kans aanwezig is dat de politie etnisch profileert."
 		var bubble = d3.pack(dataset)
 		.size([diameter, diameter])
 		.padding(1.5);
@@ -466,6 +495,17 @@ function update2() {
 				return d.data.value + "% ";
 			});
 	
+	buttonAlgemeen
+	.style('background-color', 'yellow')
+	//.style('color', 'black')
+
+	button2
+	.style('background-color', 'transparent')
+	//.style('color', 'white')
+	button
+	.style('background-color', 'transparent')
+	//.style('color', 'white')
+	
 		}
 	//EINDE UPDATE FUNCTIONS
 
@@ -475,6 +515,7 @@ function update2() {
 
 	buttonAlgemeen
 	.text('Algemeen contact')
+	.style('background-color', 'yellow')
 	.on('click', update4)
 
 	button
@@ -484,6 +525,7 @@ function update2() {
 	button2
 	.text('Contact door de politie')
 	.on('click', update3)
+	
 
 
 }
