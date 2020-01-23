@@ -17,7 +17,6 @@ function dataOmzet() {
 }
 dataOmzet()
 
-
 function removeInvalidRecords(dataset) {
 	var dataset_clean = [];
 
@@ -42,50 +41,48 @@ function getToMeData(data) {
 function bubbleChart(results) {
 
 		//-------------- DATASET 1: ALGEMEEN CONTACT
-		 data = removeInvalidRecords(results);
-		 
+		data = removeInvalidRecords(results);
+		
+	function rollupRecordsByCountry(data) {
+		let transformed = d3.nest()
+			.key(d => d.afkomst)
+			.rollup(function (v) {
+				return d3.sum(v, function (d) {
+					return d.freqcontact;
+				});
+			})				
+			.entries(data)
+		return transformed
+	}
 	
-		function rollupRecordsByCountry(data) {
-			let transformed = d3.nest()
-				.key(d => d.afkomst)
-				.rollup(function (v) {
-					return d3.sum(v, function (d) {
-						return d.freqcontact;
-					});
-				})				
-				.entries(data)
-			return transformed
+	data = rollupRecordsByCountry(data)
+	console.log("Dataset with sums : ", data)
+
+	var total = data.reduce(function (accumulator, currentValue) {
+		return accumulator + currentValue.value
+	}, 0);
+	console.log("total :", total);
+
+	function convertValuesToPercentages(data) {
+		for (var i = 0; i < data.length; i++) {
+			var obj2 = data[i];
+			data[i].value = Math.round((obj2.value / total) * 100, 0);
 		}
-	
-		data = rollupRecordsByCountry(data)
-		console.log("Dataset with sums : ", data)
-	
-		var total = data.reduce(function (accumulator, currentValue) {
-			return accumulator + currentValue.value
-		}, 0);
-		console.log("total :", total);
-	
+		return data
+	}
 
+	var data = convertValuesToPercentages(data);
+	console.log("Dataset in % : ", data)
 
-		function convertValuesToPercentages(data) {
-			for (var i = 0; i < data.length; i++) {
-				var obj2 = data[i];
-				data[i].value = Math.round((obj2.value / total) * 100, 0);
-			}
-			return data
-		}
-
-		var data = convertValuesToPercentages(data);
-		console.log("Dataset in % : ", data)
-
-		let datasetSub = JSON.stringify(data);
-		dataset = {
-			"children": JSON.parse(datasetSub)
-		}
+	let datasetSub = JSON.stringify(data);
+	dataset = {
+		"children": JSON.parse(datasetSub)
+	}
 
 	// ------------- DATASET 2 : IK GING NAAR DE POLITIE TOE DATA VOOR UPDATE -----------------
 
-	const ikGing = getIWentData(results)
+	const ikGing2 = getIWentData(results)
+	var ikGing = removeInvalidRecords(ikGing2);
 
 	let newDataRaw = d3.nest()
 		.key(d => d.afkomst)
@@ -93,6 +90,8 @@ function bubbleChart(results) {
 		.entries(ikGing)
 
 	newDataRaw = newDataRaw.flat()
+
+
 
 	var total2 = newDataRaw.reduce(function (accumulator, currentValue) {
 		return accumulator + currentValue.value
@@ -110,8 +109,8 @@ function bubbleChart(results) {
 
 	// ------------- DATASET 3 :  POLITIE KWAM NAAR MIJ TOE DATA VOOR UPDATE -----------------
 
-	const naarMij = getToMeData(results)
-
+	const naarMij2 = getToMeData(results)
+	var naarMij = removeInvalidRecords(naarMij2);
 	let newDataRaw2 = d3.nest()
 		.key(d => d.afkomst)
 		.rollup(leaves => leaves.length)
@@ -133,7 +132,6 @@ function bubbleChart(results) {
 		children: JSON.parse(newDataRawTemp2)
 	}
 	console.log(newData2);
-
 
 	// -------------------- LEGENDA ----------------------------
 
@@ -251,14 +249,10 @@ function bubbleChart(results) {
 	d3.select(self.frameElement)
 		.style("height", diameter + "px");
 
-	
-	// buttonAlgemeen
-	// .style('background-color', 'yellow')
-
 // ------------- UPDATE FUNCTIE IN BUBBLE CHART -----------------
 function update2() {
 	document.getElementById("titelchart").innerHTML = "Wie ging er zelf naar de politie?" 
-	document.getElementById("omsch-chart").innerHTML = "blabla"
+	document.getElementById("omsch-chart").innerHTML = "We kijken ook naar hoe het contact met de politie en de respondent tot stand is gekomen. Zo zie je dat alleen Nederlanders met een westerse migratie achtergrond en Nederlandse Nederlanders over het algemeen vaker zelf naar de politie stappen en dat de rest van de culturele afkomsten vaker worden aangesproken door de politie."
 	var bubble2 = d3.pack(newData)
 	.size([diameter, diameter])
 	.padding(1.5);
@@ -328,21 +322,24 @@ function update2() {
 		})
 		button
 		.style('background-color', 'yellow')
+		.style('color', 'black')
 
 		button2
 		.style('background-color', 'transparent')
-		// .style('color', 'white')
+		.style('color', 'white')
+
 
 		buttonAlgemeen
 		.style('background-color', 'transparent')
-		// .style('color', 'white')
+		.style('color', 'white')
+
 	}
 
 	function update3() {
 		
 		document.getElementById("titelchart").innerHTML = "Naar wie kwam de politie het meest toe?" 
 		document.getElementById("omsch-chart").innerHTML = "We kijken ook naar hoe het contact met de politie en de respondent tot stand is gekomen. Zo zie je dat alleen Nederlanders met een westerse migratie achtergrond en Nederlandse Nederlanders over het algemeen vaker zelf naar de politie stappen en dat de rest van de culturele afkomsten vaker worden aangesproken door de politie."
-		
+
 		var bubble3 = d3.pack(newData2)
 		.size([diameter, diameter])
 		.padding(1.5);
@@ -416,12 +413,11 @@ function update2() {
 
 		button
 		.style('background-color', 'transparent')
-		//.style('color', 'white')
+		.style('color', 'white')
 
 		buttonAlgemeen
 		.style('background-color', 'transparent')
-	//	.style('color', 'white')
-	
+		.style('color', 'white')	
 		}
 
 		function update4() {
@@ -497,16 +493,17 @@ function update2() {
 	
 	buttonAlgemeen
 	.style('background-color', 'yellow')
+	.style('color', 'white')
 	//.style('color', 'black')
 
 	button2
 	.style('background-color', 'transparent')
-	//.style('color', 'white')
+	.style('color', 'white')
 	button
 	.style('background-color', 'transparent')
-	//.style('color', 'white')
+	.style('color', 'white')
 	
-		}
+	}
 	//EINDE UPDATE FUNCTIONS
 
 	let buttonAlgemeen = d3.select('.buttons').append('button')
@@ -516,6 +513,7 @@ function update2() {
 	buttonAlgemeen
 	.text('Algemeen contact')
 	.style('background-color', 'yellow')
+	.style('color', 'black')
 	.on('click', update4)
 
 	button
@@ -530,3 +528,51 @@ function update2() {
 
 }
 //---------------------------------------------- EINDE VAN BUBBLE CHART ------------------------------------------------------
+
+function sliderText1(className){
+		//var el = document.getElementsByClassName(className)[0]
+
+		//var newone = el.cloneNode(true);
+		//el.parentNode.replaceChild(newone, el);
+		var el1 = document.getElementsByClassName('item-1')[0];
+		var el2 = document.getElementsByClassName('item-2')[0];
+		var el3 = document.getElementsByClassName('item-3')[0];
+
+
+		if(className == 'item-1'){
+			el1.style.WebkitAnimationName = 'anim-1';
+			el2.style.WebkitAnimationName = 'anim-2';
+			el3.style.WebkitAnimationName = 'anim-3';
+		}
+
+		/*
+		var txtblock1 = 'item-1';
+		var txtblock2 = 'item-2';
+		var txtblock3 = 'item-3';
+
+		if(className == 'item-2'){
+			txtblock1 = 'item-2';
+			txtblock2 = 'item-3';
+			txtblock3 = 'item-1';
+		}
+
+		if(className == 'item-3'){
+			txtblock1 = 'item-3';
+			txtblock2 = 'item-1';
+			txtblock3 = 'item-2';
+		}
+		*/
+
+		// var el1 = document.getElementsByClassName(txtblock1)[0];
+		// var newone1 = el1.cloneNode(true);
+		// el1.parentNode.replaceChild(newone1, el1);
+
+		// var el2 = document.getElementsByClassName(txtblock2)[0];
+		// var newone2 = el2.cloneNode(true);
+		// el2.parentNode.replaceChild(newone2, el2);
+
+		// var el3 = document.getElementsByClassName(txtblock3)[0];
+		// var newone3 = el3.cloneNode(true);
+		// el3.parentNode.replaceChild(newone3, el3);
+
+}

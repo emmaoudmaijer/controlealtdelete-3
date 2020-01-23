@@ -87,11 +87,9 @@ a {
 .legenda {
 	color:grey;
 	font-family: 'roboto';
-}
-
-.legenda {
 	list-style: none; /* Remove default bullets */
-	 line-height: 0.7;
+	 line-height: 0.5;
+	 margin-right: -7em;
   }
 
   ul .NL::before {
