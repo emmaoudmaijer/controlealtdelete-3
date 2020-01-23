@@ -502,7 +502,6 @@ function update2() {
 	button
 	.style('background-color', 'transparent')
 	.style('color', 'white')
-	
 	}
 	//EINDE UPDATE FUNCTIONS
 
