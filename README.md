@@ -163,6 +163,7 @@ Deze bubble chart is gemaakt met versie 4.
 **Slideshow**
 * [Bron 1](https://bl.ocks.org/SpaceActuary/d6b5ca8e5fb17842d652d0de21e88a05)
 * [Bron 2](https://www.w3schools.com/howto/howto_js_quotes_slideshow.asp)
+* [Bron 3](https://inovatik.com")
 
 ## Teamleden
 Dit project is mogelijk gemaakt door:

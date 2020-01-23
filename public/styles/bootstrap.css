@@ -1779,7 +1779,9 @@ pre code {
       width: 700px;
       height: 600px;
     }
-  
+.node circle {
+  float: left;
+}
     /* .bubble {
       width: 500px;
       height: 500px;
@@ -1790,6 +1792,9 @@ pre code {
     #omsch-chart{
       padding-top: 7em;
     }
+    /* img {
+      width: 20%;
+    } */
    circle {
     width: 200px;
     height: 200px;
